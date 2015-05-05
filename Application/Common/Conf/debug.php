@@ -20,7 +20,7 @@ return  array(
      // 数据库配置
     'DB_TYPE'                   =>  'mysql',
     'DB_HOST'                   =>  'localhost',
-    'DB_NAME'                   =>  'db_2015wytch',
+    'DB_NAME'                   =>  'boye_ceping',
     'DB_USER'                   =>  'root',
     'DB_PWD'                    =>  '1',
     'DB_PORT'                   =>  '3306',

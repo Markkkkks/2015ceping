@@ -30,7 +30,7 @@ return array(
     // 数据库配置
     'DB_TYPE'                   =>  'mysql',
     'DB_HOST'                   =>  'rdsrrbifmrrbifm.mysql.rds.aliyuncs.com',
-    'DB_NAME'                   =>  'db_2015wytch', //微信api数据库
+    'DB_NAME'                   =>  'boye_ceping', //微信api数据库
     'DB_USER'                   =>  'boye',
     'DB_PWD'                    =>  'bo-ye2015BO-YE',
     'DB_PORT'                   =>  '3306',
@@ -40,7 +40,7 @@ return array(
     'LOG_TYPE'              =>  'Db',
 	'LOG_LEVEL'  =>'EMERG,ALERT,CRIT,ERR', // 只记录EMERG ALERT CRIT ERR 错误
     'LOG_DB_CONFIG'=>array(
-		'dsn'=>'mysql://boye:bo-ye2015BO-YE@rdsrrbifmrrbifm.mysql.rds.aliyuncs.com:3306/db_2015wytch' //本地日志数据库
+		'dsn'=>'mysql://boye:bo-ye2015BO-YE@rdsrrbifmrrbifm.mysql.rds.aliyuncs.com:3306/boye_ceping' //本地日志数据库
 	),
     // Session 配置
     'SESSION_PREFIX' => 'oauth_',
