@@ -280,51 +280,7 @@ function addWeixinLog($data, $operator = '') {
 	$weixinlog -> add($log);
 }
 
-/**
- * 获取订单状态的文字描述
- */
-function getOrderStatus($status) {
 
-	switch($status) {
-		case \Common\Model\OrdersModel::ORDER_COMPLETED :
-			return "已完成";
-		case \Common\Model\OrdersModel::ORDER_RETURNED :
-			return "已退货";
-		case \Common\Model\OrdersModel::ORDER_SHIPPED :
-			return "已发货";
-		case \Common\Model\OrdersModel::ORDER_TOBE_CONFIRMED :
-			return "待确认";
-		case \Common\Model\OrdersModel::ORDER_TOBE_SHIPPED :
-			return "待发货";
-		case \Common\Model\OrdersModel::ORDER_CANCEL :
-			return "订单已关闭";
-		case \Common\Model\OrdersModel::ORDER_RECEIPT_OF_GOODS :
-			return "已收货";
-		case \Common\Model\OrdersModel::ORDER_BACK :
-			return "卖家退回";
-		default :
-			return "未知";
-	}
-}
-
-/**
- * 获取支付状态的文字描述
- */
-function getPayStatus($status) {
-	switch($status) {
-		case \Common\Model\OrdersModel::ORDER_PAID :
-			return "已支付";
-		case \Common\Model\OrdersModel::ORDER_TOBE_PAID :
-			return "待支付";
-		case \Common\Model\OrdersModel::ORDER_REFUND :
-			return "已退款";
-		case \Common\Model\OrdersModel::ORDER_CASH_ON_DELIVERY :
-			return "货到付款";
-			
-		default :
-			return "未知";
-	}
-}
 
 /**
  * 获取数据字典的ID
