@@ -1,0 +1,438 @@
+
+  {subtemplate common/header} 
+  
+  {eval include template($PLNAME.':js');} 
+
+
+ <link rel="stylesheet" href="{$PLSTATIC}css/common.css" type="text/css" /> 
+
+	
+<div class="infos-wrap">
+
+<div class="fish-left main-left">
+	<div class="mbox tshow_index">
+    	<div class="title bor_bot fixed">
+        	
+            <div class="tinfo fl">
+            	<h2>{$subject}</h2>
+     
+                
+            </div>
+  		</div>
+        <div class="ctest bor_top">当前第 <span class="fgreen fb" id="id_cur_index">1</span> &nbsp;题
+        	<span class="total">本测试共 <span class="fgreen fb">{$answer_num}</span> &nbsp;题</span>
+        </div>
+    </div>
+    <!--测试内容头部-->
+    
+    <form id="id_form" action="plugin.php?id=levceshi:result&cid=2013" method="post" onsubmit="return false">
+	
+	
+    <!--{if $ceshi['isstd']}-->
+         <!--{eval $i = 1;}-->	
+      <!--{loop $answers $answer}-->
+    <div class="test_contents" style="display: none">
+	<p class="descs fb">
+		{$i}. $answer[question]
+	</p>
+	<div class="sels_list">
+		<!--单选测试-->
+		
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="1_{$answer[stdid]}" name="quest_{$i}">
+				</span>A.没有
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="2_{$answer[stdid]}" name="quest_{$i}">
+				</span>B.很轻
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="3_{$answer[stdid]}" name="quest_{$i}">
+				</span>C.中等
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="4_{$answer[stdid]}" name="quest_{$i}">
+				</span>D.偏重
+			</p>
+			<p class="i_bot"></p>
+		</div>
+        
+        <div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="5_{$answer[stdid]}" name="quest_{$i}">
+				</span>E.严重
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		
+		
+	</div>
+</div>
+  <!--{eval $i++;}-->
+ <!--{/loop}-->   
+ <!--{else}-->
+   
+     <!--{eval $i = 1;}-->	
+     <!--{loop $answers $answer}-->   
+<div class="test_contents" style="display: none">
+	<p class="descs fb">
+		{$i}. $answer[question]
+	</p>
+	<div class="sels_list">
+		<!--单选测试-->
+		<!--{if $answer[answer1]}-->
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="1" name="quest_{$i}">
+				</span>A.{$answer[answer1]}
+			</p>
+			<p class="i_bot"></p>
+		</div>
+        <!--{else}-->
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="1" name="quest_{$i}">
+				</span>A.YES
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		<!--{/if}-->
+        <!--{if $answer[answer2]}-->
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="2" name="quest_{$i}">
+				</span>B.{$answer[answer2]}
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		<!--{/if}-->
+        <!--{if $answer[answer3]}-->
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="3" name="quest_{$i}">
+				</span>C.{$answer[answer3]}
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		<!--{/if}-->
+        <!--{if $answer[answer4]}-->
+		<div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="4" name="quest_{$i}">
+				</span>D.{$answer[answer4]}
+			</p>
+			<p class="i_bot"></p>
+		</div>
+        <!--{/if}-->
+        <!--{if $answer[answer5]}-->
+        <div class="items">
+			<p class="i_top"></p>
+			<p class="i_mid">
+				<span class="sels">
+					<input type="radio" value="5" name="quest_{$i}">
+				</span>E.{$answer[answer5]}
+			</p>
+			<p class="i_bot"></p>
+		</div>
+		<!--{/if}-->
+		
+	</div>
+</div>
+  <!--{eval $i++;}-->
+ <!--{/loop}-->   	
+  <!--{/if}-->
+ 
+
+	   <p class="tbtns">
+			<a id="id_pre_link"  href="javascript:void(0)" style="display: none" onclick="return do_prev()">上一题</a>
+             
+			<input id="id_show_result" style="display: block;width:40px;height:24px;margin:15px;" type="submit" class="pn vm" value="提 交">
+		</p>
+    </form>
+    
+    <!--测试内容-->
+</div>
+
+<div id="answer_result" style="display:none">
+<li>
+<style>
+.totaldata span {margin-right: 50px;}
+</style>
+<b style="font-size:14px;">测验结果</b>
+<b style="display:none;">您的测试分数为 <span id="result_rank"></span> 分! 请参照以下标准鉴定</b></br>
+<br>
+<div style="display:none;">
+   F1: <span id="result_rank_1"></span><br>
+   F2: <span id="result_rank_2"></span><br>
+   F3: <span id="result_rank_3"></span><br>
+   F4: <span id="result_rank_4"></span><br>
+   F5: <span id="result_rank_5"></span><br>
+   F6: <span id="result_rank_6"></span><br>
+   F7: <span id="result_rank_7"></span><br>
+   F8: <span id="result_rank_8"></span><br>
+   F9: <span id="result_rank_9"></span><br>
+   F10: <span id="result_rank_10"></span><br>
+</div>
+<div class="totaldata">   
+   总分: <span id="result_ranktotal"></span>
+   阳性项目数: <span id="result_asec"></span>
+   阳性症状均分: <span id="result_yang"></span><br><br>
+   <p style="font-weight: bolder;">因子分：</p><br>
+   (1)躯体化： <span id="result_av_1"></span>
+   (2)强迫: <span id="result_av_2"></span>
+   (3)人际关系: <span id="result_av_3"></span><br>
+   (4)抑郁: <span id="result_av_4"></span>
+   (5)焦虑: <span id="result_av_5"></span>
+   (6)敌对: <span id="result_av_6"></span><br>
+   (7)恐怖: <span id="result_av_7"></span>
+   (8)偏执: <span id="result_av_8"></span>
+   (9)精神病性: <span id="result_av_9"></span><br>
+   (10)其 它: <span id="result_av_10"></span><br>
+   <br>
+</div>   
+<div class="boxbtn2">
+<a id="boxbtn2" href="javascript:;" class="btn-primary btn" onclick="ShowDiv('box2')">分析报告</a>
+</div> 
+<div id="box2" style="display:none;">   
+   <p style="font-weight: bolder;">分析报告:</p><br>
+   <span id="result_solve_1" style="display:none;">该测验结果总分<span id="result_ranktotalr"></span>，大于160；<br>提示有阳性意义。受检者自我感觉不再良好状态。<br><br></span>
+   <span id="result_solve_2" style="display:none;">该测验结果阳性项目数：<span id="result_asecr"></span>，大于43；<br>提示有阳性意义。受检者自我感觉不再良好状态。<br><br></span>
+   <span id="result_solve_3" style="display:none;">该测验结果阳性症状均分<span id="result_yangr"></span>，大于2；<br>提示有阳性意义. 受检者自我感觉不再良好状态。<br><br></span>
+   <span id="result_solve_4" style="display:none;">该测验结果基本在正常范围内。<br><br></span>
+   <span id="result_solve_5" style="display:none;">躯体化：因子分 <span id="result_avr_1"></span>分，超过2分，提示有阳性意义。<br>
+躯体化因子主要反映被试者的主观的身体不适感，包括心血管、胃肠道、呼吸等系统的不适，及头痛、背痛、肌肉酸痛及焦虑等其他躯体表现。<br><br></span>
+   <span id="result_solve_6" style="display:none;">强迫症状：因子分<span id="result_avr_2"></span>分，超过2分，提示有阳性意义。<br>
+强迫症状因子主要指那种明知没有必要，但又无法摆脱的无意义的思想、冲动、行为等表现，还有一些比较一般的感知障碍(如脑子变空了，"记忆力不行"等)也在这一因子中反映。
+<br><br></span>
+   <span id="result_solve_7" style="display:none;">人际关系敏感：因子分<span id="result_avr_3"></span>分，超过2分，提示有阳性意义。<br>
+该因子主要是反映某些个人不自在感与自卑感，尤其是在与其他人相比较时更为突出。自卑感、懊丧、以及在人事关系明显相处不好的人，往往这一因子得高分。
+<br><br></span>
+   <span id="result_solve_8" style="display:none;">忧郁：因子分<span id="result_avr_4"></span>分，超过2分，提示有阳性意义。<br>
+反映的是临床上忧郁症状群相联系的广泛的概念。忧郁苦闷的感情和心境是代表性症状，它还以对生活的兴趣减退，缺乏活动的愿望、丧失活动力等为特征，并包括失望、悲叹、与忧郁相联系的其它感知及躯体方面的问题。
+<br><br></span>
+   <span id="result_solve_9" style="display:none;">焦虑：因子分<span id="result_avr_5"></span>分，超过2分，提示有阳性意义。<br>
+包括一些通常临床上明显与焦虑症状相联系的症状与体验。一般指那些无法静息、神经过敏、紧张、以及由此产生躯体征象 (如震颤) 。那种游离不定的焦虑及惊恐发作是本因子的主要内容，它还包括有一个反映“解体”的项目。
+<br><br></span>
+   <span id="result_solve_10" style="display:none;">敌对：因子分<span id="result_avr_6"></span>分，超过2分，提示有阳性意义。<br>
+主要以三方面来反映病人的敌对表现、思想、感情及行为。包括从厌烦、争论、摔物、直至争斗和不可抑制的冲动暴发等各个方面。
+<br><br></span>
+   <span id="result_solve_11" style="display:none;">恐怖：因子分<span id="result_avr_7"></span>分，超过2分，提示有阳性意义。<br>
+与传统的恐怖状态所反映的内容基本一致，恐惧的对象包括出门旅行，空旷场地、人群、或公共场合及交通工具。此外还有反映社交恐怖的项目。
+<br><br></span>
+   <span id="result_solve_12" style="display:none;">偏执：因子分<span id="result_avr_8"></span>分，超过2分，提示有阳性意义。<br>
+偏执是一个十分复杂的概念，本因子只是包括了它的一些基本内容，主要是指思维方面，  如投射性思维，敌对、猜疑、关系妄想、忘想、被动体验和夸大等。
+<br><br></span>
+   <span id="result_solve_13" style="display:none;">精神病性：因子分<span id="result_avr_9"></span>分，超过2分，提示有阳性意义。<br>
+精神病性因子其中有幻想、思维播散、被控制感、思维被插入等反映精神分裂症择定状项目。
+<br><br></span>
+   <span id="result_solve_14" style="display:none;">其它：因子分<span id="result_avr_10"></span>分，超过2分，提示有阳性意义。<br>
+其它因子是反映睡眠及饮食情况的。
+<br><br></span>
+</div> 
+ <!--{if $ceshi['isstd']}-->
+ 
+ <!--{/if}-->
+
+</li>
+<div style="display:none;">{$ceshi_result}</div>
+
+<style>
+.boxbtn2, .boxbtn3, .boxbtn4 {text-align: center;margin-top:10px;}
+.box2, .box3, .box4 {text-align: center;}
+.infos-wrap a:link {color:white;}
+.btn {position: relative;cursor: pointer;display: inline-block;vertical-align: middle;font-size: 12px;font-weight: bold;height: 27px;line-height: 27px;min-width: 52px;padding: 0 12px;text-align: center;text-decoration: none;border-radius: 2px;border: 1px solid #ddd;color: #666;background-color: #f5f5f5;background: -webkit-linear-gradient(top, #F5F5F5, #F1F1F1);background: -moz-linear-gradient(top, #F5F5F5, #F1F1F1);background: linear-gradient(top, #F5F5F5, #F1F1F1);}
+.btn-primary {border-color: #3079ED;color: #F3F7FC;background-color: #4D90FE;background: -webkit-linear-gradient(top, #4D90FE, #4787ED);background: -moz-linear-gradient(top, #4D90FE, #4787ED);background: linear-gradient(top, #4D90FE, #4787ED);}
+.btn-primary:hover {border-color: #2F5BB7;color: #fff;background-color: #4D90FE;background: -webkit-linear-gradient(top, #4D90FE, #357AE8);background: -moz-linear-gradient(top, #4D90FE, #357AE8);background: linear-gradient(top, #4D90FE, #357AE8);}
+</style>
+<div class="boxbtn3">
+<a id="boxbtn3" href="javascript:;" class="btn-primary btn" onclick="ShowDiv('box3')">个性化治疗方案推荐分析报告</a>
+</div>
+<div id="box3" style="display:none;">
+<img src="/source/plugin/levceshi/statics/images/jieguo1.jpg"><br>
+●不断给自己正向激励，积极肯定，进行自我暗示，注入新能量。<br>
+●保持平常心，淡泊是心理养生的免疫剂！<br>
+●哼几首儿歌，可以唤醒你对儿时无忧无虑的记忆，保持童趣。<br>
+●吹气球能让呼吸放缓、加深，还能激活副交感神经，从而降低心率、放松肌肉，能有效地缓解工作压力。<br>
+●学会转移注意力（写日记，打球，看书，听音乐），避免收到不良刺激物再次影响。<br>
+●不要害怕承认自己的能力有限，学会在适当的时候对某些人说“不”。<br>
+●多做好事，可使自己心安理得、心满意足。<br>
+</div>
+
+<div class="boxbtn4">
+<a id="boxbtn4" href="javascript:;" class="btn-primary btn" onclick="ShowDiv('box4')">个性化治疗效果</a>
+</div>
+<div id="box4" style="display:none;">
+<img src="/source/plugin/levceshi/statics/images/jieguo2.png"><br>
+<img src="/source/plugin/levceshi/statics/images/jieguo3.png">
+</div>
+
+</div>
+
+<!--left-->
+
+
+
+
+<script>
+var result = 0;
+var jq = jQuery.noConflict(); 
+function setTestSels(ele, clickfun){
+	var items = jq(ele);
+	items.hover(function(){
+		jq(this).addClass('hover');
+	},function(){
+		jq(this).removeClass('hover');
+	}).click(function(){
+		items.removeClass('act');
+		var radio = jq(this).find(':radio');
+		if(radio.length>0){
+			jq(this).addClass('act');
+			radio.attr('checked', 'checked');
+			if(clickfun){
+				clickfun(this);
+			}
+		}
+	});
+}
+
+var index = 0;
+var questions;
+jq(function(){
+	questions = jq('.test_contents');
+	setTestSels('.sels_list .items', do_next);
+	jq(questions[index]).show();
+	
+});
+function do_prev() {
+	jq('#id_show_result').hide();
+	jq(questions[index--]).hide();
+	jq(questions[index]).show();
+	jq('#id_cur_index').html(index+1);
+	if(index==0){
+		jq('#id_pre_link').hide();
+	}
+}
+function do_next() {
+	var sum = "{$answer_num}";
+	sum = parseInt(sum);
+	sum--;
+	$('id_pre_link').style.display='block';
+	if(index < sum){
+ 		jq(questions[index]).hide();
+ 		jq(questions[++index]).show();
+ 		jq('#id_cur_index').html(index+1);
+ 	}else{
+ 		jq('#id_show_result').show();
+ 	}
+}
+
+
+
+
+function onCeshiFormSubmit() {
+	var res = 0;
+	var myform = jq('#id_form');
+	var action = myform.attr('action');
+	jq('#id_show_result').val('请查看');
+	$('answer_result').style.display='block';
+	var data = myform.serialize();
+	var arr = data.split("&");
+	var type = 0;
+	var res = 0;
+	var f = new Array();
+	var s = [12,10,9,13,10,6,7,6,10,7];
+	var a = 0;
+	for(var i = 1; i <11; i++) {
+		f[i] = 0;
+	}
+	for(var i = 0; i < arr.length; i++) {
+		type = parseInt(arr[i].charAt(arr[i].length-1));
+		value = parseInt(arr[i].charAt(arr[i].length-3));
+		if(value == 1) a++;
+		f[type] += parseInt(value);
+		res += parseInt(value);
+	}
+	jq('#result_rank').html(res);
+	for(var i = 1; i <11; i++) {
+	jq('#result_rank_'+i).html(f[i]);
+		
+	jq('#result_av_'+i).html(f[i]/s[i-1]);
+	jq('#result_avr_'+i).html(f[i]/s[i-1]);
+	}
+	jq('#result_ranktotal').html(f[1]+f[2]+f[3]+f[4]+f[5]+f[6]+f[7]+f[8]+f[9]+f[10]);
+	jq('#result_ranktotalr').html(f[1]+f[2]+f[3]+f[4]+f[5]+f[6]+f[7]+f[8]+f[9]+f[10]);
+	jq('#result_asec').html(50-a);
+	jq('#result_asecr').html(50-a);
+	jq('#result_yang').html((f[1]+f[2]+f[3]+f[4])/4);
+	jq('#result_yangr').html((f[1]+f[2]+f[3]+f[4])/4);
+	
+	if(res > 160) 	jq('#result_solve_1').show();
+	if(50-a > 44) 	jq('#result_solve_2').show();
+	if((f[1]+f[2]+f[3]+f[4])/4 > 2) 	jq('#result_solve_3').show();
+	if(res > 160 && (50-a)<44 && (f[1]+f[2]+f[3]+f[4])/4 <= 2) 	jq('#result_solve_4').show();
+	if(f[1] > 2) 	jq('#result_solve_5').show();
+	if(f[2] > 2) 	jq('#result_solve_6').show();
+	if(f[3] > 2) 	jq('#result_solve_7').show();
+	if(f[4] > 2) 	jq('#result_solve_8').show();
+	if(f[5] > 2) 	jq('#result_solve_9').show();
+	if(f[6] > 2) 	jq('#result_solve_10').show();
+	if(f[7] > 2) 	jq('#result_solve_11').show();
+	if(f[8] > 2) 	jq('#result_solve_12').show();
+	if(f[9] > 2) 	jq('#result_solve_13').show();
+	if(f[10] > 2) 	jq('#result_solve_14').show();
+	if(res > 160) 	jq('#result_asec').show();
+	
+	//myform.submit();
+	return false;
+	
+}
+
+var mkey = '';
+jq(function() {
+	jq('#id_show_result').click(onCeshiFormSubmit);
+});
+
+
+function ShowDiv(objid)
+{
+document.getElementById(objid).style.display="block";
+}
+</script>
+
+
+</script> {subtemplate common/footer} 
+ </body>
+</html>
