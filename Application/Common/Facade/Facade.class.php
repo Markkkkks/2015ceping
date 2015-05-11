@@ -6,30 +6,39 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
-namespace Common\Service;
-
-abstract class Service {
+namespace Common\Facade;
+/**
+ * 外观模式
+ */
+abstract class Facade {
 	
-	
-	/**
-	 * Service调用模型实例
-	 * @access  protected
-	 * @var object
-	 */
-	protected $model;
-
-	/**
-	 * 构造方法，检测相关配置
-	 */
-	public function __construct() {
-		$this -> _initialize();
+	//保存类实例的静态成员变量
+	private static $_instance;
+	 
+	//private标记的构造方法
+	private function __construct(){
+		echo 'This is a Constructed method;';
+		$this -> _init();
 	}
-
-	/**
-	 * 抽象方法，用于设置模型实例
-	 */
-	abstract protected function _initialize();
 	
+	//创建__clone方法防止对象被复制克隆
+	public function __clone(){
+		trigger_error('Clone is not allow!',E_USER_ERROR);
+	}
+	
+	//单例方法,用于访问实例的公共的静态方法
+	public static function getInstance(){
+		if(!(self::$_instance instanceof self)){
+			self::$_instance = new self;
+		}
+		return self::$_instance;
+	}
+	
+	
+	/**
+	 * 抽象方法，用于初始化
+	 */
+	abstract protected function _init();
 	
 	/**
 	 * 返回错误结构
