@@ -12,13 +12,18 @@ class MemberController extends AdminController {
 	public function index() {
 		$params = array();
 		
-		$map['nickname'] = array('like', "%" . I('nickname', '', 'trim') . "%");		
-		$map['uid'] = I('nickname',-1);
-		$map['_logic'] = 'OR';
+		
+		$where['nickname'] = array('like', "%" . I('nickname', '', 'trim') . "%");		
+		$where['uid'] = I('nickname',-1);
+		$where['_logic'] = 'OR';
+		
+		$map['_complex'] = $where;
+		$map['status'] = array('neq',-1);
 		
 		$page = array('curpage' => I('get.p'), 'size' => C('LIST_ROW'));
 		$order = " last_login_time desc ";
 		$params['nickname'] = I('nickname','','trim');
+		
 		$result = apiCall("Admin/Member/query", array($map, $page, $order));
 		
 		if ($result['status']) {

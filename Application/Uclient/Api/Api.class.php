@@ -11,7 +11,7 @@ namespace Uclient\Api;
 define('UC_CLIENT_PATH', dirname(dirname(__FILE__)));
 
 //载入配置文件
-require_cache(UC_CLIENT_PATH . '/Conf/config.php');
+//require_cache(UC_CLIENT_PATH . '/Conf/config.php');
 
 //载入函数库文件
 require_cache(UC_CLIENT_PATH . '/Common/common.php');

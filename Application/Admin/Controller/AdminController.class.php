@@ -51,9 +51,7 @@ class AdminController extends CheckLoginController {
 			$this -> error(L('ERR_NO_PERMISSION'));
 		}
 		$this->get_current_usermenu();
-		$this->getWxaccount();
 		$this -> assign("user", session("global_user"));
-		$this -> assign("wxaccount", session("user_"+UID+"_wxaccount"));
 		
 	}
 
@@ -99,25 +97,6 @@ class AdminController extends CheckLoginController {
 		return $menulist;
 	}
 	
-	/**
-	 * 获取公众号信息
-	 */
-	private function getWxaccount(){
-		$wxaccountid = getWxAccountID();
-		if($wxaccountid == -1){
-			$map = array("uid"=>UID);
-			$result = apiCall("Admin/Wxaccount/getInfo",array($map));
-			if($result['status'] && is_array($result['info'])){
-				session("user_"+UID+"_wxaccount",$result['info']);
-				session("wxaccountid",$result['info']['id']);
-				session("appid",$result['info']['appid']);
-				session("appsecret",$result['info']['appsecret']);
-			}
-		}else{
-			$this->appid = session("appid");
-			$this->appsecret = session("appsecret");
-		}
-	}
 	
 	public function checkAuthority() {
 		//是系统管理员则都可以访问

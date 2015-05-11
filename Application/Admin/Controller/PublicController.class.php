@@ -185,7 +185,7 @@ class PublicController extends BaseController {
 	 */
 	public function check_verify($code, $id = 1) {
 
-		$config = array('fontSize' => 26, // 验证码字体大小
+		$config = array('fontSize' => 22, // 验证码字体大小
 		'length' => 4, // 验证码位数
 		'useNoise' => false, // 关闭验证码杂点
 		);

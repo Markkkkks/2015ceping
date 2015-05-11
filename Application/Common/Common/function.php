@@ -36,13 +36,7 @@ function apiCall($url, $vars, $layer = 'Api') {
 	//TODO:考虑使用func_get_args 获取参数数组
 	return R($url, $vars, $layer);
 }
-/**
- * ServiceCall
- */
-function serviceCall($url, $vars) {
-	//TODO:考虑使用func_get_args 获取参数数组
-	return R($url, $vars, 'Service');
-}
+
 
 /**
  * 记录日志，系统运行过程中可能产生的日志

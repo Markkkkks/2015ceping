@@ -92,15 +92,6 @@ function isNight(){
 		return false;
 	}
 }
-/**
- * 从session中取WxAccountID
- */
-function getWxAccountID(){
-	if(session("?wxaccountid")){
-		return session("wxaccountid");
-	}
-	return -1;
-}
 
 function getLogInfo($info){
 	$loginfo = unserialize($info);
@@ -133,10 +124,4 @@ function getLogInfo($info){
 	}
 	
 	return $str;
-}
-/**
- * 获取当前公众号信息
- */
-function getWxaccount(){
-	return session("user_"+UID+"_wxaccount");
 }
