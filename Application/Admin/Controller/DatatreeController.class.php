@@ -115,6 +115,7 @@ class DatatreeController extends AdminController{
 				'parentid'=>$this->parent,
 				'code'=>I('code',''),
 				'iconurl'=>I('iconurl',''),
+				'uid'=>UID,
 			);
 			
 			$result = apiCall("Admin/Datatree/add", array($entity));

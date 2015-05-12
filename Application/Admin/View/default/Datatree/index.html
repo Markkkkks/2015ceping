@@ -40,7 +40,7 @@
 					<thead>
 						<tr>
 							<th>
-								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />
+								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />编号
 							</th>
 							<th>
 								名称
@@ -68,7 +68,7 @@
 							<volist name="list" id="vo">
 								<tr>
 									<td>
-										<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" /></td>
+										<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />{$vo.id}</td>
 									<td>
 										<a href="{:U('Admin/Datatree/index',array('parent'=>$vo['id']))}">{$vo.name}</a>
 									</td>

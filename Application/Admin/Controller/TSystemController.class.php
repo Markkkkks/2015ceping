@@ -6,10 +6,15 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
+namespace Admin\Controller;
 
-return array(
-	'DATATREE'=>array(		
-		'POST_CATEGORY'=>21, //文章分类
-		'TEST_TABLE_TYPES'=>23,//量表类型
-	)
-);
+class TSystemController extends AdminController{
+	
+	public function index(){
+		$this->display();
+	}
+	
+	
+	
+}
+

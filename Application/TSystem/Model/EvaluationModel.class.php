@@ -6,10 +6,16 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
+namespace TSystem\Model;
+use Think\Model;
+/**
+ * 量表、问题模型
+ */
+class EvaluationModel extends Model{
+	protected $_auto = array(
+		array('create_time',NOW_TIME,self::MODEL_INSERT),
+		array('update_time',"time",self::MODEL_INSERT,"function"),
+		array('status',1,self::MODEL_INSERT),
+	);
+}
 
-return array(
-	'DATATREE'=>array(		
-		'POST_CATEGORY'=>21, //文章分类
-		'TEST_TABLE_TYPES'=>23,//量表类型
-	)
-);

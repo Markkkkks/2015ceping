@@ -79,14 +79,15 @@ class AdminController extends CheckLoginController {
 			unset($map['uid']);
 			if (!empty($group_ids)) {
 				$map = array('id' => array('in', rtrim($group_ids, ",")));
+				$map['status'] = 1;//启用状态
 				$result = apiCall('Admin/AuthGroup/queryNoPaging', array($map));
-
+				
 				if ($result['status'] && is_array($result['info'])) {
-					//TODO:未测试过多角色的情况下,menulist字段必须,号结尾
+					
 					foreach ($result['info'] as $group) {
 						$menulist .= $group['menulist'];
 					}
-
+					//TODO: 对菜单ID$menulist做去重处理
 				}
 			} else {
 					
@@ -99,27 +100,28 @@ class AdminController extends CheckLoginController {
 	
 	
 	public function checkAuthority() {
+		//TODO: 不做API 权限检测
 		//是系统管理员则都可以访问
-		if (IS_ROOT) {
-			return true;
-		}
-
-		$access = $this -> accessControl();
-		if (false === $access) {
-			$this -> error('403:禁止访问');
-		} elseif (null === $access) {
-			//检测访问权限
-			$rule = strtolower(MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME);
-			if (!$this -> checkRule($rule, array('in', '1,2'))) {
-				$this -> error('未授权访问!');
-			} else {
-				// 检测分类及内容有关的各项动态权限
-				$dynamic = $this -> checkDynamic();
-				if (false === $dynamic) {
-					$this -> error('未授权访问!');
-				}
-			}
-		}
+//		if (IS_ROOT) {
+//			return true;
+//		}
+//		
+//		$access = $this -> accessControl();
+//		if (false === $access) {
+//			$this -> error('403:禁止访问');
+//		} elseif (null === $access) {
+//			//检测访问权限
+//			$rule = strtolower(MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME);
+//			if (!$this -> checkRule($rule, array('in', '1,2'))) {
+//				$this -> error('未授权访问!');
+//			} else {
+//				// 检测分类及内容有关的各项动态权限
+//				$dynamic = $this -> checkDynamic();
+//				if (false === $dynamic) {
+//					$this -> error('未授权访问!');
+//				}
+//			}
+//		}
 		//TODO:检测权限
 		return true;
 	}
@@ -135,10 +137,10 @@ class AdminController extends CheckLoginController {
 		if (!$Auth) {
 			$Auth = new \Think\Auth();
 		}
-		//TODO: 暂时去除检测API访问
-//		if (!$Auth -> check($rule, UID, 2, $mode)) {
-//			return false;
-//		}
+		//TODO: 检测API访问
+		if (!$Auth -> check($rule, UID, 2, $mode)) {
+			return false;
+		}
 
 		return true;
 	}
@@ -275,7 +277,7 @@ class AdminController extends CheckLoginController {
 		$result = apiCall("Admin/" . CONTROLLER_NAME . '/pretendDelete', array($map));
 
 		if ($result['status']) {
-
+			
 			$this -> success("删除成功！", U('Admin/' . CONTROLLER_NAME . '/index'));
 
 		} else {
