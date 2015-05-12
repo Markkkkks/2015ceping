@@ -176,6 +176,37 @@ abstract class Api {
 			return $this -> apiReturnSuc($result);
 		}
 	}
+	
+	/**
+	 * 返回最大值
+	 * @param $map 条件
+	 * @param $field 统计字段
+	 */
+	public function max($map,$field){
+		$result = $this -> model -> where($map) -> max($field);
+		if ($result === false) {
+			$error = $this -> model -> getDbError();
+			return $this -> apiReturnErr($error);
+		} else {
+			return $this -> apiReturnSuc($result);
+		}
+	}
+	/*
+	 * 返回最小值
+	 * @param $map 条件
+	 * @param $field 统计字段
+	 */
+	public function min($map,$field){
+		
+		$result = $this -> model -> where($map) -> min($field);
+		if ($result === false) {
+			$error = $this -> model -> getDbError();
+			return $this -> apiReturnErr($error);
+		} else {
+			return $this -> apiReturnSuc($result);
+		}
+		
+	}
 
 	/**
 	 * 数字类型字段有效
