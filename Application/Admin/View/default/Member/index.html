@@ -81,7 +81,7 @@
 						<td>
 							{$vo.uid}</td>
 						<td>
-							{$vo.nickname}</td>
+							<a href="{:U('Admin/Member/view',array('id'=>$vo['uid']))}">{$vo.nickname}</a></td>
 						<td>
 							{$vo.score}</td>
 						<td>

@@ -76,10 +76,31 @@ class EvaluationController extends AdminController{
 	public function edit(){
 		
 		if(IS_GET){
+			$id = I('get.id',0);
+			$result = apiCall("TSystem/Evaluation/getInfo", array(array("id"=>$id)));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			$this->assign("vo",$result['info']);
 			$this->display();
 		}else{
 			
+			$title = I('post.title','');
+			$desc = I('post.desc','');
 			
+			$entity = array(
+				'title'=>$title,
+				'desc'=>$desc,
+				'type'=>I('post.type',0),
+			);
+			
+			$result = apiCall("TSystem/Evaluation/add", array($entity));
+			
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->success("保存成功!",U('Admin/Evaluation/index'));
 		}
 	}
 	

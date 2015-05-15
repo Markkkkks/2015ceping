@@ -14,7 +14,7 @@
 			<!-- 过滤\查询按钮 -->
 				<div class="filter-controls">
 					<!-- 日期查询 -->
-					<form action="{:U('Admin/Organization/search')}" method="post" class="form-inline">
+					<form action="{:U('Admin/Organization/index')}" method="post" class="form-inline">
 						<input type="hidden" name="parent" value="{$parent}" />
 						<div class="form-group">
 							<div class="input-group">
@@ -82,8 +82,10 @@
 										{$vo.create_time|date='Y-m-d h:i:s',###}
 									</td>
 									<td>
-										<a href="{:U('Admin/Organization/edit',array('id'=>$vo['id'],'parent'=>$vo['parentid']))}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>编辑</a>
-										<a href="{:U('Admin/Organization/delete',array('id'=>$vo['id'],'parent'=>$vo['parentid']))}" class="btn btn-sm btn-danger ajax-get confirm"><i class="fa fa-trash"></i>删除</a>
+										<a href="{:U('Admin/OrgMember/index',array('orgid'=>$vo['id'],'orgparent'=>$vo['father']))}" class="btn btn-sm btn-primary"><i class="fa fa-group"></i>下属成员管理</a>
+										
+										<a href="{:U('Admin/Organization/edit',array('id'=>$vo['id'],'parent'=>$vo['father']))}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>编辑</a>
+										<a href="{:U('Admin/Organization/delete',array('id'=>$vo['id'],'parent'=>$vo['father']))}" class="btn btn-sm btn-danger ajax-get confirm"><i class="fa fa-trash"></i>删除</a>
 									</td>
 								</tr>
 

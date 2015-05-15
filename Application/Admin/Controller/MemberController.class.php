@@ -36,6 +36,32 @@ class MemberController extends AdminController {
 		}
 	}
 	
+	public function view(){
+		$id = I('get.id',0);
+		
+		$result = apiCall("Admin/Member/getInfo", array(array("uid"=>$id)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$this->assign("userinfo",$result['info']);
+		
+		$result = apiCall("Uclient/User/getInfo", array($id));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$this->assign("useraccount",$result['info']);
+		
+		$result = apiCall("Admin/AuthGroupAccess/queryGroupInfo", array($id));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$this->assign("userroles",$result['info']);
+		
+		
+		$this->display();
+	}
+	
 	/**
 	 * 删除用户
 	 * 假删除
@@ -44,7 +70,18 @@ class MemberController extends AdminController {
 		if(is_administrator(I('uid',0))){
 			$this->error("禁止对超级管理员进行删除操作！");
 		}
-		parent::pretendDelete("uid");
+		
+		$result = apiCall("Admin/Member/pretendDelete", array(array('uid'=>I('uid',0))));
+		if(!$result['status']){
+			LogRecord($result['info'], __FILE__.__LINE__);
+		}
+		
+		$result = apiCall("Uclient/User/delete", array(I('uid',0)));
+		if(!$result['status']){
+			LogRecord($result['info'], __FILE__.__LINE__);
+		}
+
+		$this->success("删除成功～！");
 	}
 	/**
 	 * 启用
@@ -72,11 +109,13 @@ class MemberController extends AdminController {
 				$this->error("密码和重复密码不一致！");
 			}
 			
+			$orgids = array();
+			
 			/* 调用注册接口注册用户 */			
 			$result = apiCall("Uclient/User/register", array($username, $password, $email));
 
             if($result['status']){ //注册成功
-            	$entity = array(
+            		$entity = array(
 					'uid'=>$result['info'],
 					'nickname'=>$username,
 					'realname'=>'',
@@ -131,7 +170,7 @@ class MemberController extends AdminController {
 	 * 
 	 */
 	public function select(){
-			
+		
 		$map['nickname'] = array('like', "%" . I('q', '', 'trim') . "%");		
 		$map['uid'] = I('q',-1);
 		$map['_logic'] = 'OR';
@@ -144,12 +183,19 @@ class MemberController extends AdminController {
 			$list = $result['info']['list'];
 			
 			foreach($list as $key=>$g){
-				$list[$key]['id']=$list[$key]['uid'];
+				
+				if(is_administrator($list[$key]['uid'])){
+					unset($list[$key]);
+				}else{
+					$list[$key]['id']=$list[$key]['uid'];
+				}
 			}
 			
 			$this->success($list);
 		}	
 	
 	}
+	
+	
 	
 }

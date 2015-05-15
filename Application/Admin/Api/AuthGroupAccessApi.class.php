@@ -17,6 +17,21 @@ class AuthGroupAccessApi extends \Common\Api\Api{
 	}
 	
 	/**
+	 * 根据用户ID，查询用户拥有的角色信息
+	 * @param int $uid 用户ID
+	 */
+	public function queryGroupInfo($uid){
+		$uid = intval($uid);
+		$result = $this->model->alias(" aga ")->join(" LEFT JOIN __AUTH_GROUP__ as ag ON ag.id = aga.group_id and ag.status = 1")->field("aga.uid , ag.title,ag.notes ")->where(" aga.uid = $uid")->select();
+		
+		if($result === false){
+			return $this->apiReturnErr($this->model->getDbError());
+        }else{
+			return $this->apiReturnSuc($result);
+        }
+	}
+	
+	/**
      * 把用户添加到用户组,支持批量添加用户到用户组
 	 * @param $uid 用户id
 	 * @param $groupid 用户组id

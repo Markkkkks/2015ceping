@@ -19,6 +19,25 @@ class UserApi extends Api{
         $this->model = new UcenterMemberModel();
     }
 	
+		/**
+	 * 获取用户信息
+	 * @param  string  $uid         用户ID或用户名
+	 * @param  boolean $is_username 是否使用用户名查询
+	 * @return array                用户信息
+	 */
+	public function getInfo($uid){
+		$map = array();
+		$map['id'] = $uid;
+		
+		$user = $this->model->where($map)->field('id,username,email,mobile,status')->find();
+		if( is_array($user)){
+	    		return array('status'=>true,'info'=>$user);
+		} else {
+	    		return array('status'=>true,'info'=>"用户不存在");
+		}
+	
+	}
+	
     /**
      * 注册一个新用户
      * @param  string $username 用户名
@@ -29,11 +48,11 @@ class UserApi extends Api{
      */
     public function register($username, $password, $email, $mobile = ''){
         $result = $this->model->register($username, $password, $email, $mobile);
-    	if($result > 0){//成功
-    		return array('status'=>true,'info'=>$result);
-    	}else{
-    		return array('status'=>false,'info'=>$this->getRegisterError($result));
-    	}
+	    	if($result > 0){//成功
+	    		return array('status'=>true,'info'=>$result);
+	    	}else{
+	    		return array('status'=>false,'info'=>$this->getRegisterError($result));
+	    	}
 	}
 
     /**
@@ -89,11 +108,11 @@ class UserApi extends Api{
      */
     public function checkUsername($username){
         $result =  $this->model->checkField($username, 1);
-    	if($result > 0){
-    		return array('status'=>true,'info'=>$result);
-    	}else{
-    		return array('status'=>false,'info'=>$result);    		
-    	}
+	    	if($result > 0){
+	    		return array('status'=>true,'info'=>$result);
+	    	}else{
+	    		return array('status'=>false,'info'=>$result);    		
+	    	}
 	}
 
     /**
@@ -160,6 +179,24 @@ class UserApi extends Api{
         return $return;
     }
 	
+	/**
+	 * 删除用户/假删除
+	 * @param integer @uid 用户id
+	 * @return array(status,info)
+	 */
+	public function delete($uid){
+        if($this->model->where(array('id'=>$uid))->save(array('status'=>-1)) !== false){
+			
+			$return['status'] = true;
+        
+		}else{
+            $return['status'] = false;
+            $return['info'] = $this->model->getDbError();
+        }
+		
+        return $return;
+		
+	}
 	/**
 	 * 获取注册错误代码的描述信息
 	 * 
