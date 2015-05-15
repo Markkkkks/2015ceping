@@ -8,7 +8,7 @@
 
 namespace Admin\Controller;
 
-class DatatreeController extends AdminController{
+class OrganizationController extends AdminController{
 	private $parent;
 	private $preparent;
 	
@@ -17,34 +17,37 @@ class DatatreeController extends AdminController{
 		
 		$this->parent = I('parent',0);
 		
-		$result = apiCall("Admin/Datatree/getInfo",array(array('id'=>$this->parent)));
+		$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$this->parent)));
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
-
+		
 		if(is_array($result['info'])){
-			$this->preparent = $result['info']['parentid'];
+			$this->preparent = $result['info']['father'];
 		}
+		$this->assign('parent_orgname',$result['info']['orgname']);
 		$this->assign('parent',$this->parent);
 		$this->assign('preparent',$this->preparent);
 	}
 	
+	
+	
 	public function index(){
 		$name = I('name','');
-		$map = array('parentid'=>$this->parent);
+		$map = array('father'=>$this->parent);
 		
 		$params = array('parent'=>$this->parent);
 		
 		if(!empty($name)){
-			$map['name'] = array('like',"%$name%");
-			$params['name'] = $name;
+			$map['orgname'] = array('like',"%$name%");
+			$params['orgname'] = $name;
 		}
 		
 		$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
 		
 		$order = " sort desc ";
 		//
-		$result = apiCall("Admin/Datatree/query",array($map,$page,$order,$params));
+		$result = apiCall("Admin/Organization/query",array($map,$page,$order,$params));
 		
 		//
 		if($result['status']){
@@ -59,39 +62,6 @@ class DatatreeController extends AdminController{
 		
 	}	
 
-
-	public function search(){
-		
-		$name = I('name','');
-		$map = array();
-		
-		$params = array('parent'=>$this->parent);
-		
-		
-		if(!empty($name)){
-			$map['name'] = array('like',"%$name%");
-			$params['name'] = $name;
-		}
-		
-		$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
-		
-		$order = " sort desc ";
-		//
-		$result = apiCall("Admin/Datatree/query",array($map,$page,$order,$params));
-		
-		//
-		if($result['status']){
-			$this->assign('name',$name);
-			$this->assign('show',$result['info']['show']);
-			$this->assign('list',$result['info']['list']);
-			$this->display();
-		}else{
-			LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
-			$this->error(L('UNKNOWN_ERR'));
-		}
-		
-	}	
-	
 	
 	public function add(){
 		if(IS_GET){
@@ -99,32 +69,30 @@ class DatatreeController extends AdminController{
 						
 			$this->display();
 		}else{
-			$result = apiCall("Admin/Datatree/getInfo",array(array('id'=>$this->parent)));
+			$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$this->parent)));
 			$level = 0;
 			$parents = $this->parent.',';
 			if($result['status'] && is_array($result['info'])){
 				$level = intval($result['info']['level'])+1;
-				$parents = $result['info']['parents'].$parents;
+				$parents = $result['info']['path'].$parents;
 			}
 			$entity = array(
-				'name'=>I('name',''),
+				'orgcode'=>'',
+				'orgname'=>I('name',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),
 				'level'=>$level,
-				'parents'=>$parents,
-				'parentid'=>$this->parent,
-				'code'=>I('code',''),
-				'iconurl'=>I('iconurl',''),
-				'uid'=>UID,
+				'path'=>$parents,
+				'father'=>$this->parent,
 			);
 			
-			$result = apiCall("Admin/Datatree/add", array($entity));
+			$result = apiCall("Admin/Organization/add", array($entity));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
 
-			$this->success("操作成功！",U('Admin/Datatree/index',array('parent'=>$this->parent)));
+			$this->success("操作成功！",U('Admin/Organization/index',array('parent'=>$this->parent)));
 			
 		}
 	}
@@ -132,7 +100,7 @@ class DatatreeController extends AdminController{
 	public function delete(){
 		$id = I('id',0);
 		
-		$result = apiCall("Admin/Datatree/queryNoPaging", array(array('parentid'=>$id)));
+		$result = apiCall("Admin/Organization/queryNoPaging", array(array('father'=>$id)));
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
@@ -140,7 +108,7 @@ class DatatreeController extends AdminController{
 			$this->error("有子级，请先删除所有子级！");
 		}
 		
-		$result = apiCall("Admin/Datatree/delete", array(array('id'=>$id)));
+		$result = apiCall("Admin/Organization/delete", array(array('id'=>$id)));
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
@@ -153,7 +121,7 @@ class DatatreeController extends AdminController{
 	public function edit(){
 		$id = I('id',0);
 		if(IS_GET){
-			$result = apiCall("Admin/Datatree/getInfo",array(array('id'=>$id)));
+			$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$id)));
 			if($result['status']){
 				$this->assign("vo",$result['info']);
 			}
@@ -162,23 +130,19 @@ class DatatreeController extends AdminController{
 		}else{
 			
 			$entity = array(
-				'name'=>I('name',''),
+				'orgname'=>I('name',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),
 				'code'=>I('code',''),
-				'iconurl'=>I('iconurl',''),
 			);
-			$result = apiCall("Admin/Datatree/saveByID", array($id,$entity));
+			$result = apiCall("Admin/Organization/saveByID", array($id,$entity));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
 
-			$this->success("操作成功！",U('Admin/Datatree/index',array('parent'=>$this->parent)));
+			$this->success("操作成功！",U('Admin/Organization/index',array('parent'=>$this->parent)));
 			
 		}
 	}
-	
-	
 }
-

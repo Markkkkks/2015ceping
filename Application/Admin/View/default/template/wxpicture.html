@@ -113,7 +113,7 @@
 		function queryImgList() {
 			$.ajax({
 				type: "post",
-				url: "{:U('Admin/Wxshop/picturelist')}",
+				url: "{:U('Admin/File/picturelist')}",
 				data: {
 					p: wxuploadimg.pager.index,
 					size: wxuploadimg.pager.size
@@ -249,7 +249,7 @@
 		"swf": "__CDN__/jquery-uploadify/3.2.1/uploadify.swf",
 		"fileObjName": "wxshop", //wxshop
 		"buttonText": "<i class='fa fa-upload'></i>本地上传",
-		"uploader": "{:U('Admin/Wxshop/uploadPicture',array('session_id'=>session_id()))}",
+		"uploader": "{:U('Admin/File/uploadWxshopPicture',array('session_id'=>session_id()))}",
 		"width": 120,
 		'removeTimeout': 1,
 		'fileTypeExts': '*.jpg; *.png; *.gif;*.jpeg',

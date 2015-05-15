@@ -7,13 +7,17 @@
 // |-----------------------------------------------------------------------------------
 namespace Admin\Controller;
 
-class EvalProblemController extends AdminController{
-	
+class EvalAnswerController extends AdminController{
+	//量表ID
 	private $eval_id = 0;
+	//问题ID
+	private $problem_id = 0;
 	
 	protected function _initialize(){
 		parent::_initialize();
+		$this->problem_id = I('get.problem_id',0);
 		$this->eval_id = I('get.eval_id',0);
+		$this->assign("problem_id",$this->problem_id);
 		$this->assign("eval_id",$this->eval_id);
 	}
 	
@@ -22,31 +26,32 @@ class EvalProblemController extends AdminController{
 	 */
 	public function index(){
 		
-		$result = apiCall("TSystem/Evaluation/getInfo", array(array('id'=>$this->eval_id)));
+		$result = apiCall("TSystem/EvalProblem/getInfo", array(array('id'=>$this->problem_id)));
 		
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
 		
-		$evaluation = $result['info'];
+		$evalProblem = $result['info'];
 		
 		$map = array(
-			'evaluation_id'=>$this->eval_id,
+			'problem_id'=>$this->problem_id,
 		);
 		
 		$params = array(
-			'evaluation_id'=>$this->eval_id,
+			'eval_id'=>$this->eval_id,
+			'problem_id'=>$this->problem_id,
 		);
 		
 		$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
 		
-		$order = " sort asc ";
+		$order = " sort asc,create_time desc ";
 		//
-		$result = apiCall("TSystem/EvalProblem/query",array($map,$page,$order,$params));
+		$result = apiCall("TSystem/EvalAnswer/query",array($map,$page,$order,$params));
 		
 		//
 		if($result['status']){
-			$this->assign('evaluation',$evaluation);
+			$this->assign('problem',$evalProblem);
 			$this->assign('show',$result['info']['show']);
 			$this->assign('list',$result['info']['list']);
 			$this->display();
@@ -62,39 +67,33 @@ class EvalProblemController extends AdminController{
 	 */
 	public function add(){
 		if(IS_GET){
-			$map = array('evaluation_id'=>$this->eval_id);
-			$field = "sort";
 			
-			$result = apiCall("TSystem/EvalProblem/max", array($map,$field));
-			if(!$result['status']){
-				$this->error($result['info']);
-			}
-			if(is_null($result['info'])){
-				$result['info'] = 0;
-			}
-			$result['info'] = $result['info'] + 1;
-			$this->assign("curMaxSort",$result['info']);
 			$this->display();
 		}else{
 			
 			$title = I('post.title','');
-			$desc = I('post.desc','');
+			$explain = I('post.explain','');
+			$hidden_value = I('post.hidden_value','');
+			$icon_url = I('post.icon_url','');
 			
 			$entity = array(
 				'title'=>$title,
 				'desc'=>$desc,
-				'type'=>I('post.type',0),
+				'icon_url'=>$icon_url,
+				'explain'=>$explain,
+				'hidden_value'=>$hidden_value,
+				'problem_id'=>$this->problem_id,
 				'evaluation_id'=>$this->eval_id,
 				'sort'=>I('post.sort',1),
 			);
 			
-			$result = apiCall("TSystem/EvalProblem/add", array($entity));
+			$result = apiCall("TSystem/EvalAnswer/add", array($entity));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
 			
-			$this->success("添加成功!",U('Admin/EvalProblem/index',array('eval_id'=>$this->eval_id)));
+			$this->success("添加成功!",U('Admin/EvalAnswer/index',array('problem_id'=>$this->problem_id,'eval_id'=>$this->eval_id)));
 		}
 	}
 	
@@ -110,7 +109,7 @@ class EvalProblemController extends AdminController{
 				'id'=>$id
 			);
 			
-			$result = apiCall("TSystem/EvalProblem/getInfo", array($map));
+			$result = apiCall("TSystem/EvalAnswer/getInfo", array($map));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
@@ -121,23 +120,29 @@ class EvalProblemController extends AdminController{
 		}else{
 			
 			$title = I('post.title','');
-			$desc = I('post.desc','');
+			$explain = I('post.explain','');
+			$hidden_value = I('post.hidden_value','');
+			$icon_url = I('post.icon_url','');
 			
 			$entity = array(
 				'title'=>$title,
 				'desc'=>$desc,
-				'type'=>I('post.type',0),
+				'icon_url'=>$icon_url,
+				'explain'=>$explain,
+				'hidden_value'=>$hidden_value,
+				'problem_id'=>$this->problem_id,
+				'evaluation_id'=>$this->eval_id,
 				'sort'=>I('post.sort',1),
 			);
 			
 			
-			$result = apiCall("TSystem/EvalProblem/saveByID", array($id,$entity));
+			$result = apiCall("TSystem/EvalAnswer/saveByID", array($id,$entity));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
 			
-			$this->success("保存成功!",U('Admin/EvalProblem/index',array('eval_id'=>$this->eval_id)));
+			$this->success("保存成功!",U('Admin/EvalAnswer/index',array('problem_id'=>$this->problem_id,'eval_id'=>$this->eval_id)));
 		}
 	}
 	
@@ -148,20 +153,8 @@ class EvalProblemController extends AdminController{
 			
 		if(IS_AJAX){
 			$id = I('get.id',0);
-			$map = array(
-				'id'=>$id
-			);
-			$result = apiCall("TSystem/EvalAnswer/queryNoPaging", array(array('problem_id'=>$id)));
 			
-			if(!$result['status']){
-				$this->error($result['info']);
-			}
-			
-			if(is_array($result['info']) && count($result['info']) > 0){
-				$this->error("请先删除该问题下的答案！");
-			}
-			
-			$result = apiCall("TSystem/EvalProblem/delete", array($map));
+			$result = apiCall("TSystem/EvalAnswer/delete", array(array('id'=>$id)));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
