@@ -70,14 +70,14 @@
 								<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
 								<td>{:($vo['status'] == 'draft'?"草拟中":"已发布")}
 									<eq name="vo['status']" value="draft">
-										<a data-toggle="tooltip" title="正式发布到网上供用户测试" class="btn btn-sm btn-info" href="{:U('Admin/TestSys/publish',array('id'=>$vo['id']))}"><i class="fa fa-rocket"></i>正式发布</a></td>
+										<a data-toggle="tooltip" title="正式发布到网上供用户测试" class="ajax-get  btn btn-sm btn-info" href="{:U('Admin/TestSys/publish',array('id'=>$vo['id']))}"><i class="fa fa-rocket"></i>正式发布</a></td>
 									
 									<else/>
-										<a data-toggle="tooltip" title="改为草拟后，用户无法测试！" class="btn btn-sm btn-info" href="{:U('Admin/TestSys/draft',array('id'=>$vo['id']))}"><i class="fa fa-file-text"></i>改为草拟</a></td>
+										<a data-toggle="tooltip" title="改为草拟后，用户无法测试！" class="ajax-get btn btn-sm btn-info" href="{:U('Admin/TestSys/draft',array('id'=>$vo['id']))}"><i class="fa fa-file-text"></i>改为草拟</a></td>
 									</eq>
 									<td>	
 									<div>
-									<a href="{:U('Admin/TestSys/eval',array('id'=>$vo['id']))}" data-toggle="tooltip" title="管理本次测验包含的需要测验的量表" class="btn btn-primary btn-sm"><i class="fa fa-list-alt"></i>量表管理</a>
+									<a href="{:U('Admin/TestSys/evaluation',array('id'=>$vo['id']))}" data-toggle="tooltip" title="管理本次测验包含的需要测验的量表" class="btn btn-primary btn-sm"><i class="fa fa-list-alt"></i>量表管理</a>
 									<a href="{:U('Admin/TestSys/org',array('id'=>$vo['id']))}" data-toggle="tooltip" title="赋予一些机构来参与此次测试的权限" class="btn btn-primary btn-sm"><i class="fa fa-globe"></i>参与测验机构管理</a>
 									</div>
 									<br/>

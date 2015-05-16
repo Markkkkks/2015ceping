@@ -108,14 +108,31 @@ class EvaluationController extends AdminController{
 	 * 删除
 	 */
 	public function delete(){
-			
-		if(IS_GET){
-			$this->display();
-		}else{
-			
-			
+		$id = I('get.id',0);
+		$map = array(
+			'evaluation_id'=>$id,
+		);
+		$result = apiCall("TSystem/EvalProblem/query", array($map));
+		if(!$result['status']){
+			$this->error($result['info']);
 		}
+		
+		if(count($result['info']) > 0){
+			$this->error("请先删除量表所属的问题！");
+		}
+			
+		
+		$result = apiCall("TSystem/EvalProblem/delete", array(array('id'=>$id)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$this->success("删除成功！");
+				
 	}
+	
+	
 	
 	
 	

@@ -192,6 +192,9 @@ class TestSysController extends AdminController{
 	
 	}
 	
+	/**
+	 * 发布
+	 */
 	public function publish(){
 		
 		$id = I("get.id",0);
@@ -206,5 +209,108 @@ class TestSysController extends AdminController{
 		
 		$this->success("发布成功！");
 	}
+
+	 
+	 /**
+	 * 更改为草稿
+	 */
+	public function draft(){
+		
+		$id = I("get.id",0);
+		$saveEntity = array(
+			'status'=>\TSystem\Model\TestSysModel::STATUS_DRAFT,
+		);
+		
+		$result = apiCall("TSystem/TestSys/saveByID", array($id,$saveEntity));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$this->success("变更成功！");
+	}
+	
+	public function evaluation(){
+		if(IS_GET){
+			$id = I('get.id',0);
+			
+			$map = array(
+				'status'=>1,
+			);
+			$result = apiCall("TSystem/Evaluation/queryNoPaging", array($map));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$eval_list = $result['info'];
+		
+			$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$id)));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->assign("test",$result['info']);
+			
+			$map = array();
+			$map['id'] = array('in',$result['info']['eval_ids']);
+			$result = apiCall("TSystem/Evaluation/queryNoPaging", array($map));
+			
+			$choosed_evals =  $this->getChoosedEvals($result['info']);
+			
+			$this->assign("choosed_evals",$choosed_evals);
+			$this->assign("id",$id);
+			$this->assign("eval_list",$eval_list);
+			$this->display();
+		}else{
+			$id = I("get.id",0);
+			$evalids = I('post.evalids','');
+			
+			$saveEntity = array('eval_ids'=>$evalids);
+			$result = apiCall("TSystem/TestSys/saveByID", array($id,$saveEntity));
+			
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->success("保存成功!",U('Admin/TestSys/index'));
+			
+		}
+	}
+
+	
+	/**
+	 * 组织机构
+	 * TODO:
+	 */
+	public function org(){
+		if(IS_GET){
+			$id = I('get.id',0);
+			$map = array();
+//			$map['']
+			$result = apiCall("Admin/Organization/queryNoPaging", array($map));
+			
+			$this->display();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+	//===============
+	
+	private  function getChoosedEvals($info){
+		$result = array();
+		foreach($info as $vo){
+			array_push($result,array('id'=>$vo['id'],'text'=>$vo['title']));	
+		}
+		return json_encode($result);
+	}
+
+
 	
 }
