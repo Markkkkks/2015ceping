@@ -2,8 +2,8 @@
 
 
 <block name="area_header">
-
 	<link rel="stylesheet" type="text/css" media="all" href="__CDN__/jquery-datetimepicker/jquery.datetimepicker.css">
+	<script type="text/javascript" src="__CDN__/jquery-datetimepicker/jquery.datetimepicker.js"></script>
 </block>
 
 <block name="area_body">
@@ -12,108 +12,98 @@
 		{:W('Menus/left')}
 		<div class="admin-main-content">
 			{:W('Menus/breadcrumb')}
-			<!-- 过滤\查询按钮 -->
-				<div class="filter-controls">
-					<!-- 日期查询 -->
+			<div class="table-responsive well">
+				<div class="h4">
+					
+<div class="alert alert-info" role="alert">操作测验步骤: 1. 添加测验=> 2.包含量表管理=> 3.参与测验机构管理=> 4.正式发布 </div>
+				</div>
+				<div class="form-control-static">
 					<form action="{:U('Admin/TestSys/index')}" method="post" class="form-inline">
 						<div class="form-group">
-							<div class="input-group">
-								<div class="input-group-addon">
-									测评标题
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input type="text" name="title" id="" class="form-control input-short" value="{$title}" />
-							</div>
+							<label class="control-label">测验标题</label>
+							<input type="text" name="name" class="form-control input-normal" value="{$name}" />
 						</div>
 						<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i>{:L('BTN_SEARCH')}</button>
 					</form>
 				</div>
-				<!-- 操作按钮 -->
-				<div class="btn-controls">
-					<a class="btn btn-primary btn-sm" href="{:U('Admin/TestSys/add')}"><i class="fa fa-plus"></i>{:L('BTN_ADD')}</a>
-					
+				<div class="form-control-static">
+					<a href="{:U('Admin/TestSys/add')}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>添加测验</a>
 				</div>
-
 				<table class="table table-striped table table-hover  table-condensed">
 					<thead>
 						<tr>
 							<th>
-								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />
-							</th>
-							<th>
-								测验名称
-							</th>
-							<th>
-								测验开始时间/结束时间
-							</th>
-							<th>
-								当前状态
-							</th>
-							<th>
-								添加时间
-							</th>
-							<th>
-								操作
-							</th>
+								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />{:L('SELECT_ALL')}
+								<th>
+									测验标题
+								</th>
+								<th>
+									测验时间段
+								</th>
+								<th>
+									测验概述
+								</th>
+								<th>
+									创建时间
+								</th>
+								<th>
+									状态
+								</th>
+								<th>
+									{:L('OPERATOR')}
+								</th>
 						</tr>
 					</thead>
 					<tbody>
 						<empty name="list">
 							<tr>
-								<td colspan="7" class="text-center">{:L('NO_DATA')}</td>
+								<td colspan="4" class="text-center">{:L('NO_DATA')}</td>
 							</tr>
-							<else/>
-							<volist name="list" id="vo">
-								<tr>
-									<td>
-										<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" /></td>
-									<td>
-										<a href="{:U('Admin/Product/view',array('id'=>$vo['id']))}">{$vo.name}</a>
-									</td>
-									<td>
-										{$vo.price}
-									</td>
-									<td>
-										{$vo.stock}
-									</td>
-									<td>
-										{$vo.sale_num}
-									</td>
-									<td>
-										{$vo.createtime|date='Y-m-d h:i:s',###}
-									</td>
-									<td>
-										<a href="{:U('Admin/Product/edit',array('id'=>$vo['id']))}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>编辑</a>
-									</td>
-								</tr>
-
-							</volist>
 						</empty>
+						<volist name="list" id="vo">
+							<tr>
+								<td>
+									<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />{$vo.id}</td>
+								<td><a href="{:U('TestSys/view',array('id'=>$vo['id']))}">{$vo.title}</a></td>
+								<td>{$vo.start_time|date="Y-m-d",###}至{$vo.end_time|date="Y-m-d",###}</td>
+								<td>{$vo.desc}</td>
+								<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+								<td>{:($vo['status'] == 'draft'?"草拟中":"已发布")}
+									<eq name="vo['status']" value="draft">
+										<a data-toggle="tooltip" title="正式发布到网上供用户测试" class="btn btn-sm btn-info" href="{:U('Admin/TestSys/publish',array('id'=>$vo['id']))}"><i class="fa fa-rocket"></i>正式发布</a></td>
+									
+									<else/>
+										<a data-toggle="tooltip" title="改为草拟后，用户无法测试！" class="btn btn-sm btn-info" href="{:U('Admin/TestSys/draft',array('id'=>$vo['id']))}"><i class="fa fa-file-text"></i>改为草拟</a></td>
+									</eq>
+									<td>	
+									<div>
+									<a href="{:U('Admin/TestSys/eval',array('id'=>$vo['id']))}" data-toggle="tooltip" title="管理本次测验包含的需要测验的量表" class="btn btn-primary btn-sm"><i class="fa fa-list-alt"></i>量表管理</a>
+									<a href="{:U('Admin/TestSys/org',array('id'=>$vo['id']))}" data-toggle="tooltip" title="赋予一些机构来参与此次测试的权限" class="btn btn-primary btn-sm"><i class="fa fa-globe"></i>参与测验机构管理</a>
+									</div>
+									<br/>
+									<div>
+									<a href="{:U('Admin/TestSys/edit',array('id'=>$vo['id']))}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i>编辑</a>
+									<a data-toggle="tooltip" title="正式发布后，无法删除测验！"  href="{:U('Admin/TestSys/delete',array('id'=>$vo['id'],'status'=>$vo['status']))}"  class="btn btn-danger btn-sm ajax-get confirm"><i class="fa fa-trash-o"></i> {:L('BTN_DELETE')}</a>
+									</div>
+								</td>
+							</tr>
+
+						</volist>
 					</tbody>
 				</table>
-				<div>{$show}</div>
+				<div>
+					{$show}
+				</div>
 			</div>
 
-			<script type="text/javascript">
-				$(function() {
-						$('#startdatetime').datetimepicker({
-							lang: 'ch',
-							format:'Y-m-d',
-							timepicker:false,
-						});
-						$('#enddatetime').datetimepicker({
-							lang: 'ch',
-							format:'Y-m-d',
-							timepicker:false,
-						});
-				});
-			</script>
 		</div>
-		<!-- END admin-main-content -->
 	</div>
-		<!-- END admin-main-->
 </block>
 
 <block name="area_footer">
-
+	<script type="text/javascript">
+		$(function() {
+			
+		})
+	</script>
 </block>
