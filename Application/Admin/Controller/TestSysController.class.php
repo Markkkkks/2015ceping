@@ -292,6 +292,33 @@ class TestSysController extends AdminController{
 		}
 	}
 
+	/**
+	 * 组织机构
+	 * TODO:
+	 */
+	public function org_json(){
+		$id = I('get.id',0);
+		$map = array();
+		$map['father'] = $id;
+		
+		$result = apiCall("Admin/Organization/queryNoPaging", array($map));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$json = array();
+		foreach($result['info'] as $vo){
+			array_push($json,array(
+				'id'=>$vo['id'],
+				'father'=>$vo['father'],
+				'name'=>$vo['orgname'],
+			));
+		}
+		
+		
+		
+		$this->success($json);
+	}
+
 
 
 

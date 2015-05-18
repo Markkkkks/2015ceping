@@ -1,8 +1,70 @@
 <?php
+// .-----------------------------------------------------------------------------------
+// | WE TRY THE BEST WAY 杭州博也网络科技有限公司
+// |-----------------------------------------------------------------------------------
+// | Author: 贝贝 <hebiduhebi@163.com>
+// | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
+// |-----------------------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
-class IndexController extends Controller {
+class IndexController extends HomeController {
+	
     public function index(){
-        $this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px }</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>[ 您现在访问的是Home模块的Index控制器 ]</div><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
-    }
+    		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+		
+		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+		if(!$cates['status']){
+			$this->error($cates['info']);
+		}
+		
+		$this->assign("cates",$cates['info']);
+		$this->display();
+	} 
+	
+	public function cate(){
+		$cateid = I('get.cateid',0);
+		$map = array('post_category'=>$cateid,'post_status'=>'publish');
+		
+		$result = apiCall("Home/Datatree/getInfo", array(array('id'=>$cateid)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		if(is_null($result['info'])){
+			$this->error("该分类不存在!");
+		}
+		
+		$this->assign("title",$result['info']['name']);
+		$page = array('curpage'=>I('get.p',0),'size'=>10);
+		
+		$result = apiCall("Home/Post/query", array($map,$page));
+//		dump($result);
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$this->assign("list",$result['info']['list']);
+		$this->assign("show",$result['info']['show']);
+		$this->display("list");
+		
+	}
+	
+	public function view(){
+		$id = I('get.id',0);
+		$map = array('id'=>$id);
+		$result = apiCall("Home/Post/getInfo", array($map));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$content = htmlspecialchars_decode($result['info']['post_content']);
+		$title = $result['info']['post_title'];
+		$this->assign("post",$result['info']);
+		$this->assign("title",$title);
+		$this->assign("content",$content);
+		
+		$this->display();
+	}
 }
+
