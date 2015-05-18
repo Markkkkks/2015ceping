@@ -282,39 +282,72 @@ class TestSysController extends AdminController{
 	 * TODO:
 	 */
 	public function org(){
+		$id = I('get.id',0);
 		if(IS_GET){
-			$id = I('get.id',0);
 			$map = array();
 //			$map['']
 			$result = apiCall("Admin/Organization/queryNoPaging", array($map));
-			
+			$this->assign("id",$id);
 			$this->display();
+		}else{
+			
+			$org_ids = I('post.org_ids','');
+			$saveEntity = array(
+				'org_ids'=>$org_ids,
+			);
+			$result = apiCall("TSystem/TestSys/saveByID", array($id,$saveEntity));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->success("保存成功! ",U('Admin/TestSys/index'));
+			
 		}
 	}
 
 	/**
 	 * 组织机构
-	 * TODO:
+	 * ajax 获取
+	 * TODO: 如果性能差，考虑逐级加载
 	 */
 	public function org_json(){
 		$id = I('get.id',0);
+		$testid = I('get.testid',0);
 		$map = array();
-		$map['father'] = $id;
+//		$map['father'] = $id;
 		
 		$result = apiCall("Admin/Organization/queryNoPaging", array($map));
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+		
+		$orglist = $result['info'];
+		
+		$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$testid)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		//checked:true		
+		$orgids = $result['info']['org_ids'];
+		
 		$json = array();
-		foreach($result['info'] as $vo){
-			array_push($json,array(
+		foreach($orglist as $vo){
+			$one = array(
 				'id'=>$vo['id'],
 				'father'=>$vo['father'],
 				'name'=>$vo['orgname'],
-			));
+			);
+			//3级以内都展开
+			if($vo['level'] < 2){
+				$one['open'] = true;
+			}
+			$needle = $vo['id'].",";
+			if(!(strpos($orgids, $needle) === false)){
+				$one['checked'] = true;
+			}
+			array_push($json,$one);
 		}
-		
-		
 		
 		$this->success($json);
 	}

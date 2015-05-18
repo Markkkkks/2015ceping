@@ -6,6 +6,11 @@
 		<script type="text/javascript" src="__CDN__/jquery-ztree/3.5/js/jquery.ztree.core-3.5.min.js"></script>
 		<script type="text/javascript" src="__CDN__/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.min.js"></script>
 		<script type="text/javascript" src="__CDN__/jquery-ztree/3.5/js/jquery.ztree.exedit-3.5.min.js"></script>
+		<style type="text/css">
+			.ztree *{
+				font-size: 14px;
+			}
+		</style>
 </block>
 
 <block name="area_body">
@@ -17,32 +22,30 @@
 		
 			<!-- 带验证 form -->
 			<form class="form-horizontal well validateForm">
+				<input type="hidden" name="org_ids" id="checkedOrgIds" value=""  />
 				<fieldset>
 					<legend>选择需要参与测验的机构
 						</legend>
 					<div class="form-group">
 						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
 						<div class="col-lg-10 col-md-10">
-							<a target-form="validateForm" class="ajax-post btn btn-sm btn-primary" href="{:U('Admin/TestSys/org')}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
+							<a target-form="validateForm" onclick="getChecked();" class="ajax-post btn btn-sm btn-primary" href="{:U('Admin/TestSys/org',array('id'=>I('get.id',0)))}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
 							<a class="btn btn-default  btn-sm" href="{:U('Admin/TestSys/index')}"><i class="fa fa-reply"></i>返回</a>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
+						<label for="btns" class="col-md-2 col-lg-2 control-label">请选中需要参与测验的机构</label>
 						<div class="col-lg-10 col-md-10">
-							
-			<div id="ruler" class="ruler" title="拖拽可调整节点数">
-				<div id="cursor" class="cursor">5000</div>
-			</div>
-							<ul id="tree"></ul>
+							<div class="loading"><img src="__CDN__/common/loading.gif" /></div>
+							<ul class="ztree" id="tree"></ul>
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
 						<div class="col-lg-10 col-md-10">
-							<a target-form="validateForm" class="ajax-post btn btn-sm btn-primary" href="{:U('Admin/TestSys/org')}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
+							<a target-form="validateForm" onclick="getChecked();" class="ajax-post btn btn-sm btn-primary" href="{:U('Admin/TestSys/org',array('id'=>I('get.id',0)))}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
 							<a class="btn btn-default  btn-sm" href="{:U('Admin/TestSys/index')}"><i class="fa fa-reply"></i>返回</a>
 						</div>
 					</div>
@@ -71,41 +74,62 @@
 				}
 			},
 			callback: {
-				onNodeCreated: onNodeCreated
+			},
+			view: {
+				showIcon: false
 			}
-			
 		};
 		
-		var dataMaker = function() {
-			var id = 0;
-			$.ajax({
-				type:"post",
-				url:"{:U('Admin/TestSys/org_json')}?id="+id,
-				async:true,
-				beforeSend:function(){
-					
-				}				
-			}).done(function(data){
-				console.log(data);
-			}).always(function(){
-				
-			});
+		var dataMaker = function(data) {
+			var nodes = data;
 			return nodes;
 		}
 		
 
 		function createTree () {
-			var zNodes = dataMaker();
-			$("#tree").empty();
-			var time1 = new Date();
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			var time2 = new Date();
+			
+			var id = 0;
+			$.ajax({
+				type:"post",
+				url:"{:U('Admin/TestSys/org_json')}?id="+id+"&testid={$id}",
+				async:true,
+				beforeSend:function(){
+					$(".validateForm .loading").show();
+				}				
+			}).done(function(data){
+				console.log(data);
+				if(data.status){
+					var zNodes = dataMaker(data.info);
+					$("#tree").empty();
+					var time1 = new Date();
+					$.fn.zTree.init($("#tree"), setting, zNodes);
+					var time2 = new Date();
+				}else{
+					$.scojs_message(data.info, $.scojs_message.TYPE_OK);
+				}
+			}).always(function(){
+				$(".validateForm .loading").hide();
+			});
+			
 			
 		}
 
+		function getChecked(){
+			var treeObj = $.fn.zTree.getZTreeObj("tree");
+			var nodes = treeObj.getCheckedNodes(true);
+			var ids = "";
+			for(var i=0;i<nodes.length;i++){
+				ids = ids+nodes[i].id+",";
+			}
+			$("#checkedOrgIds").val(ids);
+			console.log(nodes,ids);
+		}
 		
 		$(document).ready(function(){
 			createTree();
+			$("#btnGetChecked").click(function(){
+				getChecked();
+			})
 		});
 		</script>
 

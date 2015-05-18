@@ -119,11 +119,11 @@ class OrganizationController extends AdminController{
 	}
 	
 	public function edit(){
-		$id = I('id',0);
+		$id = I('get.id',0);
 		if(IS_GET){
 			$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$id)));
 			if($result['status']){
-				$this->assign("vo",$result['info']);
+				$this->assign("entity",$result['info']);
 			}
 			
 			$this->display();
