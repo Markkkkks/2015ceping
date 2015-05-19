@@ -1,16 +1,16 @@
-/*调整paper样式*/
 
+	/*调整 theme-cerulean 样式*/
 
-.theme-paper .admin-header .avatar {
+.theme-cerulean .admin-header .avatar {
 	height: 50px;
-	padding: 15px;
+	padding: 10px;
 }
 
-.theme-paper .admin-main {
+.theme-cerulean .admin-main {
 	margin-top: 60px;
 }
 
-.theme-paper .bg-info{
+.theme-cerulean .bg-info{
 	color:#fff;
 }
 

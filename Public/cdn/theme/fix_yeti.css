@@ -1,8 +1,9 @@
 /*调整yeti 样式*/
-
+.theme-yeti .admin-header{
+	height: 45px;
+}
 .theme-yeti .admin-header .avatar {
-	height: 50px;
-	padding: 10px;
+	height: 45px;
 }
 
 .theme-yeti  .admin-main {

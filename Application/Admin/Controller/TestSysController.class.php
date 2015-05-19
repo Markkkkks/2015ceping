@@ -352,8 +352,13 @@ class TestSysController extends AdminController{
 		$this->success($json);
 	}
 
-
-
+	/**
+	 * 测评结果的审核
+	 * TODO: 针对参与测评用户的结果的审校
+	 */
+	public function review(){
+		$this->error("开发中...");
+	}
 
 
 

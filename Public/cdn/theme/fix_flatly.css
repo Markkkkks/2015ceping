@@ -1,4 +1,8 @@
-/*调整simplex样式*/
+
+/*
+ * 调整flatly样式
+ * 2015-05-19 (c) Copyright 2015 hebidu. All Rights Reserved. 
+ */
 
 
 .theme-flatly .admin-header .avatar {
@@ -29,3 +33,4 @@
 /* 大屏幕（大桌面显示器，大于等于 1200px） */
 @media (min-width: 1200px) {
 	}
+	

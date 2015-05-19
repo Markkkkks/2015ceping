@@ -1,18 +1,22 @@
-/*调整paper样式*/
+/*调整 theme-readable 样式*/
 
 
-.theme-paper .admin-header .avatar {
-	height: 50px;
-	padding: 15px;
+.theme-readable .admin-header{
+	height: 65px;
 }
-
-.theme-paper .admin-main {
-	margin-top: 60px;
+.theme-readable .admin-header .avatar {
+  height: 65px;
+  padding: 0px;
+  margin: 0px;
+  padding-top: 19px;
 }
-
-.theme-paper .bg-info{
+.theme-readable .admin-main {
+	margin-top: 70px;
+}
+.theme-readable .bg-info{
 	color:#fff;
 }
+
 
 /* 小屏幕（平板，大于等于 768px） */
 

@@ -185,6 +185,33 @@ function getSkin($skin) {
 		case 3 :
 			$desc = "cosmo";
 			break;
+		case 4 :
+			$desc = "paper";
+			break;
+		case 5 :
+			$desc = "slate";
+			break;
+		case 6 :
+			$desc = "superhero";
+			break;
+		case 7 :
+			$desc = "united";
+			break;
+		case 8 :
+			$desc = "yeti";
+			break;
+		case 9 :
+			$desc = "spruce";
+			break;
+		case 10 :
+			$desc = "readable";
+			break;
+		case 11 :
+			$desc = "cyborg";
+			break;
+		case 12 :
+			$desc = "cerulean";
+			break;
 		default :
 			$desc = "simplex";
 			break;

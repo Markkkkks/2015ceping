@@ -1,16 +1,15 @@
-/*调整paper样式*/
+/*调整 theme-cyborg 样式*/
 
-
-.theme-paper .admin-header .avatar {
+.theme-cyborg .admin-header .avatar {
 	height: 50px;
-	padding: 15px;
+	padding: 10px;
 }
 
-.theme-paper .admin-main {
+.theme-cyborg .admin-main {
 	margin-top: 60px;
 }
 
-.theme-paper .bg-info{
+.theme-cyborg .bg-info{
 	color:#fff;
 }
 

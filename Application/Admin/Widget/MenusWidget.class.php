@@ -84,6 +84,10 @@ class MenusWidget extends AdminController {
 	public function topbar() {
 		session('topbar_menu',null);
 		$list = session('topbar_menu');
+		$admin_logo = C('ADMIN_LOGO');
+
+		$this -> assign('ADMIN_LOGO', $admin_logo);
+		
 		if ($list === false || is_null($list)) {
 			$develop_mode = C('DEVELOP_MODE');
 			$map = array('pid' => 0);

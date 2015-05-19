@@ -205,6 +205,16 @@ body{
   }
 }
 
+.hbd-padding-sm{
+	padding:5px;
+}
+.hbd-padding-md{
+	padding:8px;
+}
+.hbd-padding-lg{
+	padding:15px;
+}
+
 /* 小屏幕（平板，大于等于 768px） */
 
 @media (min-width: 768px) {

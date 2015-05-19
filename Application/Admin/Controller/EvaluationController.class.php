@@ -47,17 +47,31 @@ class EvaluationController extends AdminController{
 	public function add(){
 		if(IS_GET){
 			
+			$map['parentid'] = getDatatree('TEST_TABLE_APPLICABLE');
+			$result = apiCall('Admin/Datatree/queryNoPaging',array($map));
+			
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->assign("roles",$result['info']);
 			$this->display();
 		}else{
 			
 			$title = I('post.title','');
 			$desc = I('post.desc','');
+			$roles = I('post.roles',array());
+			$roles_str = "";
+			foreach($roles as $vo){
+				$roles_str .= $vo.',';
+			}
+			
 			$entity = array(
 				'title'=>$title,
 				'desc'=>$desc,
 				'type'=>I('post.type',0),
 				'user_id'=>UID,
-				
+				'roles'=>$roles_str
 			);
 			
 			$result = apiCall("TSystem/Evaluation/add", array($entity));
@@ -75,26 +89,39 @@ class EvaluationController extends AdminController{
 	 */
 	public function edit(){
 		
+		$id = I('get.id',0);
 		if(IS_GET){
-			$id = I('get.id',0);
 			$result = apiCall("TSystem/Evaluation/getInfo", array(array("id"=>$id)));
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
 			$this->assign("vo",$result['info']);
+			$map['parentid'] = getDatatree('TEST_TABLE_APPLICABLE');
+			$result = apiCall('Admin/Datatree/queryNoPaging',array($map));
+			
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->assign("roles",$result['info']);
 			$this->display();
 		}else{
 			
 			$title = I('post.title','');
 			$desc = I('post.desc','');
+			$roles = I('post.roles',array());
+			$roles_str = "";
+			foreach($roles as $vo){
+				$roles_str .= $vo.',';
+			}
 			
 			$entity = array(
 				'title'=>$title,
 				'desc'=>$desc,
 				'type'=>I('post.type',0),
+				'roles'=>$roles_str
 			);
-			
-			$result = apiCall("TSystem/Evaluation/add", array($entity));
+			$result = apiCall("TSystem/Evaluation/saveByID", array($id,$entity));
 			
 			if(!$result['status']){
 				$this->error($result['info']);
@@ -117,12 +144,12 @@ class EvaluationController extends AdminController{
 			$this->error($result['info']);
 		}
 		
-		if(count($result['info']) > 0){
+		if(count($result['info']['list']) > 0){
 			$this->error("请先删除量表所属的问题！");
 		}
 			
 		
-		$result = apiCall("TSystem/EvalProblem/delete", array(array('id'=>$id)));
+		$result = apiCall("TSystem/Evaluation/delete", array(array('id'=>$id)));
 		
 		if(!$result['status']){
 			$this->error($result['info']);

@@ -108,6 +108,7 @@ class DatatreeController extends AdminController{
 			}
 			$entity = array(
 				'name'=>I('name',''),
+				'hidden_value'=>I('hidden_value',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),
 				'level'=>$level,
@@ -162,6 +163,7 @@ class DatatreeController extends AdminController{
 		}else{
 			
 			$entity = array(
+				'hidden_value'=>I('hidden_value',''),
 				'name'=>I('name',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),

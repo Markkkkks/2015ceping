@@ -34,6 +34,20 @@
 					</div>
 					
 					<div class="form-group">
+						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">适用群体</label>
+						<div class="col-md-10 col-lg-10">
+							<volist name="roles" id="vo">
+								<div class="checkbox">
+								  <label>
+								    <input type="checkbox" name="roles[]" value="{$vo.hidden_value}">
+								    {$vo.name}
+								  </label>
+								</div>
+							</volist>
+						</div>
+					</div>
+					
+					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">类型</label>
 						<div class="col-md-10 col-lg-10">
 							<select name="type" class="form-control">
