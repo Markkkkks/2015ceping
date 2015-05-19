@@ -1,17 +1,17 @@
-/*调整simplex样式*/
+/*调整paper样式*/
 
-
-.theme-flatly .admin-header .avatar {
+.theme-paper .admin-header .avatar {
 	height: 50px;
-	padding-top: 15px;
+	padding: 15px;
 }
-.theme-flatly .admin-main {
+
+.theme-paper .admin-main {
 	margin-top: 60px;
 }
-.theme-flatly .bg-info{
+
+.theme-paper .bg-info{
 	color:#fff;
 }
-
 
 /* 小屏幕（平板，大于等于 768px） */
 

@@ -1,14 +1,14 @@
 /*调整cosmo样式*/
 
-#confirm_modal .modal-body{
+.theme-darkly #confirm_modal .modal-body{
 	background: #000000;
 }
-
-.admin-header .avatar {
+.theme-darkly .admin-header .avatar {
 	height: 60px;
 	padding-top: 10px;
 }
-.admin-main {
+
+.theme-darkly .admin-main {
 	margin-top: 60px;
 }
 

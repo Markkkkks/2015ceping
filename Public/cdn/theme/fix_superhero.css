@@ -1,17 +1,17 @@
-/*调整simplex样式*/
+/*调整superhero样式*/
 
-
-.theme-flatly .admin-header .avatar {
+.theme-superhero .admin-header .avatar {
 	height: 50px;
-	padding-top: 15px;
+	padding: 10px;
 }
-.theme-flatly .admin-main {
+
+.theme-superhero .admin-main {
 	margin-top: 60px;
 }
-.theme-flatly .bg-info{
+
+.theme-superhero .bg-info{
 	color:#fff;
 }
-
 
 /* 小屏幕（平板，大于等于 768px） */
 

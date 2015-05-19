@@ -1,13 +1,17 @@
 /*调整cosmo样式*/
 
-.admin-header .avatar {
+.theme-cosmo .admin-header .avatar {
 	height: 50px;
 	padding: 10px;
 }
-.admin-main {
+
+.theme-cosmo .admin-main {
 	margin-top: 60px;
 }
 
+.theme-cosmo .bg-info{
+	color:#fff;
+}
 
 /* 小屏幕（平板，大于等于 768px） */
 
