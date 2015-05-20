@@ -6,14 +6,13 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
-
 namespace TSystem\Api;
+use \Common\Api\Api;
 
-class SCI90EvalReporter implements IEvaluationReporter{
+class TestevalUserAnswerApi extends Api{
 	
-	public function generate($params){
-		$result = array('status'=>false,'info'=>'暂未实现SCI-90量表的报告生成方法！');
-		
-		return $result;
+	protected function _init(){
+		$this->model = new \TSystem\Model\TestevaluserAnswerModel();
 	}
+	
 }

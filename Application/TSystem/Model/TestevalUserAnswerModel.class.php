@@ -6,16 +6,13 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
-namespace TSystem\Api;
+namespace TSystem\Model;
+use Think\Model;
 
- /**
- * 量表结果生成接口
- */
-interface IEvaluationReporter{
-	/**
-	 * 根据参数查找，用户的答案，根据答案再生成最终报告
-	 * @param $params 参数数组形式
-	 */
-	function generate($params);
+class TestevalUserAnswerModel extends Model{
 	
+	protected $_auto = array(
+		array("create_time",NOW_TIME,self::MODEL_INSERT),
+	);
+		
 }

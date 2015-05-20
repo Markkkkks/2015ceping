@@ -9,21 +9,22 @@
 
 namespace TSystem\Facade;
 
-class EvalReporterFacade{
+final class EvalReporterFacade{
 	
 	const MBTI = "mbti";
-	const SCI90 = "sci90";
+	const SCL90 = "scl90";
+	
 	/**
 	 * 统一调用
 	 */
-	public function generate($type,$uid,$testid,$evalid){
+	public static function generate($type,$uid,$testid,$evalid){
 		$factory ;
 		switch($type){
 			case self::MBTI:
-				$factory = new \TSystem\Api\MBTIEvalReporter();
+				$factory = new \TSystem\Api\MBTIEvalReporterApi();
 				break;
-			case self::SCI90:
-				$factory = new \TSystem\Api\SCI90EvalReporter();
+			case self::SCL90:
+				$factory = new \TSystem\Api\SCL90EvalReporterApi();
 				break;
 			default:
 				$factory = null;

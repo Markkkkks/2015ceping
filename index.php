@@ -18,6 +18,8 @@ require_once('./auth.php');
 // 运行时文件
 define("APP_PATH","./Application/");
 
+define('HTML_PATH',      './Html/'); // 应用静态目录
+
 // 框架目录
 define("THINK_PATH",realpath("./Core/").'/');
 
