@@ -284,18 +284,30 @@ class TestSysController extends AdminController{
 	public function org(){
 		$id = I('get.id',0);
 		if(IS_GET){
-			$map = array();
-//			$map['']
-			$result = apiCall("Admin/Organization/queryNoPaging", array($map));
 			$this->assign("id",$id);
 			$this->display();
 		}else{
 			
 			$org_ids = I('post.org_ids','');
-			$saveEntity = array(
-				'org_ids'=>$org_ids,
-			);
-			$result = apiCall("TSystem/TestSys/saveByID", array($id,$saveEntity));
+//			$saveEntity = array(
+//				'org_ids'=>$org_ids,
+//			);
+			
+			$org_id_arr = explode(",", $org_ids);
+			$array = array();
+			$curtime = time();
+			foreach($org_id_arr as $vo){
+				if(empty($vo)){
+					continue;
+				}
+				array_push($array,array('test_sys_id'=>$id,'org_id'=>$vo,'create_time'=>$curtime));
+			}
+			
+			$result = apiCall("TSystem/OrgHasTestSys/delete", array(array('test_sys_id'=>$id)));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			$result = apiCall("TSystem/OrgHasTestSys/addAll", array($array));
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
@@ -323,13 +335,19 @@ class TestSysController extends AdminController{
 		
 		$orglist = $result['info'];
 		
-		$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$testid)));
+		$result = apiCall("TSystem/OrgHasTestSys/queryNoPaging", array(array("test_sys_id"=>$testid)));
 		
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+		$orgids = "";
+		
+		foreach($result['info'] as $vo){
+			$orgids .= $vo['org_id'].',';
+		}
 		//checked:true		
-		$orgids = $result['info']['org_ids'];
+		
+//		$orgids = $result['info']['org_ids'];
 		
 		$json = array();
 		foreach($orglist as $vo){

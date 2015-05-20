@@ -1,0 +1,57 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	
+</block>
+
+<block name="area_body">
+	<include file="partials/header" active="0" />
+	<include file="partials/leftmenu"  />
+	
+	<div class="admin-content am-padding-sm"> 
+		<div class="am-text-primary">您隶属于：{$orgnames}</div>
+		<div class="am-alert am-alert-secondary" data-am-alert>
+			1. 进入测评
+		</div>
+		<div class="am-text-center">
+			<table class="am-table am-table-bordered am-table-striped am-table-hover">
+			    <thead>
+			        <tr>
+			            <th class="am-text-center">序号</th>
+			            <th class="am-text-center">测评标题</th>
+			            <th class="am-text-center">测评时间段</th>
+			            <th class="am-text-center">操作</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+						<volist name="list" id="vo">
+							<tr>
+								<td>
+									{$key+1}
+								</td>
+								<td class="am-text-left">
+									{$vo['title']}:{$vo['_eval']['title']}
+								</td>
+								<td>
+									{$vo.start_time|date="Y-m-d",###}至
+									{$vo.end_time|date="Y-m-d",###}
+								</td>
+								<td>
+									<a href="{:U('Home/TestSys/answer',array('test_id'=>$vo['id'],'eval_id'=>$vo['_eval']['id']))}" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-edit"></i>开始答题</a>
+								</td>
+							</tr>
+						</volist>
+			    </tbody>
+			</table>
+		</div>
+	</div>
+</block>
+
+<block name="area_footer">
+	<script type="text/javascript">
+		$(function() {
+			
+		})
+	</script>
+</block>

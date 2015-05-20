@@ -19,7 +19,7 @@ class UserApi extends Api{
         $this->model = new UcenterMemberModel();
     }
 	
-		/**
+	/**
 	 * 获取用户信息
 	 * @param  string  $uid         用户ID或用户名
 	 * @param  boolean $is_username 是否使用用户名查询
@@ -37,6 +37,9 @@ class UserApi extends Api{
 		}
 	
 	}
+	
+	
+	
 	
     /**
      * 注册一个新用户

@@ -26,7 +26,7 @@ class TestController extends  \Think\Controller{
 		dump($result);
 		$this->assign("time",date("Y-m-d H:i:s",time()));
 		
-		$this->display("index_".$type);
+		$this->display("r_".$type);
 		
 	}
 	

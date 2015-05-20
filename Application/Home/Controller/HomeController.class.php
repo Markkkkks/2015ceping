@@ -11,12 +11,14 @@ use Think\Controller;
 
 class HomeController extends  Controller {
 	
+	//主题
+	protected $theme = "default";
 	
 	protected function _initialize() {
 		header("X-AUTHOR:ITBOYE.COM");
 		// 获取配置
 		$this -> getConfig();
-
+		
 		if (!defined('APP_VERSION')) {
 			//定义版本
 			if (defined("APP_DEBUG") && APP_DEBUG) {
@@ -25,8 +27,15 @@ class HomeController extends  Controller {
 				define("APP_VERSION", C('APP_VERSION'));
 			}
 		}
-		C('SHOW_PAGE_TRACE', false);//设置不显示trace
+		if(isMobile()){
+			$this->theme = "mobile";
+		}
+		$this->assign("active",0);
+//		C('SHOW_PAGE_TRACE', false);//设置不显示trace
+		
 	}
+	
+	
 	
 	/**
 	 * 从数据库中取得配置信息

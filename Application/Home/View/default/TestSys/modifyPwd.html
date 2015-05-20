@@ -1,0 +1,57 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+
+</block>
+
+<block name="area_body">
+	
+	<include file="partials/header" active="0" />
+	<include file="partials/leftmenu"  />
+	
+	<div class="admin-content"> 
+			
+	
+	<div class="am-text-center am-cf modifyForm am-center">
+		<div class="am-bg-info">
+			密码修改成功后,需要重新登录！
+		</div>
+		<form class="am-form am-form-horizontal am-g am-u-lg-12 am-u-md-12 am-u-sm-12 am-cf loginform">
+			<fieldset>
+				<legend>修改密码</legend>
+				<div class="am-form-group am-form-group-sm am-g  am-cf">
+					<label class="am-control-label am-u-sm-2 am-u-lg-2 am-u-md-2">当前密码:</label>
+					<div class="am-u-sm-10  am-u-lg-10 am-u-md-10 ">
+						<input type="password" name="oldpassword" class="am-form-field username" placeholder="请输入当前密码"  />
+					</div>
+				</div>
+				<div class="am-form-group am-form-group-sm am-g  am-cf">
+					<label class="am-control-label am-u-sm-2 am-u-lg-2 am-u-md-2">新密码:</label>
+					<div class="am-u-sm-10  am-u-lg-10 am-u-md-10 ">
+						<input type="password" name="password" class="am-form-field password" placeholder="请输入新密码"  />
+					</div>
+				</div>
+				<div class="am-form-group am-form-group-sm  am-g  am-cf">
+					<label class="am-control-label am-u-sm-2 am-u-lg-2 am-u-md-2">新密码确认:</label>
+					<div class="am-u-sm-10  am-u-lg-10 am-u-md-10 ">
+						<input type="password" name="repassword" class="am-form-field verify" placeholder="请输入新密码确认"  />
+					</div>
+				</div>
+				<div class="am-form-group am-g am-cf">
+					<label class="am-control-label am-u-sm-2 am-u-lg-2 am-u-md-2">&nbsp;</label>
+					<div class="am-u-sm-10 am-u-lg-10 am-u-md-10 ">
+						<a target-form="modifyForm" href="__SELF__" class="ajax-post am-btn-block am-btn-primary am-btn">确认修改密码</a>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		
+	</div>
+	
+	</div>
+</block>
+
+<block name="area_footer">
+
+</block>

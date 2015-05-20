@@ -142,19 +142,25 @@ $(function() {
 			return false;
 		}); //END ajax-get
 		
+		$('.validateForm').validator({  validateOnSubmit: false,});
+		
 		//依赖jquery，scojs,
 		//ajax post submit请求
 		$('.ajax-post').click(function() {
 			console.log("ajax-post");
 			var target, query, form;
 			var target_form = $(this).attr('target-form');
+			if(typeof target_form === "undefined" || target_form.length == 0){
+				console.error("缺少target-form属性!");
+				return ;
+			}
 			var that = this;
 			var need_confirm = false;
 			if (($(this).attr('type') == 'submit') || (target = $(this).attr('href')) || (target = $(this).attr('url'))) {
 				form = $('.' + target_form);
-				
-				if ($.validator && (form.hasClass("validate-form") || form.hasClass("validateForm"))) {
-					if (!form.valid()) {
+				if ($.AMUI && $.AMUI.validator && form.hasClass("validateForm")) {
+
+					if (form.find("input.am-field-error").length > 0) {
 						alertMsg('表单验证不通过！');
 						return false;
 					}
