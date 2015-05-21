@@ -18,15 +18,9 @@ class TestController extends  \Think\Controller{
 //			'testid'=>0,
 //			'evalid'=>1,
 //		);
-		
-		$type = \TSystem\Facade\EvalReporterFacade::SCL90;
-		$result = \TSystem\Facade\EvalReporterFacade::generate(\TSystem\Facade\EvalReporterFacade::SCL90,34,0,1);
+		$result = \TSystem\Factory\EvalReporterFactory::generate(\TSystem\Factory\EvalReporterFactory::SCL90,11);
 		dump($result);
-		$result = \TSystem\Facade\EvalReporterFacade::generate(\TSystem\Facade\EvalReporterFacade::MBTI,34,0,1);
-		dump($result);
-		$this->assign("time",date("Y-m-d H:i:s",time()));
 		
-		$this->display("r_".$type);
 		
 	}
 	

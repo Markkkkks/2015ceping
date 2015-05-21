@@ -68,10 +68,14 @@ class TestSysController extends HomeController{
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
-		
+		$test_ids = array();
 		$result_list = array();
+		$doneEval_ids = array();//已经做过的量表的记录ID,key是测评ID，value是测评中做过的量表ID
+		
 		foreach($testlist as $testvo){
 			$entity = $testvo;
+			$doneEval_ids[$testvo['id']] = "";
+			array_push($test_ids,$testvo['id']);
 			$flag = false;
 			foreach($result['info'] as $vo){
 //				dump(strpos($vo['id'].',', $testvo['eval_ids']));
@@ -80,7 +84,7 @@ class TestSysController extends HomeController{
 					$flag = true;
 					array_push($result_list,$entity);
 				}
-				
+					
 			}
 			
 			if(!$flag){
@@ -89,16 +93,63 @@ class TestSysController extends HomeController{
 			}
 		}
 		
-		
-		
 //		dump($result_list);
 		//TODO: 查询已做过的测评-量表记录		
+		$map = array(
+			'user_id'=>UID,
+		);
+		
+		foreach($test_ids as $vo){
+			$map['test_id'] = $vo;		
+			$result = apiCall("TSystem/TestevalUserAnswer/queryNoPaging", array($map));
+			
+			if(!$result['status']){
+				
+				$this->error($result['info']);
+			}
+
+			if(is_array($result['info'])){
+				foreach($result['info'] as $ansVo){
+					$doneEval_ids[$vo['id']] .= $ansVo['eval_id'].',';
+				}
+			}
+			
+		}
+		
+//		dump($doneEval_ids);
+		
+		$this->assign("doneEval_ids",$doneEval_ids);
 		$this->assign("orgnames",$orgnames);
 		$this->assign("list",$result_list);
 		$this->display();
 	}
 	
-	
+	public function preview(){
+		
+		//测评ID
+		$test_id = I('get.test_id',0);
+		//量表ID
+		$eval_id = I('get.eval_id',0,'intval');
+		//TODO: 不同的量表展示不同的
+		$eval_type = I('get.eval_type','');
+		
+		$result = apiCall("TSystem/Evaluation/getInfo", array(array("id"=>$eval_id)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$evaluation = $result['info'];
+		$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$test_id)));
+		
+		
+		
+		$this->assign("test",$result['info']);		
+		$this->assign("evaluation",$evaluation);
+		$this->assign("test_id",$test_id);
+		$this->assign("eval_id",$eval_id);
+		$this->assign("eval_type",$eval_type);
+		$this->display();		
+	}
 	
 	/**
 	 * 单个测评开始进行测评
@@ -107,34 +158,138 @@ class TestSysController extends HomeController{
 		//测评ID
 		$test_id = I('get.test_id',0);
 		//量表ID
-		$eval_id = I('get.eval_id',0);
+		$eval_id = I('get.eval_id',0,'intval');
 		//TODO: 不同的量表展示不同的
+		$eval_type = I('get.eval_type','');
+				
+		$result = apiCall("TSystem/EvalProblem/queryWithAnswer", array($eval_id));
 		
-		$this->display();
+		if(!$result['status']){
+			$this->error($result['info']);
+		}else{
+			
+		}
+		
+		$problems = $this->formatProblems($result['info']);
+		
+		
+		$result = apiCall("TSystem/Evaluation/getInfo", array(array("id"=>$eval_id)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$evaluation = $result['info'];
+		$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$test_id)));
+		
+		
+		
+		$this->assign("test",$result['info']);		
+		$this->assign("evaluation",$evaluation);		
+		$this->assign("test_id",$test_id);
+		$this->assign("eval_id",$eval_id);
+		$this->assign("eval_type",$eval_type);
+		$this->assign("problems",$problems);
+		
+		if(!empty($eval_type)){
+			if(is_file(MODULE_PATH."/View/".$this->theme."/".CONTROLLER_NAME."/answer_$eval_type.html")){
+				$this->display("answer_".$eval_type);
+			}else{
+				$this->display();
+			}
+		}else{
+			$this->display();
+		}
 	}
 	
 	/**
-	 * 测评结果
+	 * 答题结果提交
 	 */
-	public function result(){
-		if(IS_AJAX){
-			$uid = UID;
-			$testid = I('post.testid',0);
-			$evalid = I('post.evalid',0);
+	public function submit(){
+		$uid = UID;
+		$testid = I('get.test_id',0);
+		$evalid = I('get.eval_id',0);
+		$eval_type =  I('get.eval_type','');
+		$p_arr = I('post.p',array());
+		$psort_arr = I('post.psort',array());
+		$cost_time = I('post.elapse_time',0,'intval');
+		$ans_arr = array();
+		foreach($p_arr as $key=>$vo){
+			$ans = I('post.ans_'.$vo,-1);
+			//序号_ID_隐藏值
 			
-			$type = \TSystem\Facade\EvalReporterFacade::SCL90;
+			if($ans === -1){
+				$this->error("请重新答题!");
+			}
 			
-			$result = \TSystem\Facade\EvalReporterFacade::generate(\TSystem\Facade\EvalReporterFacade::MBTI,34,0,1);
-			dump($result);
+			list($sort,$id,$hidden_value) = explode("_", $ans);
 			
+			$ans_arr[] = array('ans'=>array('sort'=>$sort,'id'=>$id,'hidden_value'=>$hidden_value),'p_id'=>$vo,'p_sort'=>$psort);
 			
-			$this->assign("time",date("Y-m-d H:i:s",time()));	
-			$this->display("result_".$type);
-			
-		}else{
-			$this->error("不支持的方法调用!");
 		}
+		
+		if(count($ans_arr) === 0 || count($ans_arr) != count($p_arr)){
+			$this->error("请重新答题!");
+		}
+		
+		
+		$ip = get_client_ip();
+		$longip = ip2long($ip);
+		
+		$entity = array(
+			'eval_id'=>$evalid,
+			'eval_type'=>$eval_type,
+			'user_id'=>$uid,
+			'test_id'=>$testid,
+			'answer'=>serialize($ans_arr),
+			'create_time'=>time(),
+			'cost_time'=>$cost_time,
+			'submit_ip'=>$longip,
+		);
+		//TODO: 提交前进行检测，是否已提交过
+		$result = apiCall("TSystem/TestevalUserAnswer/add", array($entity));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$params = array('id'=>$result['info']);
+		//监听测评提交标签
+		tag('test_submit_tag',$params);
+		$this->success("提交成功,请等候审核!",U("Home/TestSys/index"));
+		
 	}
+	
+	/**
+	 * 测评报告历史
+	 */
+	public function histroyReport(){
+		$this->error("TODO: 测评报告历史");
+	}
+	
+	
+	/**
+	 * 测评报告生成
+	 */
+//	public function report(){
+//		if(IS_AJAX){
+//			$uid = UID;
+//			$testid = I('post.testid',0);
+//			$evalid = I('post.evalid',0);
+//			
+//			$type = \TSystem\Facade\EvalReporterFacade::SCL90;
+//			
+//			$result = \TSystem\Facade\EvalReporterFacade::generate(\TSystem\Facade\EvalReporterFacade::MBTI,34,0,1);
+//			dump($result);
+//			
+//			$this->assign("time",date("Y-m-d H:i:s",time()));	
+//			$this->display("result_".$type);
+//			
+//		}else{
+//			$this->error("不支持的方法调用!");
+//		}
+//	}
+	
+	
 	
 	/**
 	 * 修改密码
@@ -162,6 +317,40 @@ class TestSysController extends HomeController{
 	            $this->error($res['info']);
 	        }
 		}
+	}
+    
+	private function formatProblems($problems){
+		$result = array();
+		$last_id = 0;
+		foreach($problems as $vo){
+			$last_id = $vo['id'];
+			if(!isset($result['p_'.$vo['id']])){
+				
+				$result['p_'.$vo['id']]  = array(
+					'id'=>$vo['id'],
+					'title'=>$vo['title'],
+					'desc'=>$vo['desc'],
+					'sort'=>$vo['sort'],
+					'_answers'=>array(),
+					'_is_last'=>0,
+				);
+			}
+			
+			$result['p_'.$vo['id']]['_answers']['a_'.$vo['ea_id']] = array(
+					'id'=>$vo['ea_id'],
+				'sort'=>$vo['ea_sort'],
+				'title'=>$vo['ea_title'],
+				'hidden_value'=>$vo['ea_hidden_value'],
+				'icon_url'=>$vo['ea_icon_url'],
+				'explain'=>$vo['ea_explain'],
+			);
+		}
+		
+		if(count($result)>0){
+			$result['p_'.$last_id]['_is_last'] = 1;
+		}
+		
+		return $result;
 	}
 	
 }

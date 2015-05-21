@@ -1,0 +1,216 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	
+	<style type="text/css">
+		.problem-area,.problem-lead,.test-lead {
+			width:640px;
+			margin:2rem auto;
+		}
+		.problem-area .am-radio+.am-radio, .am-checkbox+.am-checkbox{
+			margin-top:10px;
+		}
+		.problem-area .am-radio {
+  			margin: 10px 10px 10px 0px;
+		}
+		@media only screen and (max-width: 640px) {
+			
+			.problem-area,.problem-lead,.test-lead {
+				width:100%;
+				margin:2rem auto;
+			}
+			.problem-area .am-radio+.am-radio, .am-checkbox+.am-checkbox{
+				margin-top:10px;
+			}
+			.problem-area .am-radio {
+	  			margin: 10px 10px 10px 0px;
+			}
+		}
+	</style>
+</block>
+
+<block name="area_body">
+	<include file="partials/header" active="0" />
+	
+	<div class="admin-content am-padding-sm"> 
+		<div class="js_preview am-u-md-10 am-u-lg-8 am-u-lg-offset-2 am-u-md-offset-1 am-u-sm-12 am-article">
+			<div class="am-h4 am-text-center am-article-hd">
+    				<h1 class="am-article-title">{$test.title}:{$evaluation.title}</h1>
+			</div>
+			<div class="am-text-center am-article-bd">
+    				<p class="am-article-lead">
+					{$test.desc}
+    				</p>
+				{:htmlspecialchars_decode($test['text'])}
+			</div>
+			<div class="am-g am-text-center">
+				<a class="am-btn am-btn-sm am-btn-primary js_start" href="javascript:void(0)"><i class="am-icon-pencil-square"></i> 开始答题</a>
+				<a class="am-btn am-btn-sm am-btn-default" href="{:U('Home/TestSys/index')}"><i class="am-icon-reply"></i> 返回</a>
+			</div>
+		</div>
+		
+		<div class="js_page" style="display: none;">
+			<div class="js_progress">
+				<div class="am-progress">
+				  <div class="am-progress-bar" style="width: 0%">0%</div>
+				</div>
+			</div>
+			<div class="test-lead am-text-center">
+				{:htmlspecialchars_decode($test['text'])}
+			</div>
+			<form class="problem-form form"  >
+				<input type="hidden" name="elapse_time" id="elapse_time" value="" />
+				<volist name="problems" id="vo"  >
+					<div class="problem-area am-cf am-center am-margin-bottom-sm  problem_{$vo['sort']} am-hide" data-id="{$vo['id']}">
+				      	<input name="p[]" type="hidden" value="{$vo['id']}" >	
+				      	<input name="psort[]" type="hidden" value="{$vo['sort']}" >
+				      	
+						<div class="problem-lead">
+							{:htmlspecialchars_decode($vo['desc'])}
+						</div>
+						<div>
+							{$vo['sort']}. {$vo['title']}
+						</div>
+						<div class="answer-area am-cf">
+							<volist name="vo['_answers']" id="ans">
+								
+								<label class="am-radio am-fl">
+				      				<input name="ans_{$vo['id']}" class="ans_{$vo['id']}" type="radio" data-am-ucheck value="{:($ans['sort'].'_'.$ans['id'].'_'.$ans['hidden_value'])}" >
+				      				{$ans['title']}
+								</label>
+								
+							</volist>	
+						</div>
+						
+						<div class="btn-controls am-text-center">
+							<a href="javascript:void(0)" class="js_prev am-btn am-btn-sm am-btn-default"  data-current="{$vo['sort']}" >上一题</a>
+							<eq name="vo['_is_last']" value="1">
+								<button type="button" onclick="check('ans_{$vo['id']}')" class="am-btn am-btn-sm am-btn-danger">提交所有答案</button>
+							<a target-form="problem-form" href="{:U('Home/TestSys/submit',array('test_id'=>$test_id,'eval_id'=>$eval_id,'eval_type'=>$eval_type))}" class="js_submit am-hide am-btn am-btn-sm am-btn-danger ajax-post" >提交所有答案</a>
+							
+							<else/>
+							<a href="javascript:void(0)" class="js_next am-btn am-btn-sm am-btn-primary" data-input="ans_{$vo['id']}" data-current="{$vo['sort']}">下一题</a>
+							</eq>
+						</div>
+						<div class="datetime am-text-center am-center am-text-primary">
+							0
+						</div>
+					</div>
+				</volist>
+			</form>
+			
+			
+		</div>
+	</div>
+</block>
+
+<block name="area_footer">
+	<script type="text/javascript">
+		function check(className){
+			if($("input."+className+":checked").val() === undefined){
+				alertMsg("请选择答案!");
+				return false;
+			}
+			$(".js_submit").click();
+			return true;
+		}
+		function countTime(){
+			window.itboye.starttime++;
+			$("#elapse_time").val(window.itboye.starttime);
+			$(".datetime").text("耗时: "+formatSeconds(window.itboye.starttime));
+			setTimeout(countTime,1000);
+			
+		}
+		
+		function formatSeconds(value) {
+		    var theTime = parseInt(value);// 秒
+		    var theTime1 = 0;// 分
+		    var theTime2 = 0;// 小时
+		    if(theTime > 60) {
+		        theTime1 = parseInt(theTime/60);
+		        theTime = parseInt(theTime%60);
+		            if(theTime1 > 60) {
+		            theTime2 = parseInt(theTime1/60);
+		            theTime1 = parseInt(theTime1%60);
+		            }
+		    }
+		        var result = ""+parseInt(theTime)+"秒";
+		        if(theTime1 > 0) {
+		        result = ""+parseInt(theTime1)+"分"+result;
+		        }
+		        if(theTime2 > 0) {
+		        result = ""+parseInt(theTime2)+"小时"+result;
+		        }
+		    return result;
+		}
+		$(function() {
+			var total = {:count($problems)};
+			window.itboye = $.extend(window.itboye,{ starttime:0,current:1 ,total: total});
+			console.log(window.itboye);
+			
+			$(".problem-area").first().removeClass("am-hide");
+			$(".js_prev").first().hide();
+			
+			$(".js_next").click(function(ev){
+				var $current = $(ev.target).data("current");
+				var input = $(ev.target).data("input");
+				
+				var checked = $("input."+input+":checked").val();
+				if(checked === undefined){
+					alertMsg("请选择答案!");
+					return ;
+				}
+				console.log($current);
+				var $next = parseInt($current)+1;
+				$(".problem_"+$current).addClass("am-hide");//隐藏本问题
+				$(".problem_"+$next).removeClass("am-hide");//显示下一题
+				
+				window.itboye.current++;
+				if(window.itboye.current === window.itboye.total){
+					$(".js_submit").show();
+				}else{
+					$(".js_submit").hide();
+				}
+				
+				if(window.itboye.current > 1){
+					$(".js_prev").first().show();
+				}else{
+					$(".js_prev").first().hide();
+				}
+				
+				var percent =  (window.itboye.current * 100.00 / window.itboye.total).toFixed(0);
+//				console.log(percent);
+				$(".js_progress .am-progress-bar").css("width",percent+"%").text(percent+"%");
+				
+			});
+			
+			
+			$(".js_prev").click(function(ev){
+				var $current = $(ev.target).data("current");
+				console.log($current);
+				var $prev = parseInt($current)-1;
+				$(".problem_"+$current).addClass("am-hide");//隐藏本问题
+				$(".problem_"+$prev).removeClass("am-hide");//显示上一题
+
+				if(window.itboye.current > 1){
+					window.itboye.current--;	
+				}
+				
+				if(window.itboye.current > 1){
+					$(".js_prev").first().show();
+				}else{
+					$(".js_prev").first().hide();
+				}
+				var percent =  (window.itboye.current * 100.00 / window.itboye.total).toFixed(2);
+//				console.log(percent);
+				$(".js_progress .am-progress-bar").css("width",percent+"%").text(percent+"%");
+			});
+			$(".js_start").click(function(ev){
+				$(".js_preview").hide();
+				$(".js_page").show();
+				countTime();
+			})
+		})
+	</script>
+</block>

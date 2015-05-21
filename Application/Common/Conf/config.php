@@ -35,6 +35,9 @@ return array(
     'DB_PWD'                    =>  'bo-ye2015BO-YE',
     'DB_PORT'                   =>  '3306',
     'DB_PREFIX'                 =>  'common_',
+    
+    
+	
    //调试
     'LOG_RECORD' => true, // 开启日志记录
     'LOG_TYPE'              =>  'Db',

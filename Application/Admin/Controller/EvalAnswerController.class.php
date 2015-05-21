@@ -34,6 +34,22 @@ class EvalAnswerController extends AdminController{
 		
 		$evalProblem = $result['info'];
 		
+		$result = apiCall("TSystem/EvalProblem/getInfo", array(array('evaluation_id'=>$evalProblem['evaluation_id'],'sort'=>array("gt",$evalProblem['sort']))));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$nextEvalProblem = $result['info'];
+		
+		$result = apiCall("TSystem/EvalProblem/prev", array(array('evaluation_id'=>$evalProblem['evaluation_id'],'sort'=>array("lt",$evalProblem['sort']))));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$prevEvalProblem = $result['info'];
+		
 		$map = array(
 			'problem_id'=>$this->problem_id,
 		);
@@ -51,6 +67,8 @@ class EvalAnswerController extends AdminController{
 		
 		//
 		if($result['status']){
+			$this->assign('prevEvalProblem',$prevEvalProblem);
+			$this->assign('nextEvalProblem',$nextEvalProblem);
 			$this->assign('problem',$evalProblem);
 			$this->assign('show',$result['info']['show']);
 			$this->assign('list',$result['info']['list']);

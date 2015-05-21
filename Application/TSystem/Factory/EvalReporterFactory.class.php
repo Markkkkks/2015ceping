@@ -7,9 +7,9 @@
 // |-----------------------------------------------------------------------------------
 
 
-namespace TSystem\Facade;
+namespace TSystem\Factory;
 
-final class EvalReporterFacade{
+final class EvalReporterFactory{
 	
 	const MBTI = "mbti";
 	const SCL90 = "scl90";
@@ -17,7 +17,7 @@ final class EvalReporterFacade{
 	/**
 	 * 统一调用
 	 */
-	public static function generate($type,$uid,$testid,$evalid){
+	public static function generate($type,$id){
 		$factory ;
 		switch($type){
 			case self::MBTI:
@@ -35,7 +35,7 @@ final class EvalReporterFacade{
 			return array('status'=>false,'info'=>'不支持的量表类型!');
 		}
 		
-		return $factory->generate(array('uid'=>$uid,'testid'=>$testid,'evalid'=>$evalid));
+		return $factory->generate(array('id'=>$id));
 			
 	}
 }

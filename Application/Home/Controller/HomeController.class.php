@@ -24,6 +24,7 @@ class HomeController extends  Controller {
 			if (defined("APP_DEBUG") && APP_DEBUG) {
 				define("APP_VERSION", time());
 			} else {
+				C('SHOW_PAGE_TRACE', false);//设置不显示trace
 				define("APP_VERSION", C('APP_VERSION'));
 			}
 		}
@@ -31,7 +32,7 @@ class HomeController extends  Controller {
 			$this->theme = "mobile";
 		}
 		$this->assign("active",0);
-//		C('SHOW_PAGE_TRACE', false);//设置不显示trace
+		
 		
 	}
 	

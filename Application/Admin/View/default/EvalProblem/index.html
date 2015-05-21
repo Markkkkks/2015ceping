@@ -51,7 +51,7 @@
 										{$vo.title}
 									</td>
 									<td>
-										{$vo.create_time|date='Y-m-d h:i:s',###}
+										{$vo.create_time|date='Y-m-d H:i:s',###}
 									</td>
 									<td>
 										<a href="{:U('Admin/EvalAnswer/index',array('problem_id'=>$vo['id'],'eval_id'=>$eval_id))}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>答案管理</a>

@@ -1,0 +1,36 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	
+</block>
+
+<block name="area_body">
+	<include file="partials/header" active="0" />
+	
+	<div class="admin-content am-padding-sm am-g"> 
+		<div class="am-u-md-10 am-u-lg-8 am-u-lg-offset-2 am-u-md-offset-1 am-u-sm-12 am-article">{$orgnames}
+			<div class="am-h4 am-text-center am-article-hd">
+    				<h1 class="am-article-title">{$test.title}:{$evaluation.title}</h1>
+			</div>
+			<div class="am-text-center am-article-bd">
+    				<p class="am-article-lead">
+					{$test.desc}
+    				</p>
+				{:htmlspecialchars_decode($test['text'])}
+			</div>
+			<div class="am-g am-text-center">
+				<a class="am-btn am-btn-sm am-btn-primary" href="{:U('Home/TestSys/answer',array('eval_id'=>$eval_id,'eval_type'=>$eval_type,'test_id'=>$test_id))}"><i class="am-icon-pencil-square"></i> 开始答题</a>
+				<a class="am-btn am-btn-sm am-btn-default" href="{:U('Home/TestSys/index')}"><i class="am-icon-reply"></i> 返回</a>
+			</div>
+		</div>
+	</div>
+</block>
+
+<block name="area_footer">
+	<script type="text/javascript">
+		$(function() {
+			
+		})
+	</script>
+</block>
