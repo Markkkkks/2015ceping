@@ -16,6 +16,7 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	const EVAL_TYPE = 25;
 	
 	private $answer ;
+	private $formatAnswer ;
 	
 	/**
 	 * 数组形式 
@@ -31,7 +32,6 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 			'id'=>$params['id'],
 		);
 		
-		$eval_id = $params['eval_id'];
 		$result = apiCall("TSystem/TestevalUserAnswer/getInfo", array($map));
 		if(!$result['status']){
 			return $this->returnErr($result['info']);
@@ -43,10 +43,12 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 		//2. 答案编号，答案隐藏值,
 		//========================进行SCL90量表的分析并生成相应数据======
 		$result = array();
-		
-		dump($answer);
+		$this->format();
+//		dump($this->answer);
+//		dump($this->formatAnswer);
 		//======================F1-F10的得分与总因子分数=========
 		$f_score = array();
+		$f_score[] = $this->getPositiveItemsAndAllScore();
 		$f_score[] = $this->getF1();
 		$f_score[] = $this->getF2();
 		$f_score[] = $this->getF3();
@@ -57,107 +59,194 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 		$f_score[] = $this->getF8();
 		$f_score[] = $this->getF9();
 		$f_score[] = $this->getF10();
-		$p_items = $this->getPositiveItems();
-		//===============================
-		/**
-		 *  1．测验结果	 			总  分：161   阳性项目数：42   阳性症状均分：2.69 			因子分： 				(1)	躯体化：2.50    (2)	强迫：1.30     (3)	人际关系：1.21 				(4)	抑  郁：3.35    (5)	焦虑：1.30     (6)	敌    对：1.00 				(7)	恐  怖：1.14    (8)	偏执：1.33     (9)	精神病性：1.20 				(10)其 它：2.43
-		 * 
-		 * 该测验结果总分161，大于160；提示有阳性意义.()
-其中
-躯体化：因子分超过2分，提示有阳性意义。 躯体化：该因子主要反映被试者的主观的身体不适感，包括心血管、胃肠道、呼吸等系统的不适，及头痛、背痛、肌肉酸痛及焦虑等其他躯体表现。
-抑郁：因子分超过2分，提示有阳性意义。 抑郁：主要指忧郁苦闷的感情和心境，反映与临床上抑郁症状群相联系的广泛的概念。
-其它项目：因子分超过2分，提示有阳性意义。其他项目：主要反映睡眠及饮食等情况。
-
-其中抑郁因子分最高，躯体化因子，其它因子(胃口、睡眠等)均不在理想的状态，根据以上分析，建议进一步检查。
-		 * 
-		 */
 		
-		//============================================================
+		
+//		dump($f_score);
+		//================================
+		
+		$result['f_score'] = $f_score;		
+		$result['desc'] = $this->getStaticsReport($f_score);
+		dump($result['desc'] );
+		//================================
 		return $this->returnSuc($result);
 	}
 	
 	
 	/**
 	 * 获取统计分析报告
+	 * @param array $f_score 已处理过的分数数组
 	 */
-	private function getStaticsReport(){
+	public function getStaticsReport($f_score){
+		$totalScore = $f_score[0]['allscore'];
+		$positive_items = $f_score[0]['positive_items'];
+		$positive_avg = $f_score[0]['avg'];
+//		dump($f_score[0]);
+		$desc = array();//总分概要
+		$descF110 = array();//F1-F10因子描述
+		$summary = array();//总结分析报告
+		$notInState = array();//不在状态的因子
+		$maxAvg = array();//最高因子
 		
-		/**
-		 * 	If 总分>160 显示下面的
-			该测验结果总分161，大于160；提示有阳性意义. 受检者自我感觉不在良好状态。
-			If 阳性项目数>44  显示下面的
-			该测验结果阳性项目数：44，大于43； 提示有阳性意义. 受检者自我感觉不在良好状态。
-			If 阳性症状均分>2  显示下面的
-			该测验结果阳性症状均分为2.69，大于2； 提示有阳性意义. 受检者自我感觉不在良好状态。
+		if($totalScore > 160){
+			$desc[] = "该测验结果总分 ".$totalScore."，大于160；提示有阳性意义. 受检者自我感觉不在良好状态。";
+		}
+		if($positive_items > 44 ){
+			$desc[] = "该测验结果阳性项目数：".$positive_items."，大于43； 提示有阳性意义. 受检者自我感觉不在良好状态。";
+		}
+		
+		if($positive_avg > 2 ){
+			$desc[] = "该测验结果阳性症状均分为 ".$positive_avg."，大于2； 提示有阳性意义. 受检者自我感觉不在良好状态。";
+		}
+		
+		if($totalScore <= 160 && $positive_items <= 44 && $positive_avg <= 2){
+			$desc[] = "该测验结果基本在正常范围内。";
+		}
+		
+		if($f_score[1]['avg'] > 2){
 			
-			If 总分< =160  阳性项目数< =44   If 阳性症状均分< =2   显示下面的
-			该测验结果基本在正常范围内。
+			$notInState[] = "躯体化" ;
+			$maxAvg = array($f_score[1]['avg'],"躯体化");
+			$descF110[] = "躯体化：因子分 ".$f_score[1]['avg']." 分，超过2分，提示有阳性意义。";
+			$descF110[] = "躯体化因子主要反映被试者的主观的身体不适感，包括心血管、胃肠道、呼吸等系统的不适，及头痛、背痛、肌肉酸痛及焦虑等其他躯体表现。";
+		}
+		
+		if($f_score[2]['avg'] > 2){
 			
-			其中
-			If  F1（躯体化因子）>2  显示下面的
-			躯体化：因子分2.50分，超过2分，提示有阳性意义。 
-			躯体化因子主要反映被试者的主观的身体不适感，包括心血管、胃肠道、呼吸等系统的不适，及头痛、背痛、肌肉酸痛及焦虑等其他躯体表现。
-			If  躯体化因子< =2  则 不显示该项目的任何东西
+			$notInState[] = "强迫症状" ;
 			
-			If  F2强迫症状因子>2  显示下面的 
-			强迫症状：因子分       分，超过2分，提示有阳性意义。 
-			强迫症状因子主要指那种明知没有必要，但又无法摆脱的无意义的思想、冲动、行为等表现，还有一些比较一般的感知障碍(如脑子变空了，“记忆力不行”等)也在这一因子中反映。
-			If  强迫症状因子< =2  则 不显示该项目的任何东西
+			if($maxAvg[0] < $f_score[2]['avg']){
+				$maxAvg = array($f_score[2]['avg'],"强迫症状");
+			}
 			
-			If  F3人际关系敏感因子>2  显示下面的
-			人际关系敏感：因子分       分，超过2分，提示有阳性意义。 
-			人际关系敏感：该因子主要是反映某些个人不自在感与自卑感，尤其是在与其他人相比较时更为突出。自卑感、懊丧、以及在人事关系明显相处不好的人，往往这一因子得高分。
-			If  人际关系敏感因子< =2  则 不显示该项目的任何东西
+			$descF110[] = "强迫症状：因子分 ".$f_score[2]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "强迫症状因子主要指那种明知没有必要，但又无法摆脱的无意义的思想、冲动、行为等表现，还有一些比较一般的感知障碍(如脑子变空了，“记忆力不行”等)也在这一因子中反映。";
+		}
+		
+		if($f_score[3]['avg'] > 2){
 			
-			If  F4忧郁因子>2  显示下面的
-			忧郁：因子分       分，超过2分，提示有阳性意义。 
-			忧郁因子：反映的是临床上忧郁症状群相联系的广泛的概念。忧郁苦闷的感情和心境是代表性症状，它还以对生活的兴趣减退，缺乏活动的愿望、丧失活动力等为特征，并包括失望、悲叹、与忧郁相联系的其它感知及躯体方面的问题。
-			If  忧郁因子< =2  则 不显示该项目的任何东西
+			$notInState[] = "人际关系敏感" ;
 			
-			If  F5焦虑因子>2  显示下面的
-			焦虑：因子分       分，超过2分，提示有阳性意义。 
-			焦虑因子：包括一些通常临床上明显与焦虑症状相联系的症状与体验。一般指那些无法静息、神经过敏、紧张、以及由此产生躯体征象 (如震颤) 。那种游离不定的焦虑及惊恐发作是本因子的主要内容，它还包括有一个反映“解体”的项目。
-			If  焦虑因子< =2  则 不显示该项目的任何东西
+			if($maxAvg[0] < $f_score[3]['avg']){
+				$maxAvg = array($f_score[3]['avg'],"人际关系敏感");
+			}
+			$descF110[] = "人际关系敏感：因子分 ".$f_score[3]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "人际关系敏感：该因子主要是反映某些个人不自在感与自卑感，尤其是在与其他人相比较时更为突出。自卑感、懊丧、以及在人事关系明显相处不好的人，往往这一因子得高分。";
+		}
+		
+		
+		if($f_score[4]['avg'] > 2){
 			
-			If  F6敌对因子>2  显示下面的
-			敌对：因子分       分，超过2分，提示有阳性意义。 
-			敌对因子：主要以三方面来反映病人的敌对表现、思想、感情及行为。包括从厌烦、争论、摔物、直至争斗和不可抑制的冲动暴发等各个方面。
-			If  敌对因子< =2  则 不显示该项目的任何东西
+			$notInState[] = "忧郁" ;
 			
-			If  F7恐怖因子>2  显示下面的
-			恐怖：因子分       分，超过2分，提示有阳性意义。 
-			恐怖因子：与传统的恐怖状态所反映的内容基本一致，恐惧的对象包括出门旅行，空旷场地、人群、或公共场合及交通工具。此外还有反映社交恐怖的项目。
-			If  恐怖因子< =2  则 不显示该项目的任何东西
+			if($maxAvg[0] < $f_score[4]['avg']){
+				$maxAvg = array($f_score[4]['avg'],"忧郁");
+			}
+			$descF110[] = "忧郁：因子分 ".$f_score[4]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "忧郁因子：反映的是临床上忧郁症状群相联系的广泛的概念。忧郁苦闷的感情和心境是代表性症状，它还以对生活的兴趣减退，缺乏活动的愿望、丧失活动力等为特征，并包括失望、悲叹、与忧郁相联系的其它感知及躯体方面的问题。";
+		}
+		
+		if($f_score[5]['avg'] > 2){
 			
-			If  F8偏执因子>2  显示下面的
-			偏执：因子分       分，超过2分，提示有阳性意义。 
-			偏执因子：偏执是一个十分复杂的概念，本因子只是包括了它的
-			 一些基本内容，主要是指思维方面，  如投射性思维，敌对、猜疑、关系妄想、忘想、被动体验和夸大等。
-			If  偏执因子< =2  则 不显示该项目的任何东西
+			$notInState[] = "焦虑" ;
 			
-			If  F9精神病性因子>2  显示下面的
-			精神病性：因子分       分，超过2分，提示有阳性意义。 
-			精神病性因子其中有幻想、思维播散、被控制感、思维被插入等反映精神分裂症择定状项目。
-			If  精神病性因子< =2  则 不显示该项目的任何东西
+			if($maxAvg[0] < $f_score[5]['avg']){
+				$maxAvg = array($f_score[5]['avg'],"焦虑");
+			}
+			$descF110[] = "焦虑：因子分 ".$f_score[5]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "焦虑因子：包括一些通常临床上明显与焦虑症状相联系的症状与体验。一般指那些无法静息、神经过敏、紧张、以及由此产生躯体征象 (如震颤) 。那种游离不定的焦虑及惊恐发作是本因子的主要内容，它还包括有一个反映“解体”的项目。";
+		}
+		
+		
+		
+		if($f_score[6]['avg'] > 2){
 			
-			If  F10 )其它因子>2  显示下面的
-			其它：因子分       分，超过2分，提示有阳性意义。 
-			其它因子是反映睡眠及饮食情况的。
-			If  其它因子< =2  则 不显示该项目的任何东西
+			$notInState[] = "敌对" ;
 			
-			归纳总结部分
-		 * 这里显示的是>2的因子
-			其中                 因子分最高，              ，              ，              ，均不在理想的状态，根据以上分析，建议进一步检查。
-			 
+			if($maxAvg[0] < $f_score[6]['avg']){
+				$maxAvg = array($f_score[6]['avg'],"敌对");
+			}
+			$descF110[] = "敌对：因子分 ".$f_score[6]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "敌对因子：主要以三方面来反映病人的敌对表现、思想、感情及行为。包括从厌烦、争论、摔物、直至争斗和不可抑制的冲动暴发等各个方面。";
+		}
+		
+		
+		if($f_score[7]['avg'] > 2){
 			
-			If  所有的因子< =2  则显示下面的
+			$notInState[] = "恐怖" ;
 			
-			该测验结果基本在正常范围内。
-		 * 
-		 */
+			if($maxAvg[0] < $f_score[7]['avg']){
+				$maxAvg = array($f_score[7]['avg'],"恐怖");
+			}
+			$descF110[] = "恐怖：因子分 ".$f_score[7]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "恐怖因子：与传统的恐怖状态所反映的内容基本一致，恐惧的对象包括出门旅行，空旷场地、人群、或公共场合及交通工具。此外还有反映社交恐怖的项目。";
+		}
+		
+		
+		
+		if($f_score[8]['avg'] > 2){
+			
+			$notInState[] = "偏执" ;
+			
+			if($maxAvg[0] < $f_score[8]['avg']){
+				$maxAvg = array($f_score[8]['avg'],"偏执");
+			}
+			$descF110[] = "偏执：因子分 ".$f_score[8]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "偏执因子：偏执是一个十分复杂的概念，本因子只是包括了它的一些基本内容，主要是指思维方面，  如投射性思维，敌对、猜疑、关系妄想、忘想、被动体验和夸大等。";
+		}
+		
+		
+		if($f_score[9]['avg'] > 2){
+			
+			$notInState[] = "精神病性" ;
+			
+			if($maxAvg[0] < $f_score[9]['avg']){
+				$maxAvg = array($f_score[9]['avg'],"精神病性");
+			}
+			$descF110[] = "精神病性：因子分 ".$f_score[9]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "精神病性因子：其中有幻想、思维播散、被控制感、思维被插入等反映精神分裂症择定状项目。";
+		}
+
+		
+		
+		
+		if($f_score[10]['avg'] > 2){			
+			$notInState[] = "其它" ;
+			
+			if($maxAvg[0] < $f_score[10]['avg']){
+				$maxAvg = array($f_score[10]['avg'],"其它");
+			}
+			$descF110[] = "其它：因子分 ".$f_score[10]['avg']." 分，超过2分，提示有阳性意义。 ";
+			$descF110[] = "其它因子是反映睡眠及饮食情况的。";
+		}
+		
+		if(count($descF110) === 0){
+			$summary[] =  "该测验结果基本在正常范围内";
+		}else{
+			$summary_desc = "其中 ".$maxAvg[1]." 因子分最高,";
+			foreach($notInState as $vo){
+				$summary_desc .= $vo.',';	
+			}
+			$summary_desc .= "均不在理想的状态，根据以上分析，建议进一步检查。";
+			$summary[] = $summary_desc;
+		}
+		
+		return array("desc"=>$desc,'descF110'=>$descF110,'summary'=>$summary);
 	}
 	
 	
+	private function getFscore($findex){
+		$total = 0;
+		
+		foreach($findex as $vo){
+			$ans = $this->formatAnswer[$vo]['_ans'];
+			$hidden_value = intval($ans['hidden_value']);
+			$total = $total + $hidden_value;
+		}
+		
+		$avg = number_format(($total*1.0 / count($findex)),2);
+		
+		return array('total'=>$total,'avg'=>$avg);
+	}
 	
 	/**
 	 * 躯体化
@@ -167,7 +256,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF1(){
 		$f1 = array(1,4,12,27,40,42,48,49,52,53,56,58);
-		
+		$result = $this->getFscore($f1);
+		return $result;
 	}
 	
 	/**
@@ -178,6 +268,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF2(){
 		$f2 = array(3,9,10,28,38,45,46,51,55,65);
+		$result = $this->getFscore($f2);
+		return $result;
 		
 	}
 	
@@ -190,6 +282,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF3(){
 		$f3 = array(6,21,34,36,37,41,61,69,73);
+		$result = $this->getFscore($f3);
+		return $result;
 		
 	}
 	
@@ -203,6 +297,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF4(){
 		$f4 = array(5,14,15,20,22,26,29,30,31,32,54,71,79);
+		$result = $this->getFscore($f4);
+		return $result;
 		
 	}
 	
@@ -217,6 +313,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	private function getF5(){
 		$f5 = array(2,17,23,33,39,57,72,78,80,86	);
 		
+		$result = $this->getFscore($f5);
+		return $result;
 	}
 	
 	/**
@@ -228,6 +326,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF6(){
 		$f6 = array(11,24,63,67,74,81);
+		$result = $this->getFscore($f6);
+		return $result;
 		
 	}
 	
@@ -240,6 +340,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF7(){
 		$f7 = array(13,25,47,50,70,75,82);
+		$result = $this->getFscore($f7);
+		return $result;
 		
 	}
 	
@@ -252,7 +354,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF8(){
 		$f8 = array(8,18,43,68,76,83	);
-		
+		$result = $this->getFscore($f8);
+		return $result;
 	}
 	
 	/**
@@ -264,6 +367,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	private function getF9(){
 		$f9 = array(7,16,35,62,77,84,85,87,88,90	);
 		
+		$result = $this->getFscore($f9);
+		return $result;
 	}
 	
 	/**
@@ -273,7 +378,8 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	private function getF10(){
 		$f10= array(19,44,59,60,64,66,89);
-		
+		$result = $this->getFscore($f10);
+		return $result;
 	}
 	
 	/**
@@ -281,15 +387,32 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 * 
 	 * 获得阳性项目数目
 	 * 公式 = 90 — 选A的项目数
+	 * @return array('allscore'=>'总分','items'=>'阳性项目总数','avg'=>'阳性项目均分')
 	 * 
 	 */
-	private function getPositiveItems(){
+	private function getPositiveItemsAndAllScore(){
 		/**
-		 * 	阴性项目数：表示被试“无症状”的项目有多少。
     		 *	阳性项目数：表示被试在多少项目中呈现“有症状”。
 		 *	阳性项目均分：表示“有症状”项目的平均得分。 可以看出被试自我感觉不佳的程度究竟在哪个范围。 
 		 *  
 		 */
+		 $result = array('allscore'=>0,'positive_items'=>0,'avg'=>0.0);
+		 
+		 foreach($this->formatAnswer as $vo){
+		 	
+			$ans = $vo['_ans'];
+			$id = $ans['id'];
+			$hidden_value = intval($ans['hidden_value']);
+			if($hidden_value > 1){
+				$result['allscore'] += $hidden_value;
+				$result['positive_items']++;
+			}
+			
+		}
+		
+		$result['avg'] = number_format(($result['allscore']*1.0 / $result['positive_items']),2);
+		
+		return $result;
 	}
 	
 	
@@ -347,7 +470,16 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	
 	
 	
-	
+	private function format(){
+		$this->formatAnswer = array();
+		foreach($this->answer as $vo){
+			$this->formatAnswer[$vo['p_sort']] = array(
+				'id'=>$vo['p_id'],
+				'_ans'=>$vo['ans']
+			);
+		}
+		
+	}
 	
 	
 	

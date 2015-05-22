@@ -15,6 +15,7 @@ class IndexController extends HomeController {
 	
 	
 	
+	
 	/**
 	 * 注销/退出系统
 	 */
@@ -174,6 +175,7 @@ class IndexController extends HomeController {
 		session("LOGIN_MOD", MODULE_NAME);
 				
 	}
+	
 	
 }
 

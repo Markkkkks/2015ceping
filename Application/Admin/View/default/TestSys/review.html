@@ -1,0 +1,93 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	<link rel="stylesheet" type="text/css" media="all" href="__CDN__/jquery-datetimepicker/jquery.datetimepicker.css">
+	<script type="text/javascript" src="__CDN__/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+</block>
+
+<block name="area_body">
+	{:W('Menus/topbar')}
+	<div class="admin-main container-fluid">
+		{:W('Menus/left')}
+		<div class="admin-main-content">
+			{:W('Menus/breadcrumb')}
+			<div class="table-responsive well">
+				<div class="form-control-static">
+					<form action="{:U('Admin/TestSys/review')}" method="post" class="form-inline searchForm">
+						<div class="form-group">
+							<label class="control-label">所属机构</label>
+							<select name="orgid" id="orgid" class="form-control">
+								<volist name="org_arr"  id="org">
+								<option <eq name="org['orgid']" value="$orgid">selected="selected"</eq> value="{$org.orgid}">{$org.orgname}</option>
+									
+								</volist>
+							</select>
+						</div>
+						
+					</form>
+				</div>
+				<div class="form-control-static">
+				</div>
+				<table class="table table-striped table table-hover  table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />{:L('SELECT_ALL')}
+								<th>
+									测验标题
+								</th>
+								<th>
+									测验时间段
+								</th>
+								<th>
+									测验概述
+								</th>
+								<th>
+									创建时间
+								</th>
+								<th>
+									{:L('OPERATOR')}
+								</th>
+						</tr>
+					</thead>
+					<tbody>
+						<empty name="list">
+							<tr>
+								<td colspan="4" class="text-center">{:L('NO_DATA')}</td>
+							</tr>
+						</empty>
+						<volist name="list" id="vo">
+							<tr>
+								<td>
+									<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />{$vo.id}</td>
+								<td><a href="{:U('Admin/TestSys/view',array('id'=>$vo['id']))}">{$vo.title}</a></td>
+								<td>{$vo.start_time|date="Y-m-d",###}至{$vo.end_time|date="Y-m-d",###}</td>
+								<td>{$vo.desc}</td>
+								<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+								<td>
+									<a class="btn btn-sm btn-primary" href="{:U('Admin/TestSys/result',array('test_id'=>$vo['id'],'org_id'=>$orgid))}" ><i class="fa fa-eye"></i>查看测评结果</a>
+								</td>
+							</tr>
+
+						</volist>
+					</tbody>
+				</table>
+				<div>
+					{$show}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</block>
+
+<block name="area_footer">
+	<script type="text/javascript">
+		$(function() {
+			$("#orgid").change(function(){
+				$(".searchForm").submit();
+			})
+		})
+	</script>
+</block>

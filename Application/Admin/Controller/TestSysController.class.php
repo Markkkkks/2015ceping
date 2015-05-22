@@ -375,9 +375,91 @@ class TestSysController extends AdminController{
 	 * TODO: 针对参与测评用户的结果的审校
 	 */
 	public function review(){
-		$this->error("开发中...");
+		
+		// 组织机构是可以查看的用户的上级或同级别。
+		$orgid = I('post.orgid',0);
+		$testid = I('post.testid',0);
+		if($orgid == 0){
+			$orgid = I("get.orgid",0);
+		}
+		if($testid == 0){
+			$testid = I("get.testid",0);
+		}
+		// 1. 先查出下属以及同级的组织机构 
+		// 2. 再从机构用户表中查找出隶属于这些机构的用户ID
+		// 3. 再从测评答案表中查找测评记录 
+		// 4. 
+		$result = apiCall("Admin/OrgMemberView/queryNoPaging", array(array("member_id"=>UID)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$org_arr = $result['info'];//当前用户的组织机构ID
+		
+		if($orgid == 0 && count($org_arr)>0){
+			$orgid = $org_arr[0]['orgid'];
+		}
+		
+		$page =  array("curpage"=>0,'size'=>10);
+		$params = array(
+			'orgid'=>$orgid,
+			'testid'=>$testid,
+		);
+		
+		$result = apiCall("TSystem/OrgHasTestSys/queryWithTestInfo", array($orgid,$page,$params));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		
+		$this->assign("org_arr",$org_arr);
+		$this->assign("orgid",$orgid);
+		$this->assign("testid",$testid);
+		
+		$this->assign("show",$result['info']['show']);
+		$this->assign("list",$result['info']['list']);
+		$this->display();
 	}
 
+
+	/**
+	 * 查看单个测评-指定机构的参与测评用户的结果
+	 */
+	public function result(){
+		$org_id = I('get.org_id',0);
+		$test_id = I('get.test_id',0);
+		$eval_id = I('get.eval_id',0);
+		if($orgid == 0){
+			$orgid = I("get.orgid",0);
+		}
+		if($testid == 0){
+			$testid = I("get.testid",0);
+		}
+		
+		
+		$page = array('curpage'=>I("get.p",0),"size"=>10);
+		$params = array(
+			'org_id'=>$org_id,
+			'test_id'=>$test_id,
+		);
+		
+		$result = apiCall("TSystem/TestevalUserResult/queryWithUserInfo", array($org_id,$test_id,$page,$params));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		
+		$this->assign("eval_id",$eval_id);
+		$this->assign("orgid",$orgid);
+		$this->assign("testid",$testid);
+		$this->assign("show",$result['info']['show']);
+		$this->assign("list",$result['info']['list']);
+		$this->display();
+		
+	}
 
 
 

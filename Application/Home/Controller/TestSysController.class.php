@@ -12,7 +12,7 @@ namespace Home\Controller;
  * 测评控制器
  */
 class TestSysController extends HomeController{
-	
+		
 	protected function _initialize(){
 		parent::_initialize();
 		$uid = is_login();
@@ -110,7 +110,7 @@ class TestSysController extends HomeController{
 
 			if(is_array($result['info'])){
 				foreach($result['info'] as $ansVo){
-					$doneEval_ids[$vo['id']] .= $ansVo['eval_id'].',';
+					$doneEval_ids[$vo] .= $ansVo['eval_id'].',';
 				}
 			}
 			
@@ -224,7 +224,7 @@ class TestSysController extends HomeController{
 			
 			list($sort,$id,$hidden_value) = explode("_", $ans);
 			
-			$ans_arr[] = array('ans'=>array('sort'=>$sort,'id'=>$id,'hidden_value'=>$hidden_value),'p_id'=>$vo,'p_sort'=>$psort);
+			$ans_arr[] = array('ans'=>array('sort'=>$sort,'id'=>$id,'hidden_value'=>$hidden_value),'p_id'=>$vo,'p_sort'=>$psort_arr[$key]);
 			
 		}
 		
@@ -246,15 +246,19 @@ class TestSysController extends HomeController{
 			'cost_time'=>$cost_time,
 			'submit_ip'=>$longip,
 		);
+		
 		//TODO: 提交前进行检测，是否已提交过
 		$result = apiCall("TSystem/TestevalUserAnswer/add", array($entity));
 		
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
-		$params = array('id'=>$result['info']);
+		
+		$params = array('id'=>$result['info'],'type'=>$eval_type,'user_id'=>$uid,'test_id'=>$testid,'eval_id'=>$evalid);
+		
 		//监听测评提交标签
 		tag('test_submit_tag',$params);
+		
 		$this->success("提交成功,请等候审核!",U("Home/TestSys/index"));
 		
 	}
@@ -262,9 +266,30 @@ class TestSysController extends HomeController{
 	/**
 	 * 测评报告历史
 	 */
-	public function histroyReport(){
-		$this->error("TODO: 测评报告历史");
+	public function historyReport(){
+		
+		$name = I('post.name','');
+		
+		$user_id = UID;
+		
+		$page = array("curpage"=>I("get.p",0),'size'=>15);
+		$order = " create_time desc  ";
+		
+		$result = apiCall("TSystem/TestevalUserResult/queryWithTestEval", array($user_id,$name,$page,$order));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		
+		
+		$this->assign("name",$name);
+		
+		$this->assign("show",$result['info']['show']);
+		$this->assign("list",$result['info']['list']);
+		$this->display();
 	}
+	
 	
 	
 	/**

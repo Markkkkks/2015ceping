@@ -86,6 +86,18 @@ class EvalAnswerController extends AdminController{
 	public function add(){
 		if(IS_GET){
 			
+			$map = array('problem_id'=>I("get.problem_id",0));
+			$field = "sort";
+			
+			$result = apiCall("TSystem/EvalAnswer/max", array($map,$field));
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			if(is_null($result['info'])){
+				$result['info'] = 0;
+			}
+			$result['info'] = $result['info'] + 1;
+			$this->assign("curMaxSort",$result['info']);
 			$this->display();
 		}else{
 			
@@ -134,6 +146,8 @@ class EvalAnswerController extends AdminController{
 			}
 			
 			$this->assign("vo",$result['info']);
+			
+			
 			$this->display();
 		}else{
 			

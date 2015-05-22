@@ -23,10 +23,35 @@ class TestSysSubmitBehavior extends Behavior {
 		
 		//生成报告
 		$id = $params['id'];
-				
-		$result = \TSystem\Facade\EvalReporterFacade::generate(array('id'=>$id));
+		$type = $params['type'];
+		$uid = $params['user_id'];
+		$eval_id = $params['eval_id'];
+		$test_id = $params['test_id'];
+//		dump("test");
+		$result = \TSystem\Factory\EvalReporterFactory::generate($type,$id);
+		if($result['status']){
+			//将报告结果保存到数据库中
+			
+			$entity = array(
+				'result'=>serialize($result['info']),
+				'eval_type'=>$type,
+				'eval_id'=>$eval_id,
+				'test_id'=>$test_id,
+				'user_id'=>$uid,
+				'review'=>\TSystem\Model\TestevalUserResultModel::REVIEW_STATUS_WAIT_CHECK,
+				'review_notes'=>'',
+			);
+			
+			$result = apiCall("TSystem/TestevalUserResult/add", array($entity));
+			
+			if(!$result['status']){
+				LogRecord("量表报告数据插入数据库失败!", __FILE__.__LINE__);
+			}
+			
+		}else{
+			LogRecord("量表报告生成失败!", __FILE__.__LINE__);
+		}
 		
-		dump($result);
 		
      }
 }
