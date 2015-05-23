@@ -1,0 +1,94 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/localization/messages_zh.min.js"></script>
+	
+
+</block>
+
+<block name="area_body">
+	{:W('Menus/topbar')}
+	<div class="admin-main container-fluid">
+		{:W('Menus/left')}
+		<div class="admin-main-content">
+			{:W('Menus/breadcrumb')}
+			<div class="table-responsive well">
+				<div class="form-control-static">
+					<form action="{:U('Admin/TestSys/result',array('org_id'=>$org_id,'test_id'=>$test_id))}" method="post" class="form-inline searchForm">
+						
+						<div class="form-group">
+							<label class="control-label">参与测评的量表</label>
+							<select name="eval_id" id="eval_id" class="form-control">
+								<volist name="eval_arr"  id="eval">
+								<option <eq name="eval['id']" value="$eval_id">selected="selected"</eq> value="{$eval.id}">{$eval.title}</option>
+									
+								</volist>
+							</select>
+						</div>
+					</form>
+				</div>
+				
+				<div class="form-control-static">
+					<a href="{:U('Admin/TestSys/review')}" class="btn btn-sm btn-primary"><i class="fa fa-reply"></i>返回</a>
+				</div>
+				
+				<table class="table table-striped table table-hover  table-condensed">
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />
+								<th>
+									用户ID
+								</th>
+								<th>
+									提交时间
+								</th>
+								<th>
+									{:L('OPERATOR')}
+								</th>
+						</tr>
+					</thead>
+					<tbody>
+						<empty name="list">
+							<tr>
+								<td colspan="4" class="text-center">{:L('NO_DATA')}</td>
+							</tr>
+						</empty>
+						<volist name="list" id="vo">
+							<tr>
+								<td>
+									<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />{$vo.id}</td>
+								<td>{$vo.user_id}</td>
+								<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+								<td>
+									<a class="btn btn-sm btn-primary" target="_blank" href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'eval_type'=>$vo['eval_type'],'id'=>$vo['id']))}" ><i class="fa fa-eye"></i>审核测评报告</a>
+								</td>
+							</tr>
+
+						</volist>
+					</tbody>
+				</table>
+				<div>
+					{$show}
+				</div>
+			</div>
+
+
+		</div>
+		<!-- END admin-main-content -->
+	</div>
+		<!-- END admin-main-->
+</block>
+
+<block name="area_footer">
+
+	<script>
+	$(function() {
+		$("#eval_id").change(function(){
+			$(".searchForm").submit();
+		});
+	}); //end ready
+	</script>
+</block>

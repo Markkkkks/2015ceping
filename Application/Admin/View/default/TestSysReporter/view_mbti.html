@@ -1,0 +1,241 @@
+<extend name="template/base_index_am" />
+
+
+<block name="area_header">
+	<style type="text/css">
+		body{
+			background: #9D8E8E;
+		}
+		footer{
+			background: #9D8E8E;
+		}
+		.result-reporter{
+			width:100%;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+		
+		.result-reporter .tag{
+			display: none;	
+		}
+		
+		.result-reporter.reviewed .tag{
+			display:block;
+		}
+		.detail .title,.mbti-map .title{
+			color:#FFFFFF;
+			background: #5ab0f8;
+			font-size: 3rem;
+		}
+		.result-reporter .box{
+			border: 1px solid #5ab0f8;
+			height: 36px;
+			width:49%;
+			float:left;
+		}
+		.result-reporter .box.boxleft{
+			margin-right: 1%;
+		}
+		.result-reporter .box.boxright{
+			margin-left: 1%;
+		}
+		.result-reporter .box .progress{
+			background: #5ab0f8;
+			height: 32px;
+			margin-top: 1px;
+		}
+		.result-reporter .reporter-check{
+			/*background: #ff4;*/
+			padding: 10px;
+		}
+		
+		@media only screen and (min-width: 640px) {
+			.admin-content{
+				background: #9D8E8E;
+				padding: 20px;
+			}
+			.result-reporter{
+				width:640px;
+				margin:0 auto;
+				background: #FFFFFF;
+				padding: 10px;
+				margin-bottom: 20px;
+			}
+		}
+		
+		@media only screen and (min-width: 940px) {
+			.result-reporter{
+				width:940px;
+				padding: 20px;
+			}
+		}
+		
+		@media only screen and (min-width: 1024px) {
+			.result-reporter{
+				width:1024px;
+				padding: 20px;
+			}
+		}
+	</style>
+</block>
+
+<block name="area_body">
+	<div class="admin-content">
+		<div <eq name="vo['review']" value="1" > class="result-reporter reviewed" <else/> class="result-reporter" </eq> >
+			<div class="tag am-text-center">
+				已通过 <button type="button" class="js_adjust am-btn am-btn-sm am-btn-danger" ><i class="am-icon-adjust"></i>重新修改评阅意见</button>
+			</div>
+			<div class="reporter-check am-text-center">
+				<div class="am-margin-bottom-sm js_edit_form <eq name="vo['review']" value="1">am-hide</eq>">
+					<form class="editForm">
+						<label>意见</label>
+						<div class="am-form-group">
+							<textarea name="notes" class="am-form-field" rows="3" placeholder="此处若有意见可以填写，250个字以内">{$vo['review_notes']}</textarea>
+						</div>
+						<a target-form="editForm"  class="ajax-post am-btn am-btn-sm am-btn-primary am-btn-block" href="{:U('Admin/TestSysReporter/pass',array('id'=>$id,'eval_type'=>$eval_type))}"><i class="am-icon-check"></i>通过</a>
+						
+					</form>
+				</div>
+				<div class="am-cf">
+					<notempty name="prev">						
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$prev['id'],'eval_type'=>$eval_type))}" class="am-fl am-btn am-btn-sm am-btn-default"><i class="am-icon-chevron-left"></i> 上一个</a>					
+					<else/>
+					<a href="javascript:void(0)" class="am-fl am-btn am-btn-sm am-btn-primary am-disabled">没有上一个了!</a>		
+					</notempty>
+					
+					<notempty name="next">
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$next['id'],'eval_type'=>$eval_type))}" class="am-fr am-btn am-btn-sm am-btn-primary">下一个 <i class="am-icon-chevron-right"></i></a>
+					<else/>
+					<a href="javascript:void(0)" class="am-fr am-btn am-btn-primary am-btn-sm am-disabled">没有下一个了!</a>		
+					</notempty>
+				</div>
+			</div>
+			<div class="">
+				您的职业性格为: {$result['code']}
+			</div>
+			<div class="mbti-map">
+				<div class="title am-text-center">您的MBTI示意图</div>
+				<div class="am-padding-sm am-text-center">
+					MBTI倾向图示意图(类型: {$result['code']} 总倾向: {:($result['score']['EI'][1]+$result['score']['SN'][1]+$result['score']['TF'][1]+$result['score']['JP'][1])})
+				</div>
+				<div class="am-g am-margin-bottom-sm">
+					<div class="am-u-md-2 am-u-lg-2">外向（E）</div>
+					<div class="am-u-md-8 am-u-lg-8">
+						<div class="box boxleft">
+							<div class="progress am-fr" <eq name="result['score']['EI'][0]" value="left">style="width:{$result['score']['EI'][1]}%;" <else/>style="width:0%"</eq>  >
+								
+							</div>
+						</div>
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['EI'][0]" value="right">style="width:{$result['score']['EI'][1]}%" <else/>style="width:0%"</eq> >
+								
+							</div>
+						</div>
+					</div>
+					<div class="am-u-md-2 am-u-lg-2">（ I ）内向</div>
+				</div>
+				
+				
+				<div class="am-g am-margin-bottom-sm">
+					<div class="am-u-md-2 am-u-lg-2">实感（S）</div>
+					<div class="am-u-md-8 am-u-lg-8">
+						<div class="box boxleft">
+							<div class="progress am-fr" <eq name="result['score']['SN'][0]" value="left">style="width:{$result['score']['SN'][1]}%;" <else/>style="width:0%"</eq>  >
+								
+							</div>
+						</div>
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['SN'][0]" value="right">style="width:{$result['score']['SN'][1]}%" <else/>style="width:0%"</eq> >
+								
+							</div>
+						</div>
+					</div>
+					<div class="am-u-md-2 am-u-lg-2">（N）直觉</div>
+				</div>
+				
+				
+				<div class="am-g am-margin-bottom-sm">
+					<div class="am-u-md-2 am-u-lg-2">思考（T）</div>
+					<div class="am-u-md-8 am-u-lg-8">
+						<div class="box boxleft">
+							<div class="progress am-fr" <eq name="result['score']['TF'][0]" value="left">style="width:{$result['score']['TF'][1]}%;" <else/>style="width:0%"</eq>  >
+							</div>
+						</div>
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['TF'][0]" value="right">style="width:{$result['score']['TF'][1]}%" <else/>style="width:0%"</eq> >
+								
+							</div>
+						</div>
+					</div>
+					<div class="am-u-md-2 am-u-lg-2">（F）情感</div>
+				</div>
+				
+				
+				<div class="am-g am-margin-bottom-sm">
+					<div class="am-u-md-2 am-u-lg-2">判断（J）</div>
+					<div class="am-u-md-8 am-u-lg-8">
+						<div class="box boxleft">
+							<div class="progress  am-fr" <eq name="result['score']['JP'][0]" value="left">style="width:{$result['score']['JP'][1]}%;" <else/>style="width:0%"</eq>  >
+								
+							</div>
+						</div>
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['JP'][0]" value="right">style="width:{$result['score']['JP'][1]}%" <else/>style="width:0%"</eq> >
+								
+							</div>
+						</div>
+					</div>
+					<div class="am-u-md-2 am-u-lg-2">（P）知觉</div>
+				</div>
+				
+				
+				
+				<div class="am-g  am-margin-bottom-sm">
+					<div class="am-u-md-2 am-u-lg-2">&nbsp;</div>
+					<div class="am-u-md-8 am-u-lg-8"><img class="am-img-responsive" src="__PUBLIC__/Home/imgs/mbti-level.jpg" alt="mbti-level"/></div>
+					<div class="am-u-md-2 am-u-lg-2">&nbsp;</div>
+				</div>
+				
+			</div>
+			
+			<div class="detail">
+				<div class="title am-text-center">详细报告</div>
+				<div class="detail-bd am-padding-sm">
+				<volist name="result['desc']" id="vo">
+					<p>{$vo}</p>
+				</volist>
+					
+				</div>
+			</div>
+			
+			
+			
+			<div class="am-cf">
+					<notempty name="prev">						
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$prev['id'],'eval_type'=>$eval_type))}" class="am-fl am-btn am-btn-sm am-btn-default"><i class="am-icon-chevron-left"></i> 上一个</a>					
+					<else/>
+					<a href="javascript:void(0)" class="am-fl am-btn am-btn-sm am-btn-primary am-disabled">没有上一个了!</a>		
+					</notempty>
+					
+					<notempty name="next">
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$next['id'],'eval_type'=>$eval_type))}" class="am-fr am-btn am-btn-sm am-btn-primary">下一个 <i class="am-icon-chevron-right"></i></a>
+					<else/>
+					<a href="javascript:void(0)" class="am-fr am-btn am-btn-primary am-btn-sm am-disabled">没有下一个了!</a>		
+					</notempty>
+			</div>
+			
+			
+		</div>
+	</div>
+</block>
+
+<block name="area_footer">
+	<script type="text/javascript">
+		
+		$(function(){
+			$(".js_adjust").click(function(){
+				$(".js_edit_form").removeClass("am-hide");
+			});
+		})
+	</script>
+</block>

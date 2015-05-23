@@ -428,16 +428,44 @@ class TestSysController extends AdminController{
 	 * 查看单个测评-指定机构的参与测评用户的结果
 	 */
 	public function result(){
-		$org_id = I('get.org_id',0);
-		$test_id = I('get.test_id',0);
-		$eval_id = I('get.eval_id',0);
-		if($orgid == 0){
-			$orgid = I("get.orgid",0);
+		$org_id = I('post.org_id',0);
+		$test_id = I('post.test_id',0,'intval');
+		$eval_id = I('post.eval_id',0,'intval');
+		
+		if($eval_id == 0){
+			$eval_id = I("get.eval_id",0,'intval');
 		}
-		if($testid == 0){
-			$testid = I("get.testid",0);
+		if($org_id == 0){
+			$org_id = I("get.org_id",0,'intval');
+		}
+		if($test_id == 0){
+			$test_id = I("get.test_id",0,'intval');
 		}
 		
+		//================================
+		$result = apiCall("TSystem/TestSys/getInfo", array(array('id'=>$test_id)));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		if(is_null($result['info'])){
+			$this->error("测评参数错误!");	
+		}
+		
+		$testInfo = $result['info'];
+		
+		$result = apiCall("TSystem/Evaluation/queryNoPaging", array(array('id'=>array('in',$testInfo['eval_ids']))));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		$eval_arr = $result['info'];
+		
+		if($eval_id === 0 && count($eval_arr) > 0){
+			$eval_id = $eval_arr[0]['id'];
+		}
+		
+//		dump($eval_arr);
+		//===============================================================
 		
 		$page = array('curpage'=>I("get.p",0),"size"=>10);
 		$params = array(
@@ -445,16 +473,20 @@ class TestSysController extends AdminController{
 			'test_id'=>$test_id,
 		);
 		
-		$result = apiCall("TSystem/TestevalUserResult/queryWithUserInfo", array($org_id,$test_id,$page,$params));
+		$result = apiCall("TSystem/TestevalUserResult/queryWithUserInfo", array($org_id,$test_id,$eval_id,$page,$params));
 		
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+//		dump($result);		
 		
 		
+		
+		
+		$this->assign("eval_arr",$eval_arr);
 		$this->assign("eval_id",$eval_id);
-		$this->assign("orgid",$orgid);
-		$this->assign("testid",$testid);
+		$this->assign("org_id",$org_id);
+		$this->assign("test_id",$test_id);
 		$this->assign("show",$result['info']['show']);
 		$this->assign("list",$result['info']['list']);
 		$this->display();

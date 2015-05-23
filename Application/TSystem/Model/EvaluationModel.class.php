@@ -12,6 +12,10 @@ use Think\Model;
  * 量表、问题模型
  */
 class EvaluationModel extends Model{
+	
+	
+	
+	
 	protected $_auto = array(
 		array('create_time',NOW_TIME,self::MODEL_INSERT),
 		array('update_time',"time",self::MODEL_INSERT,"function"),

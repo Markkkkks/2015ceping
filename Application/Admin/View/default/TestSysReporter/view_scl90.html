@@ -1,4 +1,4 @@
-<extend name="template/base_index" />
+<extend name="template/base_index_am" />
 
 
 <block name="area_header">
@@ -10,9 +10,18 @@
 			margin-bottom: 20px;
 		}
 		
+		.result-reporter .tag{
+			display: none;	
+		}
+		
+		.result-reporter.reviewed .tag{
+			display:block;
+		}
+		
 		@media only screen and (min-width: 640px) {
 			.admin-content{
 				background: #9D8E8E;
+				padding: 20px;
 			}
 			.result-reporter{
 				width:640px;
@@ -29,12 +38,14 @@
 		@media only screen and (min-width: 940px) {
 			.result-reporter{
 				width:940px;
+				padding: 20px;
 			}
 		}
 		
 		@media only screen and (min-width: 1024px) {
 			.result-reporter{
 				width:1024px;
+				padding: 20px;
 			}
 		}
 		
@@ -46,7 +57,39 @@
 
 <block name="area_body">
 	<div class="admin-content">
-		<div class="result-reporter">
+		
+		<div <eq name="result['review']" value="1" > class="result-reporter reviewed" <else/> class="result-reporter" </eq> >
+			
+			<div class="tag am-text-center">
+				已通过 <button type="button" class="js_adjust am-btn am-btn-sm am-btn-danger" ><i class="am-icon-adjust"></i>重新修改评阅意见</button>
+			</div>
+			<div class="reporter-check am-text-center">
+				<div class="am-margin-bottom-sm js_edit_form <eq name="result['review']" value="1">am-hide</eq>">
+					<form class="editForm">
+						<label>意见</label>
+						<div class="am-form-group">
+							<textarea name="notes" class="am-form-field" rows="3" placeholder="此处若有意见可以填写，250个字以内">{$result['review_notes']}</textarea>
+						</div>
+						<a target-form="editForm"  class="ajax-post am-btn am-btn-sm am-btn-primary am-btn-block" href="{:U('Admin/TestSysReporter/pass',array('id'=>$id,'eval_type'=>$eval_type))}"><i class="am-icon-check"></i>通过</a>
+						
+						
+					</form>
+				</div>
+				<div class="am-cf">
+					<notempty name="prev">						
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$prev['id'],'eval_type'=>$eval_type))}" class="am-fl am-btn am-btn-sm am-btn-default"><i class="am-icon-chevron-left"></i> 上一个</a>					
+					<else/>
+					<a href="javascript:void(0)" class="am-fl am-btn am-btn-sm am-btn-primary am-disabled">没有上一个了!</a>		
+					</notempty>
+					
+					<notempty name="next">
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$next['id'],'eval_type'=>$eval_type))}" class="am-fr am-btn am-btn-sm am-btn-primary">下一个 <i class="am-icon-chevron-right"></i></a>
+					<else/>
+					<a href="javascript:void(0)" class="am-fr am-btn am-btn-primary am-btn-sm am-disabled">没有下一个了!</a>		
+					</notempty>
+				</div>
+			</div>
+			
 			<div class="reporter-user-info am-text-center">
 				<h1>测验结果报告</h1>
 			</div>
@@ -101,12 +144,31 @@
 				</div>
 				
 			</div>
+			
+			<div class="am-cf">
+					<notempty name="prev">						
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$prev['id'],'eval_type'=>$eval_type))}" class="am-fl am-btn am-btn-sm am-btn-default"><i class="am-icon-chevron-left"></i> 上一个</a>					
+					<else/>
+					<a href="javascript:void(0)" class="am-fl am-btn am-btn-sm am-btn-primary am-disabled">没有上一个了!</a>		
+					</notempty>
+					
+					<notempty name="next">
+					<a href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'id'=>$next['id'],'eval_type'=>$eval_type))}" class="am-fr am-btn am-btn-sm am-btn-primary">下一个 <i class="am-icon-chevron-right"></i></a>
+					<else/>
+					<a href="javascript:void(0)" class="am-fr am-btn am-btn-primary am-btn-sm am-disabled">没有下一个了!</a>		
+					</notempty>
+			</div>
 		</div>
 	</div>
 </block>
 
 <block name="area_footer">
 	<script type="text/javascript">
+		$(function(){
+			$(".js_adjust").click(function(){
+				$(".js_edit_form").removeClass("am-hide");
+			})
+		})
         require.config({
             paths: {
                 echarts: '__CDN__/echarts/2.2.2'
@@ -156,5 +218,4 @@
             }
         );
     </script>
-	<!-- CACHE TIME {:date("Y-m-d H:i:s",time())}-->
 </block>

@@ -27,8 +27,10 @@ class TestSysSubmitBehavior extends Behavior {
 		$uid = $params['user_id'];
 		$eval_id = $params['eval_id'];
 		$test_id = $params['test_id'];
+		$org_ids =  $params['org_ids'];
 //		dump("test");
 		$result = \TSystem\Factory\EvalReporterFactory::generate($type,$id);
+//		exit();
 		if($result['status']){
 			//将报告结果保存到数据库中
 			
@@ -40,6 +42,8 @@ class TestSysSubmitBehavior extends Behavior {
 				'user_id'=>$uid,
 				'review'=>\TSystem\Model\TestevalUserResultModel::REVIEW_STATUS_WAIT_CHECK,
 				'review_notes'=>'',
+				'review_time'=>0,
+				'org_ids'=>$org_ids,
 			);
 			
 			$result = apiCall("TSystem/TestevalUserResult/add", array($entity));

@@ -15,7 +15,50 @@ class TestevalUserResultApi extends Api{
 		$this->model = new \TSystem\Model\TestevaluserResultModel();
 	}
 	
-	
+	/**
+	 * 上一个
+	 */
+	public function prev($orgid,$test_id,$eval_id,$id){
+		
+		$query = $this->model->alias("tur");
+		
+		$map = array('tur.id'=>array("lt",$id),'tur.test_id'=>$test_id,'tur.eval_id'=>$eval_id,"tur.org_ids"=>array('like','%'.$orgid.',%'));
+		
+		$query = $query->where($map);
+		
+		$result = $query->order("tur.id desc")->find();
+		
+		if ($result === false) {
+			$error = $this -> model -> getDbError();
+			return $this -> apiReturnErr($error);
+		}
+		
+		return $this->apiReturnSuc($result);
+		
+	}
+
+  
+ 	/**
+	 * 下一个
+	 */
+	public function next($orgid,$test_id,$eval_id,$id){
+		
+		$query = $this->model->alias("tur");
+		
+		$map = array('tur.id'=>array("gt",$id),'tur.test_id'=>$test_id,'tur.eval_id'=>$eval_id,"tur.org_ids"=>array('like','%'.$orgid.',%'));
+		
+		$query = $query->where($map);
+		
+		$result = $query->order("tur.id asc")->find();
+		
+		if ($result === false) {
+			$error = $this -> model -> getDbError();
+			return $this -> apiReturnErr($error);
+		}
+		
+		return $this->apiReturnSuc($result);
+		
+	}
 	
 	/**
 	 * 查询审核记录
@@ -23,25 +66,27 @@ class TestevalUserResultApi extends Api{
 	 * @param int $eval_id 量表ID
 	 * @param int $test_id 测评ID
 	 * */
-	public function queryWithUserInfo($orgid,$eval_id,$test_id, $page = array('curpage'=>0,'size'=>10), $params = false){
+	public function queryWithUserInfo($orgid,$test_id,$eval_id, $page = array('curpage'=>0,'size'=>10), $params = false){
 		
-		$query = $this->model->alias("tur")->join("LEFT JOIN common_org_member  as com on com.member_uid = tur.user_id");
+		$query = $this->model->alias("tur");
 		
-		$query = $query->where(array("com.organization_id"=>$orgid,'tur.eval_id'=>$eval_id,'tur.test_id'=>$test_id));
+		$map = array('tur.test_id'=>$test_id,'tur.eval_id'=>$eval_id,"tur.org_ids"=>array('like','%'.$orgid.',%'));
+		
+		$query = $query->where($map);
 		
 		$query = $query->order("tur.create_time asc")->field(" tur.user_id,tur.eval_type,tur.eval_id,tur.id,tur.test_id,tur.create_time,tur.review,tur.review_notes ");
 		
 		$list = $query -> page($page['curpage'] . ',' . $page['size']) -> select();
-		
+//		dump($this->model->getLastSql());
 		if ($list === false) {
 			$error = $this -> model -> getDbError();
 			return $this -> apiReturnErr($error);
 		}
 		
-		$count = $this -> model -> where($map) -> count();
+		$count = $query -> count();
 		// 查询满足要求的总记录数
 		$Page = new \Think\Page($count, $page['size']);
-
+		
 		//分页跳转的时候保证查询条件
 		if ($params !== false) {
 			foreach ($params as $key => $val) {

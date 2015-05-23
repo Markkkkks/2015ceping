@@ -253,8 +253,21 @@ class TestSysController extends HomeController{
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+		$id = $result['info'];
 		
-		$params = array('id'=>$result['info'],'type'=>$eval_type,'user_id'=>$uid,'test_id'=>$testid,'eval_id'=>$evalid);
+		
+		$result = apiCall("Admin/OrgMemberView/queryNoPaging", array(array("member_uid"=>$uid)));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		//获取用户的额组织机构
+		$org_ids = "";
+		foreach($result['info'] as $vo){
+			$org_ids .= $vo['orgid'].','.$vo['org_path'];
+		}
+		
+		$params = array('org_ids'=>$org_ids,'id'=>$id,'type'=>$eval_type,'user_id'=>$uid,'test_id'=>$testid,'eval_id'=>$evalid);
 		
 		//监听测评提交标签
 		tag('test_submit_tag',$params);
