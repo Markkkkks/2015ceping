@@ -10,6 +10,10 @@ namespace Admin\Controller;
 use Common\Controller\BaseController;
 
 class EmptyController extends BaseController{
+    public function index(){
+		$this->assign("tip","您到了一个未知领域！");
+		$this->display();
+    }
 	
 }
 

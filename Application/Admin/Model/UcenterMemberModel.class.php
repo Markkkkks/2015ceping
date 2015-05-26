@@ -14,12 +14,7 @@ use Think\Model;
  * 统一用户成员信息表
  */
 class UcenterMemberModel extends Model {
-	
-	/**
-	 * 前缀
-	 */
-	protected $tablePrefix = "uc_";
-	
+		
 	protected $_auto = array(
 		array('status',1,self::MODEL_INSERT),
 		array('status',1,self::MODEL_INSERT),

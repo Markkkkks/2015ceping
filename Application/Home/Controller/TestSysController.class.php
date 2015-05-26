@@ -41,11 +41,12 @@ class TestSysController extends HomeController{
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
-		foreach($result['info'] as $vo){
-			$orgids .= $vo['orgid'].',';
-			$orgnames .= $vo['orgname'].';';
+		if(is_array($result['info'])){
+			foreach($result['info'] as $vo){
+				$orgids .= $vo['orgid'].',';
+				$orgnames .= $vo['orgname'].';';
+			}
 		}
-		
 		//查询测评记录
 		$result = apiCall("TSystem/TestSys/queryWithOrg", array($orgids));
 		
@@ -56,10 +57,11 @@ class TestSysController extends HomeController{
 		$testlist = $result['info'];
 		$eval_ids = '';
 		
-		foreach($testlist as $vo){
-			$eval_ids .= $vo['eval_ids'];			
+		if(is_array($result['info'])){
+			foreach($testlist as $vo){
+				$eval_ids .= $vo['eval_ids'];			
+			}
 		}
-		
 		//TODO: 查询量表记录
 		//注意效率问题
 		//查询测评记录
@@ -72,27 +74,28 @@ class TestSysController extends HomeController{
 		$result_list = array();
 		$doneEval_ids = array();//已经做过的量表的记录ID,key是测评ID，value是测评中做过的量表ID
 		
-		foreach($testlist as $testvo){
-			$entity = $testvo;
-			$doneEval_ids[$testvo['id']] = "";
-			array_push($test_ids,$testvo['id']);
-			$flag = false;
-			foreach($result['info'] as $vo){
-//				dump(strpos($vo['id'].',', $testvo['eval_ids']));
-				if(!(strpos($testvo['eval_ids'],$vo['id'].',') === false)){
-					$entity['_eval'] = $vo;
-					$flag = true;
+		if(is_array($result['info'])){
+			foreach($testlist as $testvo){
+				$entity = $testvo;
+				$doneEval_ids[$testvo['id']] = "";
+				array_push($test_ids,$testvo['id']);
+				$flag = false;
+				foreach($result['info'] as $vo){
+		//				dump(strpos($vo['id'].',', $testvo['eval_ids']));
+					if(!(strpos($testvo['eval_ids'],$vo['id'].',') === false)){
+						$entity['_eval'] = $vo;
+						$flag = true;
+						array_push($result_list,$entity);
+					}
+						
+				}
+				
+				if(!$flag){
+					$entity['_eval'] = array('title'=>'','id'=>0);
 					array_push($result_list,$entity);
 				}
-					
-			}
-			
-			if(!$flag){
-				$entity['_eval'] = array('title'=>'','id'=>0);
-				array_push($result_list,$entity);
 			}
 		}
-		
 //		dump($result_list);
 		//TODO: 查询已做过的测评-量表记录		
 		$map = array(

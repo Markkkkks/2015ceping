@@ -6,6 +6,7 @@
 // | Copyright (c) 2013-2016, http://www.itboye.com. All Rights Reserved.
 // |-----------------------------------------------------------------------------------
 
+defined("BOYE_SYS_NAME") or die("未定义");
 
 return array(
 	'DATATREE'=>array(		

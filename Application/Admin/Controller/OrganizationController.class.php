@@ -105,7 +105,15 @@ class OrganizationController extends AdminController{
 			$this->error($result['info']);
 		}
 		if(is_array($result['info']) && count($result['info']) > 0){
-			$this->error("有子级，请先删除所有子级！");
+			$this->error("有子机构，请先删除所有子机构！");
+		}
+		
+		$result = apiCall("Admin/OrgMember/query", array(array('organization_id'=>$id)));
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		if(is_array($result['info']) && count($result['info']) > 0){
+			$this->error("存在机构成员，请先移除所有机构的成员！");
 		}
 		
 		$result = apiCall("Admin/Organization/delete", array(array('id'=>$id)));

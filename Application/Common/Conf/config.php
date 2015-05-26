@@ -5,7 +5,7 @@
  
 
 return array(
-	'LOAD_EXT_CONFIG' => 'datatree,uclient', 
+	'LOAD_EXT_CONFIG' => 'datatree,auth', 
 	//唯一管理员用户配置	
    'USER_ADMINISTRATOR' => 1, //管理员用户ID
    'MODULE_DENY_LIST'      =>  array('Common','Runtime','Ucenter','Uclient'),
@@ -16,7 +16,7 @@ return array(
 	'SHOW_RUN_TIME'=>true,
 //	'SHOW_ADV_TIME'=>true,
 	// 显示数据库操作次数
-//	'SHOW_DB_TIMES'=>true,
+	'SHOW_DB_TIMES'=>true,
 	// 显示操作缓存次数
 //	'SHOW_CACHE_TIMES'=>true,
 	// 显示使用内存
@@ -29,12 +29,12 @@ return array(
     'URL_MODEL'                 =>  1, // 如果你的环境不支持PATHINFO 请设置为3
     // 数据库配置
     'DB_TYPE'                   =>  'mysql',
-    'DB_HOST'                   =>  'rdsrrbifmrrbifm.mysql.rds.aliyuncs.com',
-    'DB_NAME'                   =>  'boye_ceping', //微信api数据库
-    'DB_USER'                   =>  'boye',
-    'DB_PWD'                    =>  'bo-ye2015BO-YE',
+    'DB_HOST'                   =>  '127.0.0.1',//rdsrrbifmrrbifm.mysql.rds.aliyuncs.com
+    'DB_NAME'                   =>  'boye_2015_05_26_14_29_19', //boye_ceping
+    'DB_USER'                   =>  'root',//boye
+    'DB_PWD'                    =>  '1',//bo-ye2015BO-YE
     'DB_PORT'                   =>  '3306',
-    'DB_PREFIX'                 =>  'common_',
+    'DB_PREFIX'                 =>  'itboye_',
     
     
 	
@@ -43,7 +43,7 @@ return array(
     'LOG_TYPE'              =>  'Db',
 	'LOG_LEVEL'  =>'EMERG,ALERT,CRIT,ERR', // 只记录EMERG ALERT CRIT ERR 错误
     'LOG_DB_CONFIG'=>array(
-		'dsn'=>'mysql://boye:bo-ye2015BO-YE@rdsrrbifmrrbifm.mysql.rds.aliyuncs.com:3306/boye_ceping' //本地日志数据库
+		'dsn'=>'mysql://boye_2015_05_26_14_29_19:1@127.0.0.1:3306/boye_2015_05_26_14_29_19' //本地日志数据库
 	),
 	
     // Session 配置
@@ -60,3 +60,6 @@ return array(
     )
 		
 );
+
+
+

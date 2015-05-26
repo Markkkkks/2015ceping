@@ -18,11 +18,6 @@ return array(
      
 	),	
 	
-    // 数据库配置
-    'DB_TYPE'                   =>  'mysql',
-    'DB_PORT'                   =>  '3306',
-    'DB_PREFIX'                 =>  'cp_',
-    
 	
 	
 	 /* 图片上传相关配置 */

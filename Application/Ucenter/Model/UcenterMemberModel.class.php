@@ -15,10 +15,6 @@ use Think\Model;
  */
 class UcenterMemberModel extends Model {
 	
-	/**
-	 * 前缀
-	 */
-	protected $tablePrefix = "uc_";
 	
 	protected $_auto = array(
 		array('status',1,self::MODEL_INSERT),

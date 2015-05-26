@@ -8,11 +8,15 @@
 				<h4 class="modal-title" id="myModalLabel">选择图片</h4>
 			</div>
 			<div class="modal-body clearfix">
-				<!--<div class="col-lg-2 col-md-2">
-								
-							</div>-->
+				<div class="col-lg-12 col-md-12 form-inline">
+						<input type="text" name="q"  class="form-control" placeholder="输入文件名查找" />
+						
+						<button class="btn btn-sm btn-primary js_search" type="button" ><i class="fa fa-search"></i>查找</button>	
+				</div>
 				<div class="col-lg-12 col-md-12">
-					<div class="btns pull-right"><a href="javascript:void(0);" id="upload_picture"><i class="fa fa-upload"></i>本地上传</a>
+					
+					<div class="btns pull-right">
+						<a href="javascript:void(0);" id="upload_picture"><i class="fa fa-upload"></i>本地上传</a>
 					</div>
 					<div class="imgs-container pull-left">
 						<div class="loading">
@@ -57,7 +61,7 @@
 					
 				}
 			}else{
-				$("#wxuploadimg .imgs-list").html("");
+				$("#wxuploadimg .imgs-list").html("没有相关图片信息!");
 			}
 		}
 		
@@ -111,11 +115,12 @@
 		 * 向服务器请求数据
 		 */
 		function queryImgList() {
+			var q = $("#wxuploadimg input[name='q']").val();
 			$.ajax({
 				type: "post",
-				url: "{:U('Admin/File/picturelist')}",
+				url: "{:U('Admin/File/picturelist')}?p="+wxuploadimg.pager.index,
 				data: {
-					p: wxuploadimg.pager.index,
+					q:q,
 					size: wxuploadimg.pager.size
 				},
 				dataType: "json",
@@ -203,6 +208,11 @@
 					}
 					ev.preventDefault();
 					ev.stopPropagation();
+				})
+				
+				//查找
+				$(".js_search").click(function(){
+					queryImgList();
 				})
 			}
 			hadBind = true;

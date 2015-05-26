@@ -8,4 +8,8 @@
 
 
 // 必须定义
-define('UC_AUTH_KEY', 'hDE):a&XO"yF<V,>q}|L!nogZ~KfHWJ8MRQjY]7s'); //加密KEY
+define('UC_AUTH_KEY', '*lid9!,Nxnf":UrSq&FXm.zY;/wBo=D%e`4v26ZA'); //加密KEY
+define('UC_APP_ID', 1); //应用ID
+define('UC_API_TYPE', 'Model'); //可选值 Model / Service
+define('UC_DB_DSN', 'mysql://root:1@127.0.0.1:3306/boye_2015_05_26_14_29_19'); // 数据库连接，使用Model方式调用API必须配置此项
+define('UC_TABLE_PREFIX', 'itboye_'); // 数据表前缀，使用Model方式调用API必须配置此项

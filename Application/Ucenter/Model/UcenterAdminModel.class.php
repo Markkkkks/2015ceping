@@ -14,10 +14,6 @@ use Think\Model;
  */
 class UcenterAdminModel extends Model {
 	
-	/**
-	 * 前缀
-	 */
-	protected $tablePrefix = "uc_";
 	
 	/**
 	 * 登录

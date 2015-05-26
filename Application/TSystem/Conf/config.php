@@ -6,8 +6,8 @@
 
 return array(
 	
-    'DB_PORT'                   =>  '3306',
-    'DB_PREFIX'                 =>  'cp_',
+//  'DB_PORT'                   =>  '3306',
+//  'DB_PREFIX'                 =>  'cp_',
 //	'HTML_CACHE_ON'     =>    true, // 开启静态缓存
 //	'HTML_CACHE_TIME'   =>    360,   // 全局静态缓存有效期（秒）
 //	'HTML_FILE_SUFFIX'  =>    '.html', // 设置静态缓存文件后缀

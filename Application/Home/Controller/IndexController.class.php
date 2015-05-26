@@ -7,13 +7,44 @@
 // |-----------------------------------------------------------------------------------
 namespace Home\Controller;
 use Think\Controller;
-
+use Think\Storage;
 /*
  * 官网首页
  */
 class IndexController extends HomeController {
 	
+	private $allow_domain = array(
+		"localhost",
+		"127.0.0.1",
+		"192.168.0.102",
+		"20150505.itboye.com",
+	);
 	
+	/**
+	 * 跨域资源访问控制
+	 */
+	public function asset(){
+		$referer = I('server.HTTP_REFERER','');
+		//TODO: 判断path不能以.或/开头
+		$path = I("get.path",'');
+		//TODO: 去数据库中查询$referer 是否被允许访问
+//		dump($referer);
+		$str = preg_replace("/http:\/\/|https:\/\//u","",$referer);  //去掉http://
+//		dump($str);
+		$strdomain = explode("/",$str);               // 以“/”分开成数组
+		$domain    = $strdomain[0];
+//		dump($domain);
+		if(!in_array($domain, $this->allow_domain)){
+			echo "NOT ALLOWED!";
+			exit();
+		}
+		
+		header("Access-Control-Allow-Origin:".$domain);
+//		Storage::read("./Public/".$path);
+		$asset = Storage::read("./Public/".$path);
+		echo $asset;
+		exit();
+	}
 	
 	
 	/**
@@ -67,16 +98,16 @@ class IndexController extends HomeController {
 	}
 	
     public function index(){
-    		
-    		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-		
-		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-		if(!$cates['status']){
-			$this->error($cates['info']);
-		}
-		
-		$this->assign("cates",$cates['info']);
-		$this->theme($this->theme)->display();
+    		$this->redirect("login");
+//  		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+//		
+//		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+//		if(!$cates['status']){
+//			$this->error($cates['info']);
+//		}
+//		
+//		$this->assign("cates",$cates['info']);
+//		$this->theme($this->theme)->display();
 	} 
 	
 	public function cate(){

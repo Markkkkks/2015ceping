@@ -2,9 +2,9 @@
 /**
  * (c) Copyright 2014 hebidu. All Rights Reserved. 
  */
-
- defined('THINK_PATH') or exit();
  
+defined("BOYE_SYS_NAME") or die("未定义");
+
 return  array(
     'LOG_TYPE'              =>  'Db',
     'LOG_RECORD'            =>  true,  // 进行日志记录
@@ -16,13 +16,14 @@ return  array(
     'TMPL_STRIP_SPACE'      =>  false,       // 是否去除模板文件里面的html空格与换行
     'SHOW_ERROR_MSG'        =>  true,    // 显示错误信息
     'URL_CASE_INSENSITIVE'  =>  false,  // URL区分大小写
-    'SHOW_PAGE_TRACE'           =>  true, //显示调试信息
+    'SHOW_PAGE_TRACE'           =>  false, //显示调试信息
      // 数据库配置
-    'DB_TYPE'                   =>  'mysql',
-    'DB_HOST'                   =>  'localhost',
-    'DB_NAME'                   =>  'boye_ceping',
-    'DB_USER'                   =>  'root',
-    'DB_PWD'                    =>  '1',
-    'DB_PORT'                   =>  '3306',
-    'DB_PREFIX'                 =>  'common_',
+     
+//  'DB_TYPE'                   =>  'mysql',
+//  'DB_HOST'                   =>  '127.0.0.1',//rdsrrbifmrrbifm.mysql.rds.aliyuncs.com
+//  'DB_NAME'                   =>  'boye_2015_05_26_10_15_13', //boye_ceping
+//  'DB_USER'                   =>  'root',//boye
+//  'DB_PWD'                    =>  '1',//bo-ye2015BO-YE
+//  'DB_PORT'                   =>  '3306',
+//  'DB_PREFIX'                 =>  'itboye_',
 );

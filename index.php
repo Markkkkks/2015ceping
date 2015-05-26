@@ -10,13 +10,15 @@
 
 if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
 
+define('BOYE_SYS_NAME',true);
+
 // 是否调试模式
 define('APP_DEBUG',true);
 
-require_once('./auth.php');
-
 // 运行时文件
 define("APP_PATH","./Application/");
+
+require_once(APP_PATH.'/Common/Conf/auth.php');
 
 define('HTML_PATH',      './Html/'); // 应用静态目录
 

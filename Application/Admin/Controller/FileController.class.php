@@ -51,9 +51,15 @@ class FileController extends AdminController{
 
 	public function picturelist(){
 		if(IS_AJAX){
-			$cur = I('post.p',0);
+			$cur = I('get.p',0);
+			$q = I('post.q','');
 			$size = I('post.size',10);
 			$map = array('uid'=>UID);
+			
+			if(!empty($q)){
+				$map['ori_name'] = array('like','%'.$q.'%');
+			}
+			
 			$page = array('curpage'=>$cur,'size'=>$size);
 			$order = 'createtime desc';
 			$params = array(
