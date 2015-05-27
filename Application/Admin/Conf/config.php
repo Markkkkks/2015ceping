@@ -3,6 +3,7 @@
 //客户端需要与这个一致
 
 return array(
+	'APP_AUTH_KEY'=>'',//授权码，用于在线升级
 	//自定义配置
 	"DEFAULT_THEME"=>"default",
 	'LANG_AUTO_DETECT' => true, // 自动侦测语言 开启多语言功能后有效
