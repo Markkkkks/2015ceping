@@ -98,16 +98,20 @@ class IndexController extends HomeController {
 	}
 	
     public function index(){
-    		$this->redirect("login");
-//  		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-//		
-//		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-//		if(!$cates['status']){
-//			$this->error($cates['info']);
-//		}
-//		
-//		$this->assign("cates",$cates['info']);
-//		$this->theme($this->theme)->display();
+    	$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+		if(!$cates['status']){
+			$this->error($cates['info']);
+		}
+		$com=M('Post');
+		$list = $com->select();
+		$this->assign('list',$list);
+		$user=M('member','common_');
+		$users=$user->select();		
+		
+		$this->assign("users",$users);
+		$this->assign("cates",$cates['info']);
+		$this->display();
 	} 
 	
 	public function cate(){
@@ -125,13 +129,23 @@ class IndexController extends HomeController {
 		}
 		
 		$this->assign("title",$result['info']['name']);
-		$page = array('curpage'=>I('get.p',0),'size'=>10);
+		$page = array('curpage'=>I('get.p',0),'size'=>6);
 		
 		$result = apiCall("Home/Post/query", array($map,$page));
 //		dump($result);
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+		if(!$cates['status']){
+			$this->error($cates['info']);
+		}
+		$user=M('member','common_');
+		$users=$user->select();		
+		
+		$this->assign("users",$users);
+		$this->assign("cates",$cates['info']);
 		
 		$this->assign("list",$result['info']['list']);
 		$this->assign("show",$result['info']['show']);
@@ -146,8 +160,21 @@ class IndexController extends HomeController {
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+		if(!$cates['status']){
+			$this->error($cates['info']);
+		}
 		
+		$this->assign("cates",$cates['info']);
+		$com=M('Post');
+		$list = $com->where ('id='.$id)->select();
+		$this->assign('lists',$list);
 		$content = htmlspecialchars_decode($result['info']['post_content']);
+		$user=M('member','common_');
+		$users=$user->select();		
+		
+		$this->assign("users",$users);
 		$title = $result['info']['post_title'];
 		$this->assign("post",$result['info']);
 		$this->assign("title",$title);
@@ -206,6 +233,65 @@ class IndexController extends HomeController {
 		session("LOGIN_MOD", MODULE_NAME);
 				
 	}
+	
+//	public function cate(){
+//		$cateid = I('get.cateid',0);
+//		$map = array('post_category'=>$cateid,'post_status'=>'publish');
+//		
+//		$result = apiCall("Home/Datatree/getInfo", array(array('id'=>$cateid)));
+//		
+//		if(!$result['status']){
+//			$this->error($result['info']);
+//		}
+//		
+//		if(is_null($result['info'])){
+//			$this->error("该分类不存在!");
+//		}
+//		
+//		//----------------------------------------------------
+//		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+//		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+//		if(!$cates['status']){
+//			$this->error($cates['info']);
+//		}
+//		
+//		//---------------------------------------
+//		
+//		$this->assign("title",$result['info']['name']);
+//		$page = array('curpage'=>I('get.p',0),'size'=>6);
+//		
+//		$result = apiCall("Home/Post/query", array($map,$page));
+////		dump($result);
+//		if(!$result['status']){
+//			$this->error($result['info']);
+//		}
+//
+//		$this->assign("cates",$cates['info']);
+//		$this->assign("list",$result['info']['list']);
+//		$this->assign("show",$result['info']['show']);
+//		$this->display("list");
+//		
+//	}
+//	
+//	public function view(){
+//		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+//		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+//		if(!$cates['status']){
+//			$this->error($cates['info']);
+//		}
+//		$id = I('get.id',0);
+//		$map = array('id'=>$id);
+//		$result = apiCall("Home/Post/getInfo", array($map));
+//		if(!$result['status']){
+//			$this->error($result['info']);
+//		}
+//		
+//		$com=M('Post');
+//		$list = $com->where ('id='.$id)->select();
+//		$this->assign('lists',$list);
+//		$this->assign("cates",$cates['info']);
+//		$this->display();
+//	}
 	
 	
 }
