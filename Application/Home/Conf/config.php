@@ -19,4 +19,6 @@ return array(
      	'Reporter:view'=>array('Home/Reporter/view/{$_GET.eval_type}_{$_GET.id}_{$_SERVER.REQUEST_URI|md5}','1296000')
 	)
 	
+
+	
 );
