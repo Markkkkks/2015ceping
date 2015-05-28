@@ -2,7 +2,7 @@
 
 
 namespace Admin\Controller;
-use OT\File;
+use Org\File;
 
 /**
  * 在线更新
@@ -33,22 +33,44 @@ class UpdateController extends AdminController{
 	 */
 	private function checkVersion(){
 		if(extension_loaded('curl')){
-			$url = 'http://api.itboye.com/index.php/Home/Index/check_version';
-			$params = array(
-					'version' => APP_VERSION,
-					'domain'  => $_SERVER['HTTP_HOST'],
-					'auth'    => sha1(C('APP_AUTH_KEY')),
+			$url = 'http://localhost/github/2015upgrade/index.php/Home/Index/upgrade_check/appid/'.UC_APP_ID.'.json';
+			$auth_key = urlencode(UC_AUTH_KEY);
+			$version = 1000;
+			$domain = UC_DOMAIN;
+			$data = array("auth_key"=>$auth_key,"version"=>$version);//$auth_key/version/$version
+			
+			$header = array(
+				"Accept-Charset:utf-8",
+				"Referer:".$domain,
 			);
-			$vars = http_build_query($params);
-			//获取版本数据
-			$data = $this->getRemoteUrl($url, 'post', $vars);
-			if(!empty($data) && strlen($data)<400 ){
-				$this->showMsg('发现新版本：'.$data, 'success');
-				return $data;
-			}else{
-				$this->showMsg("未发现新版本", 'error');
-				exit;
+			
+			$result = curlPost($url,$data,$header);
+			
+			if(!$result['status']){
+				$this->error($result['info']);
 			}
+			
+			$data = json_decode($result['info']);
+			if($data->errcode === 1){
+//				$this->assign("pkglist",$data->info);
+				$this->showMsg('发现新版本：', 'success');
+				return $data;
+			}
+			
+			if($data->errcode > 0){
+				$this->assign("msg",$data->info);
+			}
+			
+			//获取版本数据
+			
+//			if(!empty($data) && strlen($data)<400 ){
+//				$this->showMsg('发现新版本：'.$data, 'success');
+//				return $data;
+//			}else{
+//				$this->showMsg("未发现新版本", 'error');
+//				exit;
+//			}
+			
 		}else{
 			$this->error('请配置支持curl');
 		}
@@ -56,7 +78,6 @@ class UpdateController extends AdminController{
 
 	/**
 	 * 在线更新
-	 * @author	hebidu <hebiduhebi@126.com>
 	 */
 	private function update($version){
 		//PclZip类库不支持命名空间
@@ -71,7 +92,7 @@ class UpdateController extends AdminController{
 		$this->showMsg('系统在线更新日志：');
 		$this->showMsg('更新开始时间:'.date('Y-m-d H:i:s'));
 		sleep(1);
-
+		
 		/* 建立更新文件夹 */
 		$folder = $this->getUpdateFolder();
 		File::mk_dir($folder);
@@ -84,10 +105,10 @@ class UpdateController extends AdminController{
 			G('start1');
 			$backupallPath = $folder.'/backupall.zip';
 			$zip = new \PclZip($backupallPath);
-			$zip->create('Application,ThinkPHP,.htaccess,admin.php,index.php');
+			$zip->create('Application,Core,.htaccess,index.php');
 			$this->showMsg('成功完成重要程序备份,备份文件路径:<a href=\''.__ROOT__.$backupallPath.'\'>'.$backupallPath.'</a>, 耗时:'.G('start1','stop1').'s','success');
 		}
-
+		
 		/* 获取更新包 */
 		//获取更新包地址
 		$updatedUrl = 'http://www.onethink.cn/index.php?m=home&c=check_version&a=getDownloadUrl';
@@ -109,7 +130,7 @@ class UpdateController extends AdminController{
 		File::write_file($zipPath, $downZip);
 		$this->showMsg('获取远程更新包成功,更新包路径：<a href=\''.__ROOT__.ltrim($zipPath,'.').'\'>'.$zipPath.'</a>', 'success');
 		sleep(1);
-
+		
 		/* 解压缩更新包 */ //TODO: 检查权限
 		$this->showMsg('更新包解压缩...');
 		sleep(1);
@@ -158,7 +179,6 @@ class UpdateController extends AdminController{
 
 	/**
 	 * 获取远程数据
-	 * @author huajie <banhuajie@163.com>
 	 */
 	private function getRemoteUrl($url = '', $method = '', $param = ''){
 		$opts = array(
@@ -185,7 +205,6 @@ class UpdateController extends AdminController{
 	 * 实时显示提示信息
 	 * @param  string $msg 提示信息
 	 * @param  string $class 输出样式（success:成功，error:失败）
-	 * @author huajie <banhuajie@163.com>
 	 */
 	private function showMsg($msg, $class = ''){
 		echo "<script type=\"text/javascript\">showmsg(\"{$msg}\",\"{$class}\")</script>";
@@ -195,10 +214,9 @@ class UpdateController extends AdminController{
 
 	/**
 	 * 生成更新文件夹名
-	 * @author huajie <banhuajie@163.com>
 	 */
 	private function getUpdateFolder(){
-		$key = sha1(C('DATA_AUTH_KEY'));
+		$key = sha1(C('UC_AUTH_KEY'));
 		return 'update_'.$key;
 	}
 }

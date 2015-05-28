@@ -8,11 +8,12 @@
 
 namespace TSystem\Api;
 use \Common\Api\Api;
+use \TSystem\Model\TestevalUserResultModel;
 
 class TestevalUserResultApi extends Api{
 	
 	protected function _init(){
-		$this->model = new \TSystem\Model\TestevaluserResultModel();
+		$this->model = new \TSystem\Model\TestevalUserResultModel();
 	}
 	
 	/**
