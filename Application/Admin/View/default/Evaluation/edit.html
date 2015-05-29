@@ -55,7 +55,14 @@
 							</select>
 						</div>
 					</div>
-					
+					<div class="form-group">
+						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">量表分类</label>
+						<div class="col-md-10 col-lg-10">
+							<select name="cate" class="form-control">
+								{:W('Partials/datatree',array(getDatatree('TEST_TABLE_CATE'),false,$vo['cate']))}							
+							</select>
+						</div>
+					</div>
 					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">描述</label>
 						<div class="col-md-10 col-lg-10">

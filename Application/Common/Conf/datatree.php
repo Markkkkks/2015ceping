@@ -13,5 +13,6 @@ return array(
 		'POST_CATEGORY'=>21, //文章分类
 		'TEST_TABLE_TYPES'=>23,//量表类型
 		'TEST_TABLE_APPLICABLE'=>26,//适用群体、人群。
+		'TEST_TABLE_CATE'=>197,
 	)
 );

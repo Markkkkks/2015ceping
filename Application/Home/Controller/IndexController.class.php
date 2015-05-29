@@ -184,6 +184,28 @@ class IndexController extends HomeController {
 		$this->theme($this->theme)->display();
 	}
 	
+	/*
+	 * 搜索
+	 * */
+	public function search (){
+		$text=I('post.text');
+		$where ="post_title like '%$text%'";
+//		dump($where);
+//		$list=M('post')->where($where)->select();
+		
+		$page = array('curpage'=>I('get.p',0),'size'=>6);
+		
+		$list = apiCall("Home/Post/query", array($where,$page));
+//		dump($list);
+		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
+		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
+		if(!$cates['status']){
+			$this->error($cates['info']);
+		}
+		$this->assign("list",$list['info']['list']);
+		$this->assign("cates",$cates['info']);
+		$this->display();
+	}	
 	
 	
 	/**

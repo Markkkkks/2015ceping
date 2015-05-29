@@ -1,5 +1,5 @@
 .main{ min-height: 100%;  resize: none;  height: 1000px; margin: auto 0;}
-.menu{ font-size: 15px; height: 6% ;  margin-top: -6%; position: fixed;  width: 100%; }
+.menu{ font-size: 15px; height: 6% ;  margin-top: -6%; position: fixed;  width: 100%; width: 1900px; }
 .top{z-index:999999;   margin-top: 0.5%; height: 100%; color: #000000;   padding: 8px;  min-width: 1600px;}
 a{color: black !important;}
 a:hover{ color: #19A7F0 !important;}
@@ -92,4 +92,5 @@ margin-top: -15px;
   padding:0.6em 0.8em;
   background-color:rgb(26, 188, 156);
   color:white;
-  border:none;
+  border:none;
+  }

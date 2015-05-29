@@ -29,8 +29,13 @@ class EvaluationController extends AdminController{
 		//
 		$result = apiCall("TSystem/Evaluation/query",array($map,$page,$order,$params));
 		
+		$com=M('datatree','common_');
+		
+		$re=$com->where('parentid=197')->select();
+		
 		//
 		if($result['status']){
+			$this->assign('dts',$re);
 			$this->assign('show',$result['info']['show']);
 			$this->assign('list',$result['info']['list']);
 			$this->display();
@@ -70,6 +75,7 @@ class EvaluationController extends AdminController{
 				'title'=>$title,
 				'desc'=>$desc,
 				'type'=>I('post.type',0),
+				'cate'=>I('post.cate'),
 				'user_id'=>UID,
 				'roles'=>$roles_str
 			);

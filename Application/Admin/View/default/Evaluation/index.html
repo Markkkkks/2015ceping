@@ -30,6 +30,9 @@
 								添加时间
 							</th>
 							<th>
+								量表分类
+							</th>
+							<th>
 								操作
 							</th>
 						</tr>
@@ -47,8 +50,12 @@
 									<td>
 										{$vo.title}
 									</td>
+									
 									<td>
 										{$vo.create_time|date='Y-m-d h:i:s',###}
+									</td>
+									<td>
+										<volist name="dts" id="vo1"><if condition="$vo['cate'] eq $vo1['hidden_value']">{$vo1.name}</if></volist>
 									</td>
 									<td>
 										<a href="{:U('Admin/EvalProblem/index',array('eval_id'=>$vo['id']))}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>问题管理</a>
