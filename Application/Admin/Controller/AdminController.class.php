@@ -73,8 +73,10 @@ class AdminController extends CheckLoginController {
 		$menulist = "";
 		if ($result['status']) {
 			$group_ids = '';
-			foreach ($result['info'] as $groupaccess) {
-				$group_ids .= $groupaccess['group_id'] . ',';
+			if(is_array($result['info'])){
+				foreach ($result['info'] as $groupaccess) {
+					$group_ids .= $groupaccess['group_id'] . ',';
+				}
 			}
 			unset($map['uid']);
 			if (!empty($group_ids)) {
