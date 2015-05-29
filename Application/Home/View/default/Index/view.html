@@ -54,8 +54,12 @@
 				</div>
 					
 			</div>
+			<volist name="cates" id="vo">
+			<if condition="$vo['id'] eq $cateid">
 			<span class="dh">
-			<a href="">首页</a>&nbsp;>&nbsp;<a href="">商城公告</a>&nbsp;>&nbsp;详情</span>
+			<a href="">首页</a>&nbsp;>&nbsp;<a href="">{$vo.name}</a>&nbsp;>&nbsp;详情</span>
+			</if>
+			</volist>
 			<div style=" background-color: #F1F4F9; height: 1800px ; width: 1900px;">
 			<div class="list_main" > 
 				<volist name="lists" id="vo">
@@ -64,10 +68,11 @@
 								<h2>{$vo.post_title}</h2>
 								<span class="r1_t2">{$vo.post_date|date='Y-m-d H:i:s',###} 作者：<volist name="users" id="user"><if condition="$vo['post_author'] eq $user['uid']">{$user.realname}</if></volist></span><br>
 								<div class="view_img">
-									
 									<img src="{$vo.main_img}"/>
 								</div>
+								
 								<span class="r1_t3">{:htmlspecialchars_decode($vo['post_content'])}</span><br><br><br>
+							
 								 <span class="view_span">责任编辑：杨青</span>
 							</div>
 					</div>

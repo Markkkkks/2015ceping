@@ -143,7 +143,7 @@ class IndexController extends HomeController {
 		}
 		$user=M('member','common_');
 		$users=$user->select();		
-		
+		$this->assign("cateid",$cateid);
 		$this->assign("users",$users);
 		$this->assign("cates",$cates['info']);
 		
@@ -154,6 +154,7 @@ class IndexController extends HomeController {
 	}
 	
 	public function view(){
+		$cateid = I('get.cateid',0);
 		$id = I('get.id',0);
 		$map = array('id'=>$id);
 		$result = apiCall("Home/Post/getInfo", array($map));
@@ -165,7 +166,7 @@ class IndexController extends HomeController {
 		if(!$cates['status']){
 			$this->error($cates['info']);
 		}
-		
+		$this->assign("cateid",$cateid);
 		$this->assign("cates",$cates['info']);
 		$com=M('Post');
 		$list = $com->where ('id='.$id)->select();
