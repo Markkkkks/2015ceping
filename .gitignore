@@ -27,3 +27,5 @@ DerivedData
 /Runtime
 /Html
 *.DS_Store
+.DS_Store
+.DS_Store?
