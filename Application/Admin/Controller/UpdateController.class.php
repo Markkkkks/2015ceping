@@ -18,7 +18,19 @@ class UpdateController extends AdminController{
 		if(IS_POST){
 			
 		}else{
-			
+//			import('Org/PclZip');
+//			$zipPath = RUNTIME_PATH."Update/20150530083751/update.zip";
+//			if(is_file($zipPath)){
+//				dump("file");
+//			}else{
+//				dump($zipPath);
+//			}
+//			$zip = new \PclZip($zipPath);
+//			$res = $zip->extract(PCLZIP_OPT_PATH,"./");
+//			dump($res);
+//			if($res === 0){
+//				dump($zip->errorInfo(true));
+//			}
 			$this->checkVersion();
 			$this->display();
 		}
@@ -33,7 +45,7 @@ class UpdateController extends AdminController{
 		if(extension_loaded('curl')){
 			
 			$version = C('UPGRADE_APP_VERSION');
-			
+
 			$auth_key = urlencode(C('UPGRADE_AUTH_KEY'));
 			$domain = C('UPGRADE_AUTH_DOMAIN');
 			$data = array("auth_key"=>$auth_key,"version"=>$version);//$auth_key/version/$version
@@ -74,12 +86,15 @@ class UpdateController extends AdminController{
 		if(IS_GET){
 			$version = I('get.version',0);
 			$pkg_url = I('get.pkg_url','');
+			
+			$this->assign("version",$version);
 			$this->assign("pkg_url",$pkg_url);
 			$this->display();
 		}else{
 			$version = I('get.version',0);
 			$pkg_url = I('get.pkg_url','');
 			
+			$this->assign("version",$version);
 			$this->assign("pkg_url",$pkg_url);
 			$this->display();
 			$this->update($version,urldecode($pkg_url));
@@ -122,24 +137,23 @@ class UpdateController extends AdminController{
 //
 //		//备份重要文件
 //		if($backupFile){
-//			$this->showMsg('开始备份重要程序文件...');
-//			G('start1');
-//			$backupallPath = $folder.'/backupall.zip';
-//			$zip = new \PclZip($backupallPath);
-//			$zip->create('Application,ThinkPHP,.htaccess,admin.php,index.php');
-//			$this->showMsg('成功完成重要程序备份,备份文件路径:<a href=\''.__ROOT__.$backupallPath.'\'>'.$backupallPath.'</a>, 耗时:'.G('start1','stop1').'s','success');
+		$this->showMsg('开始备份重要程序文件...');
+		G('start1');
+		$backupallPath = $folder.'/backupall.zip';
+		$zip = new \PclZip($backupallPath);
+		$zip->create('Application,Core,index.php');
+		$this->showMsg('成功完成重要程序备份,备份文件路径:<a href=\''.__ROOT__.$backupallPath.'\'>'.$backupallPath.'</a>, 耗时:'.G('start1','stop1').'s','success');
 //		}
 //
 //		/* 获取更新包 */
 //		
 //		//下载并保存
 		$this->showMsg('远程更新包地址: '.$updatedUrl);
-		$this->showMsg('开始获取远程更新包...'.$folder);
-		sleep(2);
+		$this->showMsg('开始获取远程更新包...');
+		sleep(1);
 		$zipPath = $folder.'/update.zip';
 		$downZip = $this->getRemoteUrl($updatedUrl);
 //		dump($downZip);
-		$this->showMsg('下载更新包出错，请重试！'.serialize($downZip), 'error');
 		if(empty($downZip)){
 			$this->showMsg('下载更新包出错，请重试！', 'error');
 			exit;
@@ -153,7 +167,8 @@ class UpdateController extends AdminController{
 		$this->showMsg('更新包解压缩...');
 		sleep(1);
 		$zip = new \PclZip($zipPath);
-		$res = $zip->extract(PCLZIP_OPT_PATH,'./');
+		$res = $zip->extract(PCLZIP_OPT_PATH,"./");
+//		$this->showMsg('更新包解压缩成功'.$res, 'success');
 		if($res === 0){
 			$this->showMsg('解压缩失败：'.$zip->errorInfo(true).'------更新终止', 'error');
 			exit;
@@ -180,8 +195,7 @@ class UpdateController extends AdminController{
 			$this->showMsg('更新数据库完毕', 'success');
 		}
 		
-		/* 系统版本号更新 */
-		
+		/* 系统版本号更新 */		
 		$Model = M('Config',"common_");
 		$res = $Model->where(array("name"=>'UPGRADE_APP_VERSION'))->data(array("value"=>$version))->save();
 		
@@ -195,6 +209,7 @@ class UpdateController extends AdminController{
 //		
 		$this->showMsg('##################################################################');
 		$this->showMsg('在线更新全部完成，如有备份，请及时将备份文件移动至非web目录下！', 'success');
+		S("config_" . session_id() . '_' . session("uid"), null);
 	}
 
 	/**

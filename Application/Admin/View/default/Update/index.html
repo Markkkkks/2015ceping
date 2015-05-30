@@ -9,7 +9,9 @@
 		{:W('Menus/left')}
 		<div class="admin-main-content">
 			{:W('Menus/breadcrumb')}
-			
+			<div>
+				当前版本号: {:C('UPGRADE_APP_VERSION')}
+			</div>
 			<div id="show-list" class="update-version">
 				<empty name="pkglist">
 					<notempty name="msg">
@@ -48,7 +50,7 @@
 							<td>
 								<a href="{$vo->upgrade_pkg_url}" target="_blank" class="btn btn-sm btn-primary" title="下载后，按照说明文件手动按照更新包!"><i class="fa fa-download"></i>下载更新包</a>
 								<eq name="key" value="0">
-								<a href="{:U('Admin/Update/view',array('version'=>$version,'pkg_url'=>urlencode($vo->upgrade_pkg_url)))}" target="_blank" class="btn btn-sm btn-primary" title="自动更新,请先备份!"><i class="fa fa-refresh"></i>自动更新<span class="text-danger">(请先备份)</span></a>
+								<a href="{:U('Admin/Update/view',array('version'=>$vo->version,'pkg_url'=>urlencode($vo->upgrade_pkg_url)))}" target="_blank" class="btn btn-sm btn-primary" title="自动更新,请先备份!"><i class="fa fa-refresh"></i>自动更新<span class="text-danger">(请先备份)</span></a>
 								</eq>
 							</td>
 							
