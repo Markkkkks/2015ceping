@@ -15,39 +15,35 @@
 			
 			<div class="logo">
 				<div class="top_sc">
-					<div class="top_sc_lf">
-						<a href=""  onclick="">设为首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""  onclick="">收藏本站</a>
-					</div>
-				  <div class="top_r">
-				      <a href="{:U('Home/Index/login')}">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				      <a href="">注册</>
+					<div class="top_sc_cen">
+						<div class="top_sc_lf">
+							<a href=""  onclick="">设为首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""  onclick="">收藏本站</a>
+						</div>
+					    <div class="top_r">
+					      <a href="{:U('Home/Index/login')}">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					      <a href="">注册</>
+					    </div>
 				    </div>
 				</div>
 					
 			</div>
 			<div class="menu">
-				<header class="top">
-					<div class="top_lf">
+				<div class="menu_cen">
+					
 						
-						 	<a href="#">评测系统</a>
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">评测系统</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						 	<div class="logo_img">
 								<img src="__PUBLIC__/Home/imgs/logo.png">			
 							</div>
 				   		 <a href="#">
-				   		 	<span class="am-icon-home am-icon-md"></span>
-				   		 	首页</a>
+				   		 	首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				   		 	<volist name="cates" id="vo">
 								<a href="{:U('Home/Index/cate',array('cateid'=>$vo['id']))}">
 										{$vo.name}
-								</a>
+								</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								
 							</volist>
-
-				   		 <!--<a href="#">栏目一</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				   		 <a href="#">栏目二</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
-				   		
-				   		
-				  	</div>
+				  	
 					<div class="sele">
 						<form action="{:U('Home/Index/search')}" method="post">
 							<div class="field" id="searchform">
@@ -55,15 +51,14 @@
 								  <button type="submit" id="search">Find!</button>
 							</div>
 						</form>
-					
-				</div>
+					</div>
 				  <!--<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>-->
-				
+				</div>
 				
 				    
 				  
 				
-				</header>
+			
 			</div>
 			<div class="show" >
 				<div class="show_cent">

@@ -36,11 +36,11 @@ $(function(){
 				$(".c5").css("margin-top","-18.5%");
 			})
 			$(window).scroll(function(){
-				$(".menu").css("margin-top","-10.4%");
+				$(".menu").css("margin-top","-10.8%");
 				$(".menu").css("background-color","#FAFAFA");
 				$(".menu").css("opacity","0.8");
 				if ($(document).scrollTop() <= 50) {
-                    $(".menu").css("margin-top","-6%");
+                    $(".menu").css("margin-top","-8%");
                     $(".menu").css("background-color","#FFFFFF");
                     $(".menu").css("opacity","1");
                 }

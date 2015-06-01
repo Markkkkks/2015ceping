@@ -9,81 +9,73 @@
 	<body>
 		<div class="main">
 			<div class="menu">
-				<header class="top">
-					<div class="top_lf">
-						
-						 	<a href="#">评测系统</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				   		 <a href="{:U('Home/Index/index')}">
-				   		 	<span class="am-icon-home am-icon-md"></span>
-				   		 	首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				   		 	<volist name="cates" id="vo">
-								<a href="{:U('Home/Index/cate',array('cateid'=>$vo['id']))}">
-										{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;
-								</a>
-								
-							</volist>
-
-				   		 <!--<a href="#">栏目一</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				   		 <a href="#">栏目二</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
-				   		
-				   		
-				  	</div>
-				
-				  <!--<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>-->
-				
-				
-				    
-				    <div class="top_r">
-				      <a href="{:U('Home/Index/login')}">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				      <a href="">注册</>
-				    </div>
-				
-				</header>
-			</div>
-			<div class="logo">
-				<div class="logo_img">
-					<img src="__PUBLIC__/Home/imgs/logo.png">			
+					<div class="menu_cen">
+						<div class="top_lf">
+							 	<a href="#">评测系统</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					   		 <a href="{:U('Home/Index/index')}">
+					   		 	<span class="am-icon-home am-icon-md"></span>
+					   		 	首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					   		 	<volist name="cates" id="vo">
+									<a href="{:U('Home/Index/cate',array('cateid'=>$vo['id']))}">
+											{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;
+									</a>
+								</volist>
+					  	</div>
+					    <div class="top_r">
+					      <a href="{:U('Home/Index/login')}">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					      <a href="">注册</></a>
+					    </div>
+					 </div>
 				</div>
-				<div class="sele">
-					
-						<div class="field" id="searchform">
-							  <input type="text" id="searchterm" placeholder="请输入.." />
-							  <button type="button" id="search">Find!</button>
+				<div class="logo">
+					<div class="logo_cen">
+						<div class="logo_img">
+							<img src="__PUBLIC__/Home/imgs/logo.png">			
 						</div>
-					
-				</div>
-					
-			</div>
-			<volist name="cates" id="vo">
-			<if condition="$vo['id'] eq $cateid">
-			<span class="dh">
-			<a href="">首页</a>&nbsp;>&nbsp;<a href="">{$vo.name}</a>&nbsp;>&nbsp;详情</span>
-			</if>
-			</volist>
-			<div style=" background-color: #F1F4F9; height: 1800px ; width: 1900px;">
-			<div class="list_main" > 
-				<volist name="lists" id="vo">
-					<div class="r1">
-							<div class="view_main">
-								<h2>{$vo.post_title}</h2>
-								<span class="r1_t2">{$vo.post_date|date='Y-m-d H:i:s',###} 作者：<volist name="users" id="user"><if condition="$vo['post_author'] eq $user['uid']">{$user.realname}</if></volist></span><br>
-								<div class="view_img">
-									<img src="{$vo.main_img}"/>
-								</div>
-								
-								<span class="r1_t3">{:htmlspecialchars_decode($vo['post_content'])}</span><br><br><br>
-							
-								 <span class="view_span">责任编辑：杨青</span>
+						<div class="sele">
+						<form action="{:U('Home/Index/search')}" method="post">
+							<div class="field" id="searchform">
+								  <input type="text"  name="text" id="searchterm" placeholder="请输入.." />
+								  <button type="submit" id="search">Find!</button>
 							</div>
+							</form>
 					</div>
-					</volist>
+					</div>
+				</div>
+				
+					<div class="b_main">
+						<volist name="cates" id="vo">
+						<if condition="$vo['id'] eq $cateid">
+						<span class="dh">
+						<a href="">首页</a>&nbsp;>&nbsp;<a href="">{$vo.name}</a>&nbsp;>&nbsp;详情</span>
+						</if>
+						</volist>
+						<div class="c_main">
+							<div class="list_main" > 
+								<volist name="lists" id="vo">
+									<div class="r1">
+											<div class="view_main">
+												<h2>{$vo.post_title}</h2>
+												<span class="r1_t2">{$vo.post_date|date='Y-m-d H:i:s',###} 作者：<volist name="users" id="user"><if condition="$vo['post_author'] eq $user['uid']">{$user.realname}</if></volist></span><br>
+												<div class="view_img">
+													<img src="{$vo.main_img}"/>
+												</div>
+												
+												<span class="r1_t3">{:htmlspecialchars_decode($vo['post_content'])}</span>
+												 <span class="view_span">责任编辑：杨青</span>
+											</div>
+									</div>
+								</volist>
+							
+							</div>
+						</div>
+					</div>
 			
-			</div>
-			</div>
 			<div class="bt">
 				
-					{__RUNTIME__}
+					
 					&copy;<a href="http://www.itboye.com/">杭州博也网络科技有限公司版权所有</a>
+					{__RUNTIME__}
 			</div>
 	</div>
 		

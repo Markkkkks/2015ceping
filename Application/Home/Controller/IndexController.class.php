@@ -191,7 +191,7 @@ class IndexController extends HomeController {
 		$text=I('post.text');
 		$where ="post_title like '%$text%'";
 //		dump($where);
-//		$list=M('post')->where($where)->select();
+		$list=M('post')->where($where)->select();
 		
 		$page = array('curpage'=>I('get.p',0),'size'=>6);
 		
@@ -202,7 +202,9 @@ class IndexController extends HomeController {
 		if(!$cates['status']){
 			$this->error($cates['info']);
 		}
-		$this->assign("list",$list['info']['list']);
+//		$this->assign("list",$list['info']['list']);
+$date=array();
+		$this->assign("list",$date);
 		$this->assign("cates",$cates['info']);
 		$this->display();
 	}	

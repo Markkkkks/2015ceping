@@ -1,38 +1,41 @@
-.main{ min-height: 100%;  resize: none;  height: 1000px; margin: auto 0;}
-.menu{ font-size: 15px; height: 6% ;  margin-top: -6%; position: fixed;  width: 100%; width: 1900px; }
-.top{z-index:999999;   margin-top: 0.5%; height: 100%; color: #000000;   padding: 8px;  min-width: 1600px;}
+.main{  resize: none;  height: 1000px; margin: auto 0;}
+.menu{ font-size: 15px; margin-top: -8%;   position: fixed;  width: 100%;   }
+.menu_cen{ margin: 0 auto; min-width: 1150px;height: 100%; width: 60%; font-size:16px ; padding: 2%; }
+
 a{color: black !important;}
 a:hover{ color: #19A7F0 !important;}
 .top a{color:black; font-size: 16px; }
-.top_sc{ margin-top: -4.7%; background-color: #FAFAFA;  position:relative;  height: 40%; width: 100%;   color: #000000;  font-size: 14px; padding: 8px;   min-width: 1000px;}
-.top_sc_lf{float: left; margin-left: 16%; width: 50%;  }
+.top_sc{ margin-top: -4.7%; background-color: #FAFAFA;  position:relative;  height: 40%;    color: #000000;  font-size: 14px; padding: 8px;  }
+.top_sc_cen{ margin: 0 auto; min-width: 1150px;height: 100%; width: 60%; font-size:13px ; padding: 5px;}
+.top_sc_lf{float: left;  width: 50%;  }
+.top_r{float: right;}
 .top_lf a:hover{color: #19A7F0;}
 .down{ height: 100%; width: 100%; margin-top: 2%;}
-.top_lf{ float: left; margin-left: 12%; width: 50%;   }
+.top_lf{ float: left; width: 50%;   }
 .top_lf a{margin: 0 20px;}
-.top_r{ float: right; margin-right: 20%;}
 .menu_bt{ width: 80%; height: 60%;   margin-left: 6%;}
-.logo{ height: 12%;  padding: 10px; margin-top: 4%; min-width: 1100px;}
-.logo_img{ height: 90%;  width: 8%; padding: 5px; margin-top: -3%; margin-left: 10%; float: left;}
+.logo{ height: 12%;  padding: 10px; margin-top: 4%; width: 100%;}
+
+.logo_img{ height: 90%;  width: 8%; padding: 5px; margin-top: -3%;  float: left;}
 .logo_img img{ height: 110% ; width: 100%; float: right;}
-.sele{ height: 50%;  width: 35%; padding: 5px; float: right; margin-left: -10%;  font-size: 12px;  }
+.sele{ width: 60%;  margin-left: 75%;  font-size: 12px;  margin-top: -2.7%; }
 /*.logo,.logo_img,.sele,.show,.bottom,.bottom_ct,.bottom_ct_text,.bottom1,.bottom2,.bottom3{ border: 1px solid #000000;}*/
-.show{ margin-top: -1%; margin: 0 auto ; min-width: 1900px; height: 420px;  text-align: center;  width: 1900px; }
-.show_cent{ overflow: hidden; height: 100%; width: 60%; margin-left: 18%; min-width: auto;}
+.show{ margin-top: -1%; margin: 0 auto ; min-width: 1100px; height: 42%;  text-align: center; width: 100%;}
+.show_cent{ overflow: hidden; height: 100%; width: 60%; margin: 0 auto; min-width: 1150px;}
 .show_centl{  height: 100%; width: 50%; float: left;}
 .show_centl img{height: 100%; width: 100%;}
-.show_cent2 img,.show_cent3 img,.show_cent4 img,.show_cent5 img{ min-width: 280px; overflow: hidden; height: 100%; width: 100%; }
+.show_cent2 img,.show_cent3 img,.show_cent4 img,.show_cent5 img{  overflow: hidden; height: 100%; width: 100%; }
 .show_r{  height: 100%; width: 50%; float: right;}
 .c1{ padding-top: 1%; font-size: 13px; color: #FFFFFF;opacity: 0.4;background-color: #02A5DE; height: 12.80%; width: 100%; margin-top: -9.5%;}
 .show_cent5,.show_cent2,.show_cent3,.show_cent4{ height: 50%; width: 50%; float: left;}
-.c2,.c3,.c4,.c5{ overflow: hidden; min-width: 280px;   padding-top: 1%; font-size: 13px; color: #FFFFFF; opacity: 0.4;background-color: #02A5DE; height: 25%; width: 100%; margin-top: -18.5%;}
+.c2,.c3,.c4,.c5{ overflow: hidden;  padding-top: 1%; font-size: 13px; color: #FFFFFF; opacity: 0.4;background-color: #02A5DE; height: 25%; width: 100%; margin-top: -18.5%;}
 .bottom_ct img { float: left; height: 100%; width: 100%; padding: 5px; }
 .tt{text-align: center; font: "微软雅黑"; background-color: #79848E; font-size: 12px; color: #000000; height: 7%; width: 100%; margin-top:10%; }
 .tt a{color: #FEFFFE !important;}
 .bottom_list table{ width: 100%; text-align: center; border-top: 1px dashed #AAAAAA; margin-top: 10px;}
-.bo{ height: 100%; width: 1900px; }
+.bo{ height: 100%; width: 100%; min-width: 1100px; }
 .a{float: left; width:45% ; height: 28%;}
-.bottom{   min-width: 1200px; width: 65%; margin: 0 auto; height:50%;  margin-top: 20px; padding-top: 50px; }
+.bottom{  width: 65%; margin: 0 auto; height:50%;  margin-top: 20px; min-width: 1150px; padding-top: 50px; }
 .bottom2{ margin-top: 35%;  width: 98%; border: 1px solid #000000;}
 .bottom a{color: #1A1A1A !important;}
 .bottom a:hover{ color: #009CDA !important;}
@@ -43,9 +46,9 @@ a:hover{ color: #19A7F0 !important;}
 .bottom_ct_tx_tx img{ width: 26%; height: 36%; float: left;  }
 .bottom_tx_right{ margin-top: 35px;  margin-left: 150px; line-height: 0.5 !important;}
 .bottom_tx_right span{ font: "微软雅黑"; font-size: 12px; color: #999999;}
-.bottom_bt {margin-top: 50px; font: "微软雅黑"; font-size: 13px; color:#464646;}
-.bottom_right{ padding-left: 8px; width: 64.5%; float: left; height: 100%; padding: 8px;}
-.r1{ float: left; width:50% ; padding: 8px; }
+.bottom_bt {margin-top: 50px; font: "微软雅黑"; font-size: 13px; color:#464646; padding: 10px;}
+.bottom_right{  width: 64.5%; float: left; height: 100%; padding: 10px;}
+.r1{ float: left; width:50% ;  }
 .r1_tx{  padding: 5px;  width: 100%; height: 30%;   float: left; }
 .r1_tx img{ height: 80px; width: 100px; }
 .r1_t1,.r2_t1,.r3_t1{ padding-left: 20px; font-size: 16px; }
@@ -76,11 +79,7 @@ margin-top: -15px;
   ;
 }
 
-.field>input[type=text],
-.field>button {
-  display:block;
- 
-}
+
 
 .field>input[type=text] {
   flex:1;
@@ -89,7 +88,7 @@ margin-top: -15px;
 }
 
 .field>button {
-  padding:0.6em 0.8em;
+
   background-color:rgb(26, 188, 156);
   color:white;
   border:none;
