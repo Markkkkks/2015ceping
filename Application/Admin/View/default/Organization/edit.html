@@ -55,6 +55,17 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">类型</label>
+						<div class="col-md-10 col-lg-10">
+							<select name="type" class="form-control">
+								<volist name='lists' id='vo1'>
+									<option <eq name="entity.type" value="$vo1.id">selected="selected"</eq> value="{$vo1.id}">{$vo1.name}</option>
+								</volist>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">备注</label>
 						<div class="col-md-10 col-lg-10">
 							<textarea rows="3" name="notes" class="form-control">{$entity['notes']}</textarea>

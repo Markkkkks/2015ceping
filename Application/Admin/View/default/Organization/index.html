@@ -52,6 +52,9 @@
 								所处层级
 							</th>
 							<th>
+								类型
+							</th>
+							<th>
 								添加时间
 							</th>
 							<th>
@@ -79,11 +82,17 @@
 										{$vo.level}
 									</td>
 									<td>
+										<volist name='lists' id='vo1'> 
+											<if condition="$vo['type'] eq $vo1['id']">
+												{$vo1.name}
+											</if>
+										</volist>
+									</td>
+									<td>
 										{$vo.create_time|date='Y-m-d h:i:s',###}
 									</td>
 									<td>
-										<a href="{:U('Admin/OrgMember/index',array('orgid'=>$vo['id'],'orgparent'=>$vo['father']))}" class="btn btn-sm btn-primary"><i class="fa fa-group"></i>下属成员管理</a>
-										
+										<a href="{:U('Admin/OrgMember/index',array('orgid'=>$vo['id'],'orgparent'=>$vo['father']))}" class="btn btn-sm btn-primary"><i class="fa fa-group"></i>下属成员管理</a> 
 										<a href="{:U('Admin/Organization/edit',array('id'=>$vo['id'],'parent'=>$vo['father']))}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>编辑</a>
 										<a href="{:U('Admin/Organization/delete',array('id'=>$vo['id'],'parent'=>$vo['father']))}" class="btn btn-sm btn-danger ajax-get confirm"><i class="fa fa-trash"></i>删除</a>
 									</td>

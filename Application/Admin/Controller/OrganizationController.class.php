@@ -42,6 +42,8 @@ class OrganizationController extends AdminController{
 			$map['orgname'] = array('like',"%$name%");
 			$params['orgname'] = $name;
 		}
+		$lists=M('datatree','common_')->where('parentid=202')->select();
+		$this->assign('lists',$lists);
 		
 		$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
 		
@@ -49,6 +51,8 @@ class OrganizationController extends AdminController{
 		//
 		$result = apiCall("Admin/Organization/query",array($map,$page,$order,$params));
 		
+		
+//		dump($result);
 		//
 		if($result['status']){
 			$this->assign('name',$name);
@@ -65,8 +69,8 @@ class OrganizationController extends AdminController{
 	
 	public function add(){
 		if(IS_GET){
-			
-						
+			$list=M('datatree','common_')->where('parentid=202')->select();
+			$this->assign('list',$list);
 			$this->display();
 		}else{
 			$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$this->parent)));
@@ -81,6 +85,7 @@ class OrganizationController extends AdminController{
 				'orgname'=>I('name',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),
+				'type'=>I('type',''),
 				'level'=>$level,
 				'path'=>$parents,
 				'father'=>$this->parent,
@@ -133,12 +138,14 @@ class OrganizationController extends AdminController{
 			if($result['status']){
 				$this->assign("entity",$result['info']);
 			}
-			
+			$lists=M('datatree','common_')->where('parentid=202')->select();
+			$this->assign('lists',$lists);
 			$this->display();
 		}else{
-			
+		
 			$entity = array(
 				'orgname'=>I('name',''),
+				'type'=>I('type',''),
 				'notes'=>I('notes',''),
 				'sort'=>I('sort',''),
 				'code'=>I('code',''),

@@ -48,6 +48,16 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">类型</label>
+						<div class="col-md-10 col-lg-10">
+							<select name="type" class="form-control">
+								<volist name='list' id='vo'>
+									<option value="{$vo.id}">{$vo.name}</option>
+								</volist>						
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">备注</label>
 						<div class="col-md-10 col-lg-10">
 							<textarea rows="3" name="notes" class="form-control"></textarea>
