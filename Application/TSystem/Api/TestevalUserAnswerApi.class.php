@@ -12,7 +12,7 @@ use \Common\Api\Api;
 class TestevalUserAnswerApi extends Api{
 	
 	protected function _init(){
-		$this->model = new \TSystem\Model\TestevaluserAnswerModel();
+		$this->model = new \TSystem\Model\TestevalUserAnswerModel();
 	}
 	
 }

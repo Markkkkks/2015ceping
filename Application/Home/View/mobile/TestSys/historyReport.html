@@ -1,0 +1,90 @@
+<extend name="template/base_index" />
+
+<block name="area_header">
+
+</block>
+
+<block name="area_body">
+	<include file="partials/header" active="0" />
+	<include file="partials/leftmenu"  />
+
+	<div class="admin-content am-padding-sm">
+		<!-- 过滤\查询按钮 -->
+		<div class="filter-controls">
+			<!-- 日期查询 -->
+			<form action="{:U('Home/TestSys/historyReport')}" method="post" class="am-form-inline">
+				<div class="am-form-group">
+ 					<div class="am-form-group am-form-icon">
+    						<i class="am-icon-book"></i>
+						<input type="text" name="name" id="name" class="am-form-field input-short" placeholder="请输入量表名称查询" value="{$name}" />
+					</div>
+				</div>
+				<button type="submit" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-search"></i>查询</button>
+			</form>
+		</div>
+		<!-- 操作按钮 -->
+		<div class="btn-controls">
+		</div>
+
+		<table class="am-table am-table-striped am-table-hover  am-table-condensed">
+			<thead>
+				<tr>
+					<th>
+						<input type="checkbox" class="selectall" onclick="myUtils.selectall(this,'.selectitem');" />
+					</th>
+					<th>
+						量表名称
+					</th>
+					<th>
+						测评完成时间
+					</th>
+					<th>
+						操作
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<empty name="list">
+					<tr>
+						<td colspan="4" class="am-text-center">没有相关数据!</td>
+					</tr>
+					<else/>
+					<volist name="list" id="vo">
+						<tr>
+							<td>
+								<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />
+							</td>
+							<td>
+								{$vo.title}
+							</td>
+							<td>
+								{$vo.create_time|date='Y-m-d H:i:s',###}
+							</td>
+							<td>
+								
+								<eq name="vo['review']" value='2'>
+									[报告无法查看]
+								</eq>
+								
+								<eq name="vo['review']" value='0'>
+									[报告正在审核中,稍后再来]
+								</eq>
+								
+								<eq name="vo['review']" value="1">
+									<a target="_blank" href="{:U('Home/Reporter/view',array('eval_type'=>$vo['eval_type'],'id'=>$vo['id']))}" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-eye"></i>查看测评报告</a>
+								</eq>
+								
+							</td>
+						</tr>
+
+					</volist>
+				</empty>
+			</tbody>
+		</table>
+		<div>{$show}</div>
+	</div>
+</block>
+
+<block name="area_footer">
+
+</block>

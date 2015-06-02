@@ -239,6 +239,51 @@ class MBTIEvalReporterApi implements IEvaluationReporter{
 		return $this->returnSuc($result);
 	}
 	
+	
+	public function getData($params){
+		
+		if(!is_array($params) || !isset($params['id'])){
+			trigger_error("缺少参数ID!");
+		}
+		
+		$id = $params['id'];
+		$map = array(
+			'id'=>$id,
+		);
+		
+		$result = apiCall("TSystem/TestevalUserResult/getInfo",array($map));
+		
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		if(is_null($result['info'])){
+			return $this->returnErr("ID参数错误!");
+		}
+		
+		$result['info']['_data'] = unserialize($result['info']['result']);
+		
+		return $this->returnSuc($result['info']);
+	}
+	
+	/**
+	 * 获取解决方案、治疗方案
+	 */
+	public function getSolution($params){
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	//======================================私有方法
+	
+	
 	private function getESTJINFP(){
 		/**
 		 * E 外向 I 内向

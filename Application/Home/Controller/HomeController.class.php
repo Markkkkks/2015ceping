@@ -29,7 +29,7 @@ class HomeController extends  Controller {
 			}
 		}
 		if(isMobile()){
-			$this->theme = "default";
+			$this->theme = "mobile";
 		}
 		$this->assign("active",0);
 		

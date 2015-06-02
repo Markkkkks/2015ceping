@@ -21,7 +21,7 @@
 .login i{
 	position:absolute;
   left: 2rem;
-  line-height: 50px;
+  line-height: 35px;
   z-index: 10;
   width: 3rem;
 }

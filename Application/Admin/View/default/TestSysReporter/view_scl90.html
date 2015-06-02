@@ -64,11 +64,11 @@
 				已通过 <button type="button" class="js_adjust am-btn am-btn-sm am-btn-danger" ><i class="am-icon-adjust"></i>重新修改评阅意见</button>
 			</div>
 			<div class="reporter-check am-text-center">
-				<div class="am-margin-bottom-sm js_edit_form <eq name="result['review']" value="1">am-hide</eq>">
+				<div class="am-margin-bottom-sm js_edit_form <eq name="data['review']" value="1">am-hide</eq>">
 					<form class="editForm">
 						<label>意见</label>
 						<div class="am-form-group">
-							<textarea name="notes" class="am-form-field" rows="3" placeholder="此处若有意见可以填写，250个字以内">{$result['review_notes']}</textarea>
+							<textarea name="notes" class="am-form-field" rows="3" placeholder="此处若有意见可以填写，250个字以内">{$data['review_notes']}</textarea>
 						</div>
 						<a target-form="editForm"  class="ajax-post am-btn am-btn-sm am-btn-primary am-btn-block" href="{:U('Admin/TestSysReporter/pass',array('id'=>$id,'eval_type'=>$eval_type))}"><i class="am-icon-check"></i>通过</a>
 						
@@ -90,6 +90,17 @@
 				</div>
 			</div>
 			
+			<!--
+            	作者：hebiduhebi@126.com
+            	时间：2015-06-01
+            	描述：内容通用与前台
+            	＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+            -->
+			
+			
+			
+			
+			
 			<div class="reporter-user-info am-text-center">
 				<h1>测验结果报告</h1>
 			</div>
@@ -98,47 +109,46 @@
 			</div>
 			<div>
 				<ul class="am-list am-list-static am-list-border">
-					<li >总分: <span class="am-badge <if condition="$scores[0]['allscore'] gt 160">am-badge-danger<else/>am-badge-primary</if> ">{$scores[0]['allscore']}</span></li>
-					<li >阳性项目数: <span class="am-badge  <if condition="$scores[0]['positive_items'] gt 43">am-badge-danger<else/>am-badge-primary</if> ">{$scores[0]['positive_items']}</span> </li>
-					<li >阳性症状均分: <span class="am-badge  <if condition="$scores[0]['avg'] gt 2">am-badge-danger<else/>am-badge-primary</if> ">{$scores[0]['avg']}</span> </li>
+					<li >总分: <span class="am-badge <if condition="$data['_data']['f_score'][0]['allscore'] gt 160">am-badge-danger<else/>am-badge-primary</if> ">{$data['_data']['f_score'][0]['allscore']}</span></li>
+					<li >阳性项目数: <span class="am-badge  <if condition="$data['_data']['f_score'][0]['positive_items'] gt 43">am-badge-danger<else/>am-badge-primary</if> ">{$data['_data']['f_score'][0]['positive_items']}</span> </li>
+					<li >阳性症状均分: <span class="am-badge  <if condition="$data['_data']['f_score'][0]['avg'] gt 2">am-badge-danger<else/>am-badge-primary</if> ">{$data['_data']['f_score'][0]['avg']}</span> </li>
 				</ul>
 				
 			</div>
 			因子分： 			<div class="am-g">
-				<div class="am-u-md-4 am-u-sm-6">(1)躯体化：{$scores[1]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(2)强迫：{$scores[2]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(3)人际关系：{$scores[3]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(4)抑  郁：{$scores[4]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(5)焦虑：{$scores[5]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(6)敌    对：{$scores[6]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(7)恐  怖：{$scores[7]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(8)偏执：{$scores[8]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(9)精神病性：{$scores[9]['avg']}</div>		
-				<div class="am-u-md-4 am-u-sm-6">(10)其 它：{$scores[10]['avg']}</div>
+				<div class="am-u-md-4 am-u-sm-6">(1)躯体化：{$data['_data']['f_score'][1]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(2)强迫：{$data['_data']['f_score'][2]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(3)人际关系：{$data['_data']['f_score'][3]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(4)抑  郁：{$data['_data']['f_score'][4]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(5)焦虑：{$data['_data']['f_score'][5]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(6)敌    对：{$data['_data']['f_score'][6]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(7)恐  怖：{$data['_data']['f_score'][7]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(8)偏执：{$data['_data']['f_score'][8]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(9)精神病性：{$data['_data']['f_score'][9]['avg']}</div>		
+				<div class="am-u-md-4 am-u-sm-6">(10)其 它：{$data['_data']['f_score'][10]['avg']}</div>
 			</div>
 			<hr/>
 			<div class="report-desc">
 				<h4 class="am-text-center">分析报告</h4>
 			</div>
 			<div class="report-info">
-				
 				<!-- 描述 -->
 				<div class="desc">
-					<volist name="desc['desc']" id="vo">
+					<volist name="data['_data']['desc']['desc']" id="vo">
 						<p>{$vo}</p>
 					</volist>
 				</div>
 				
 				<!-- F1-F10因子分 -->
 				<div class="desc-f110">
-					<volist name="desc['descF110']" id="vo">
+					<volist name="data['_data']['desc']['descF110']" id="vo">
 						<p>{$vo}</p>
 					</volist>
 				</div>
 				
 				<!-- F1-F10因子分 -->
 				<div class="desc-summary">
-					<volist name="desc['summary']" id="vo">
+					<volist name="data['_data']['desc']['summary']" id="vo">
 						<p>{$vo}</p>
 					</volist>
 				</div>
@@ -209,7 +219,7 @@
                         {
                             "name":"因子分",
                             "type":"line",
-                            "data":[{$scores[1]['avg']}, {$scores[2]['avg']}, {$scores[3]['avg']}, {$scores[4]['avg']}, {$scores[5]['avg']}, {$scores[6]['avg']},{$scores[7]['avg']},{$scores[8]['avg']},{$scores[9]['avg']},{$scores[10]['avg']}]
+                            "data":[{$data['_data']['f_score'][1]['avg']}, {$data['_data']['f_score'][2]['avg']}, {$data['_data']['f_score'][3]['avg']}, {$data['_data']['f_score'][4]['avg']}, {$data['_data']['f_score'][5]['avg']}, {$data['_data']['f_score'][6]['avg']},{$data['_data']['f_score'][7]['avg']},{$data['_data']['f_score'][8]['avg']},{$scores[9]['avg']},{$scores[10]['avg']}]
                         }
                     ]
                 };

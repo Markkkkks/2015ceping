@@ -80,87 +80,80 @@
 		<div class="result-reporter">
 			
 			<div class="">
-				您的职业性格为: {$data['_data']['code']}
+				您的职业性格为: {$result['code']}
 			</div>
 			<div class="mbti-map">
 				<div class="title am-text-center">您的MBTI示意图</div>
 				<div class="am-padding-sm am-text-center">
-					MBTI倾向图示意图(类型: {$data['_data']['code']} 总倾向: {:($data['_data']['score']['EI'][1]+$data['_data']['_data']['score']['SN'][1]+$data['_data']['score']['TF'][1]+$data['_data']['score']['JP'][1])})
+					MBTI倾向图示意图(类型: {$result['code']} 总倾向: {:($result['score']['EI'][1]+$result['score']['SN'][1]+$result['score']['TF'][1]+$result['score']['JP'][1])})
 				</div>
 				<div class="am-g am-margin-bottom-sm">
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">外向（E）</div>
+					<div class="am-u-md-2 am-u-lg-2">外向（E）</div>
 					<div class="am-u-md-8 am-u-lg-8">
 						<div class="box boxleft">
-							<div class="am-fl am-show-sm">外向（E）</div>
-							<div class="progress am-fr" <eq name="data['_data']['score']['EI'][0]" value="left">style="width:{$data['_data']['score']['EI'][1]}%;" <else/>style="width:0%"</eq>  >
+							<div class="progress am-fr" <eq name="result['score']['EI'][0]" value="left">style="width:{$result['score']['EI'][1]}%;" <else/>style="width:0%"</eq>  >
 							</div>
 						</div>
 						<div class="box boxright">
-							<div class="progress am-fl" <eq name="data['_data']['score']['EI'][0]" value="right">style="width:{$data['_data']['score']['EI'][1]}%" <else/>style="width:0%"</eq> >
+							<div class="progress" <eq name="result['score']['EI'][0]" value="right">style="width:{$result['score']['EI'][1]}%" <else/>style="width:0%"</eq> >
 								
 							</div>
-							<div class="am-fr am-show-sm">（ I ）内向</div>
 						</div>
 					</div>
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">（ I ）内向</div>
+					<div class="am-u-md-2 am-u-lg-2">（ I ）内向</div>
 				</div>
 				
 				
 				<div class="am-g am-margin-bottom-sm">
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">实感（S）</div>
+					<div class="am-u-md-2 am-u-lg-2">实感（S）</div>
 					<div class="am-u-md-8 am-u-lg-8">
-						<div class="box boxleft am-cf">
-							<div class="am-fl am-show-sm">实感（S）</div>
-							<div class="progress am-fr" <eq name="data['_data']['score']['SN'][0]" value="left">style="width:{$data['_data']['score']['SN'][1]}%;" <else/>style="width:0%"</eq>  >
+						<div class="box boxleft">
+							<div class="progress am-fr" <eq name="result['score']['SN'][0]" value="left">style="width:{$result['score']['SN'][1]}%;" <else/>style="width:0%"</eq>  >
 								
 							</div>
 						</div>
-						<div class="box boxright am-cf">
-							<div class="progress am-fl" <eq name="data['_data']['score']['SN'][0]" value="right">style="width:{$data['_data']['score']['SN'][1]}%" <else/>style="width:0%"</eq> >
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['SN'][0]" value="right">style="width:{$result['score']['SN'][1]}%" <else/>style="width:0%"</eq> >
 								
 							</div>
-							<div class="am-fr am-show-sm">（N）直觉</div>
 						</div>
 					</div>
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">（N）直觉</div>
+					<div class="am-u-md-2 am-u-lg-2">（N）直觉</div>
 				</div>
 				
 				
 				<div class="am-g am-margin-bottom-sm">
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">思考（T）</div>
+					<div class="am-u-md-2 am-u-lg-2">思考（T）</div>
 					<div class="am-u-md-8 am-u-lg-8">
-						<div class="box boxleft am-cf">
-							<div class="am-fl am-show-sm">思考（T）</div>
-							<div class="progress am-fr" <eq name="data['_data']['score']['TF'][0]" value="left">style="width:{$data['_data']['score']['TF'][1]}%;" <else/>style="width:0%"</eq>  >
+						<div class="box boxleft">
+							<div class="progress am-fr" <eq name="result['score']['TF'][0]" value="left">style="width:{$result['score']['TF'][1]}%;" <else/>style="width:0%"</eq>  >
 							</div>
 						</div>
-						<div class="box boxright am-cf">
-							<div class="progress am-fl" <eq name="data['_data']['score']['TF'][0]" value="right">style="width:{$data['_data']['score']['TF'][1]}%" <else/>style="width:0%"</eq> >
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['TF'][0]" value="right">style="width:{$result['score']['TF'][1]}%" <else/>style="width:0%"</eq> >
 								
 							</div>
-							<div class="am-fr am-show-sm">（F）情感</div>
 						</div>
 					</div>
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">（F）情感</div>
+					<div class="am-u-md-2 am-u-lg-2">（F）情感</div>
 				</div>
 				
 				
 				<div class="am-g am-margin-bottom-sm">
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">判断（J）</div>
+					<div class="am-u-md-2 am-u-lg-2">判断（J）</div>
 					<div class="am-u-md-8 am-u-lg-8">
-						<div class="box boxleft am-cf">
-							<div class="am-fl am-show-sm">判断（J）</div>
-							<div class="progress  am-fr" <eq name="data['_data']['score']['JP'][0]" value="left">style="width:{$data['_data']['score']['JP'][1]}%;" <else/>style="width:0%"</eq>  >
+						<div class="box boxleft">
+							<div class="progress  am-fr" <eq name="result['score']['JP'][0]" value="left">style="width:{$result['score']['JP'][1]}%;" <else/>style="width:0%"</eq>  >
 								
 							</div>
 						</div>
-						<div class="box boxright am-cf">
-							<div class="progress am-fl" <eq name="data['_data']['score']['JP'][0]" value="right">style="width:{$data['_data']['score']['JP'][1]}%" <else/>style="width:0%"</eq> >
+						<div class="box boxright">
+							<div class="progress" <eq name="result['score']['JP'][0]" value="right">style="width:{$result['score']['JP'][1]}%" <else/>style="width:0%"</eq> >
+								
 							</div>
-							<div class="am-fr am-show-sm" >（P）知觉</div>
 						</div>
 					</div>
-					<div class="am-u-md-2 am-u-lg-2 am-hide-sm">（P）知觉</div>
+					<div class="am-u-md-2 am-u-lg-2">（P）知觉</div>
 				</div>
 				
 				
@@ -176,7 +169,7 @@
 			<div class="detail">
 				<div class="title am-text-center">详细报告</div>
 				<div class="detail-bd am-padding-sm">
-				<volist name="data['_data']['desc']" id="vo">
+				<volist name="result['desc']" id="vo">
 					<p>{$vo}</p>
 				</volist>
 					

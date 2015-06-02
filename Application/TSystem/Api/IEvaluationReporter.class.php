@@ -18,4 +18,14 @@ interface IEvaluationReporter{
 	 */
 	function generate($params);
 	
+	/**
+	 * 根据参数查找，用户的报告数据，对数据进行解析并返回
+	 * @param array $params 数组
+	 */
+	function getData($params);
+	
+	/**
+	 * 获取指定用户的测评报告 的解决方案
+	 */
+	function getSolution($params);
 }

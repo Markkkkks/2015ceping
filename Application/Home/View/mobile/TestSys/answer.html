@@ -14,26 +14,17 @@
 		.problem-area .am-radio {
   			margin: 10px 30px 10px 0px;
 		}
-		
-			.problem-area .answer-area [class*=am-u-]+[class*=am-u-]:last-child{
-				float:left;
-			}
 		@media only screen and (max-width: 640px) {
-			
-			
 			.am-article-bd img{
 				width:100% !important;
 			}
-			
 			.problem-area,.problem-lead,.test-lead {
 				width:100%;
 				margin:2rem auto;
 			}
-			
 			.problem-area .am-radio+.am-radio, .am-checkbox+.am-checkbox{
 				margin-top:10px;
 			}
-			
 			.problem-area .am-radio {
 	  			margin: 10px 10px 10px 0px;
 			}
@@ -86,7 +77,7 @@
 						<div class="answer-area am-cf">
 							<volist name="vo['_answers']" id="ans">
 								
-								<label class="am-radio am-fl am-u-sm-12">
+								<label class="am-radio am-fl  am-u-sm-12">
 				      				<input name="ans_{$vo['id']}" class="ans_{$vo['id']}" type="radio" data-am-ucheck value="{:($ans['sort'].'_'.$ans['id'].'_'.$ans['hidden_value'])}" >
 				      				{$ans['title']}
 								</label>
@@ -165,13 +156,12 @@
 			
 			if(isMobile){
 				//绑定单选框事件
-				//绑定单选框事件
 				$(".problem-area .answer-area .am-radio input").each(function(index,item){
-//					$(item).click(function(ev){
-//						console.log(ev);
-//						var $parent = $(ev.target).parents(".problem-area");
-//						$parent.find(".js_next").click();
-//					})
+					$(item).onTouchEnd(function(ev){
+						console.log(ev);
+						var $parent = $(ev.target).parents(".problem-area");
+						$parent.find(".js_next").click();
+					})
 				})
 			}
 			

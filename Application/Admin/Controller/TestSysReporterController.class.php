@@ -19,6 +19,17 @@ class TestSysReporterController extends AdminController{
 		$eval_type  = I('get.eval_type','');
 		$org_id = I('get.org_id',0);
 		
+		$params = array(
+			'id'=>$id,
+		);
+		
+		$result = \TSystem\Factory\EvalReporterFactory::getData($eval_type,$id);
+		if(!$result['status']){
+			$this->error($result['info']);
+		}
+		
+		$this->assign("data",$result['info']);
+		
 		$map = array(
 			'id'=>$id,
 		);
@@ -28,6 +39,7 @@ class TestSysReporterController extends AdminController{
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
+			$this->assign("result",$resultReport);
 		
 		$resultReport = unserialize($result['info']['result']);
 		
@@ -46,9 +58,6 @@ class TestSysReporterController extends AdminController{
 			$this->error($next['info']);
 		}
 		
-//		dump($id);
-//		dump($prev);
-//		dump($next);
 		
 		$this->assign("prev",$prev['info']);
 		$this->assign("next",$next['info']);
@@ -56,18 +65,6 @@ class TestSysReporterController extends AdminController{
 		$this->assign("id",$id);
 		$this->assign("org_id",$org_id);
 		
-		
-		if($eval_type == \TSystem\Factory\EvalReporterFactory::MBTI){
-			
-			$this->assign("result",$resultReport);
-			$this->assign("vo",$result['info']);
-			
-		}elseif($eval_type == \TSystem\Factory\EvalReporterFactory::SCL90){
-				
-			$this->assign("scores",$resultReport['f_score']);	
-			$this->assign("desc",$resultReport['desc']);	
-			$this->assign("result",$result['info']);
-		}
 		
 		if(!empty($eval_type)){
 			if(is_file(MODULE_PATH."/View/default/".CONTROLLER_NAME."/view_$eval_type.html")){
