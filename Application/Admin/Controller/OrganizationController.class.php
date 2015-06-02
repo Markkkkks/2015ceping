@@ -112,7 +112,7 @@ class OrganizationController extends AdminController{
 		if(!$result['status']){
 			$this->error($result['info']);
 		}
-		if(is_array($result['info']) && count($result['info']) > 0){
+		if(is_array($result['info']['list']) && count($result['info']['list']) > 0){
 			$this->error("存在机构成员，请先移除所有机构的成员！");
 		}
 		
