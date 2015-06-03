@@ -31,7 +31,6 @@ class OrgHasTestSysApi extends Api{
 		
 		$query = $query->field("ts.title,ts.id,ts.desc,ts.start_time,ts.end_time,ts.create_time,ts.status")->where(array("ts.status"=>"publish","hts.org_id"=>$orgid))->order(" ts.create_time asc");
 		
-		
 		$list = $query -> page($page['curpage'] . ',' . $page['size']) -> select();
 		
 		if ($list === false) {
@@ -39,10 +38,13 @@ class OrgHasTestSysApi extends Api{
 			return $this -> apiReturnErr($error);
 		}
 		
-		$count = $this -> model -> where($map) -> count();
+		$query = $this->model->alias("hts")->join("LEFT JOIN __TEST_SYS__ as ts on ts.id = hts.test_sys_id ");
+		
+		$query = $query->field("ts.title,ts.id,ts.desc,ts.start_time,ts.end_time,ts.create_time,ts.status")->where(array("ts.status"=>"publish","hts.org_id"=>$orgid))->order(" ts.create_time asc");
+		$count = $query -> count();
 		// 查询满足要求的总记录数
 		$Page = new \Think\Page($count, $page['size']);
-
+		
 		//分页跳转的时候保证查询条件
 		if ($params !== false) {
 			foreach ($params as $key => $val) {

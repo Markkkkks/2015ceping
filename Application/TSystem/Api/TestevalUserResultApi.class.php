@@ -69,13 +69,11 @@ class TestevalUserResultApi extends Api{
 	 * */
 	public function queryWithUserInfo($orgid,$test_id,$eval_id, $page = array('curpage'=>0,'size'=>10), $params = false){
 		
-		$query = $this->model->alias("tur");
-		
 		$map = array('tur.test_id'=>$test_id,'tur.eval_id'=>$eval_id,"tur.org_ids"=>array('like','%'.$orgid.',%'));
-		
+		$query = $this->model->alias("tur")->join("LEFT JOIN common_member  as u on u.uid = tur.user_id ");
 		$query = $query->where($map);
 		
-		$query = $query->order("tur.create_time asc")->field(" tur.user_id,tur.eval_type,tur.eval_id,tur.id,tur.test_id,tur.create_time,tur.review,tur.review_notes ");
+		$query = $query->order("tur.create_time asc")->field("u.nickname,u.realname, tur.user_id,tur.eval_type,tur.eval_id,tur.id,tur.test_id,tur.create_time,tur.review,tur.review_notes ");
 		
 		$list = $query -> page($page['curpage'] . ',' . $page['size']) -> select();
 //		dump($this->model->getLastSql());
@@ -84,7 +82,10 @@ class TestevalUserResultApi extends Api{
 			return $this -> apiReturnErr($error);
 		}
 		
-		$count = $query -> count();
+		$query = $this->model->alias("tur")->where($map);
+		
+		$count = $query->field(" tur.user_id") -> count();
+		
 		// 查询满足要求的总记录数
 		$Page = new \Think\Page($count, $page['size']);
 		

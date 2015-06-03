@@ -9,6 +9,9 @@
 			padding: 10px;
 			margin-bottom: 20px;
 		}
+		.solution .border-left{
+			  border-left: 1px solid #ddd !important;
+		}
 		#mobileImage img{
 			width:100%;
 		}
@@ -104,7 +107,126 @@
 						<p>{$vo}</p>
 					</volist>
 				</div>
+				<div>					
+					<h3 class="blue-title am-padding-sm am-text-center" style="color:#FFF5D4;background: #668BFF;">个性治疗化方案推荐</h3>
+				</div>
+				<!-- 解决方案 -->
+				<div class="solution">
+					
+					<h4 class="am-text-center">心理症状情况分析</h4>
+					<div>
+						{$data['_data']['_solution'][0]}
+					</div>
+					<h4 class="am-text-center">咨询方法建议</h4>
+					<div>
+						{$data['_data']['_solution'][1]}
+					</div>
+					<h4 class="am-text-center">设备使用建议</h4>
+					<div class="am-table-responsive">
+						<table class="am-table am-table-condensed am-table-bordered am-table-striped">
+							<tr>
+								<td>
+									设备名称
+								</td>
+								<td>
+									功能项目
+								</td>
+								<td>
+									使用次数
+								</td>
+							</tr>
+							
+							<tr>
+								<td rowspan="2">
+									第二代音乐
+								</td>
+								<td>
+									减压放松—纯音乐放松
+								</td>
+								<td>
+									2次
+								</td>
+							</tr>
+							<tr>
+								<td class="border-left">
+									辅助催眠—辅助催眠引导
+								</td>
+								<td>
+									2次
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									III代击打
+								</td>
+								<td>
+									环境适应不良—陌生环境，心理紧张
+								</td>
+								<td>
+									3次
+								</td>
+							</tr>
+							
+							<tr>
+								<td rowspan="5">
+									新身心高级版
+								</td>
+								<td class="border-left">
+									呼吸训练—意念式呼吸
+								</td>
+								<td>
+									-
+								</td>
+							</tr>
+							<tr>
+								<td class="border-left">
+									呼吸训练—胸腹式呼吸
+								</td>
+								<td>
+									-
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="border-left">
+									定向放松训练—平静的湖水
+								</td>
+								<td>
+									-
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="border-left">
+									自律训练—真实感受训练法
+								</td>
+								<td>
+									-
+								</td>
+							</tr>
+							<tr>
+								<td class="border-left">
+									自律训练—想像干啥训练法
+								</td>
+								<td>
+									-
+								</td>
+							</tr>
+						</table>
+					</div>
+					<h4 class="am-text-center">日常心理建议</h4>
+					<div>
+						<volist name="data['_data']['_solution'][3]" id="vo">
+							<p>{$key+1}. {$vo}</p>
+						</volist>
+					</div>
+				</div>
 				
+				<div>					
+					<h3 class="am-text-center">个性治疗效果</h3>
+				</div>
+			
 			</div>
 			
 		</div>
@@ -186,5 +308,4 @@
         		}
         })
     </script>
-	<!-- CACHE TIME {:date("Y-m-d H:i:s",time())}-->
 </block>

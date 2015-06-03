@@ -43,6 +43,9 @@
 									用户ID
 								</th>
 								<th>
+									用户昵称姓名
+								</th>
+								<th>
 									提交时间
 								</th>
 								<th>
@@ -59,8 +62,9 @@
 						<volist name="list" id="vo">
 							<tr>
 								<td>
-									<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" />{$vo.id}</td>
+									<input type="checkbox" value="{$vo.id}" name="ids[]" class="selectitem" /></td>
 								<td>{$vo.user_id}</td>
+								<td><notempty name="vo['realname']">{$vo.realname}<else/>{$vo.nickname}</notempty></td>
 								<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
 								<td>
 									<a class="btn btn-sm btn-primary" target="_blank" href="{:U('Admin/TestSysReporter/view',array('org_id'=>$org_id,'eval_type'=>$vo['eval_type'],'id'=>$vo['id']))}" ><i class="fa fa-eye"></i>审核测评报告</a>

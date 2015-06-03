@@ -29,17 +29,7 @@ class ReporterController extends HomeController{
 		}
 		
 		$this->assign("data",$result['info']);
-//		$map = array(
-//			'id'=>$id,
-//		);
-//		
-//		$result = apiCall("TSystem/TestevalUserResult/getInfo",array($map));
-//		
-//		if(!$result['status']){
-//			$this->error($result['info']);
-//		}
-//		
-//		$resultReport = unserialize($result['info']['result']);
+		
 		
 		
 		if(!empty($eval_type)){
