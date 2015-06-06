@@ -60,14 +60,23 @@ final class EvalReporterFactory{
 		}
 		
 		$data = $factory->getData(array('id'=>$id));
+		
 		return $data;
 	}
 	
 	/**
 	 * 获取解决方案
 	 */
-	static public function getSolutions($type,$id){
-		
-	}
+//	static public function getSolution($type,$id){
+//		
+//		$factory = self::getReporter($type);
+//		
+//		if(is_array($factory) && $factory['status'] === false){
+//			return $factory;
+//		}
+//		
+//		$data = $factory->getSolution(array('id'=>$id));
+//		return $data;
+//	}
 	
 }

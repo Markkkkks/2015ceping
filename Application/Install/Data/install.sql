@@ -5074,7 +5074,7 @@ CREATE TABLE IF NOT EXISTS `common_log` (
   `info` text NOT NULL COMMENT '记录信息',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

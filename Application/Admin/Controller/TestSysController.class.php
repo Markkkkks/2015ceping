@@ -401,7 +401,7 @@ class TestSysController extends AdminController{
 			$orgid = $org_arr[0]['orgid'];
 		}
 		
-		$page =  array("curpage"=>0,'size'=>10);
+		$page =  array("curpage"=>I('get.p',0),'size'=>10);
 		$params = array(
 			'orgid'=>$orgid,
 			'testid'=>$testid,

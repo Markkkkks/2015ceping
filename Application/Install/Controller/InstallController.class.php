@@ -91,7 +91,7 @@ class InstallController extends Controller{
 			if($step != 1 && $step != 2){
 				$this->redirect('step1');
 			}
-
+			
 			session('step', 2);
 			$this->display();
 		}

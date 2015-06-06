@@ -43,7 +43,7 @@ return array(
     'LOG_TYPE'              =>  'Db',
 	'LOG_LEVEL'  =>'EMERG,ALERT,CRIT,ERR', // 只记录EMERG ALERT CRIT ERR 错误
     'LOG_DB_CONFIG'=>array(
-		'dsn'=>'mysql://boye_2015_05_26_14_29_19:1@192.168.0.101:3306/boye_2015_05_26_14_29_19' //本地日志数据库
+		'dsn'=>'mysql://boye_2015_05_26_14_29_19:1@192.168.0.100:3306/boye_2015_05_26_14_29_19' //本地日志数据库
 	),
 	
     // Session 配置

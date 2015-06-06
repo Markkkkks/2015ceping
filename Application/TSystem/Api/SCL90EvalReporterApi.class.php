@@ -23,6 +23,9 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	/**
 	 * 数组形式 
 	 * @param array $params  array('id'=>'id')
+	 * @return array 
+	 * 	f_score=>[],
+	 *  desc=>array("desc"=>总分结果概述,'descF110'=>因子分情况描述,'summary'=>最后总结)
 	 */
 	public function generate($params){
 		
@@ -74,7 +77,10 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	}
 	
 	
-	
+	/**
+	 * 返回用于页面展示的数据信息
+	 * 
+	 */
 	public function getData($params){
 		
 		if(!is_array($params) || !isset($params['id'])){
@@ -97,8 +103,11 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 		}
 		
 		$result['info']['_data'] = unserialize($result['info']['result']);
+		unset($result['info']['result']);
+		$data = $result['info'];
 		
-		return $this->returnSuc($result['info']);
+		$data['_data']['_solution'] = $this->getSolution($data);
+		return $this->returnSuc($data);
 	}
 	
 	
@@ -107,8 +116,39 @@ class SCL90EvalReporterApi implements IEvaluationReporter{
 	 */
 	public function getSolution($params){
 		
+		$solution = array();
+		$f_score = $params['_data']['f_score'];
+//		dump($f_score['0']['avg']);
+		
+		if($f_score['0']['avg'] > 3){
+			$solution[0] = "根据症状分析结果显示，您近期存在严重程度的环境适应不良";
+		}elseif($f_score['0']['avg'] > 2){		
+			$solution[0] = "根据症状分析结果显示，您近期存在较重程度的环境适应不良";
+		}elseif($f_score['0']['avg'] > 1){
+			$solution[0] = "根据症状分析结果显示，您近期存在轻微程度的环境适应不良!";
+		}else{			
+			$solution[0] = "根据症状分析结果显示，您近期无任何不良情况,请继续保持!";
+		}
+		
+		//咨询方法建议
+		$solution[1] = "减压您当前的心理状态，建议心理辅导人员采用积极生存疗法、催眠疗法、内存心理疗法，
+暗示疗法等专业心理咨询方法对您";
+		
+		//设备使用建议
+		$solution[2] = "";
+		
+		//日常建议
+		$solution[3] =array("不断给自己正向激励， 积极肯定， 进行自我暗示，注入新能量。",
+			"保持平常心，淡泊是心理养生的免疫剂。",
+			"哼几首儿歌，可以唤醒你儿时无忧无虑的记忆，保持童趣。",
+			"吹气球能让呼吸放缓、加深，还能激励副交感神经，从而降低心率，放松肌肉，能有效的缓解工作压力。",
+			"学会转移注意力（写日记、打球、看书、听音乐），避免受到不良刺激物再次影响。",
+			"不要害怕承认自己能力有限，学会在适当的时候对某些人说“不”。",
+			"多做好事，可使自己变得心安理得，心满意足。",
+		);
 		
 		
+		return $solution;		
 	}
 	
 	
