@@ -31,7 +31,7 @@ return array(
     'DB_TYPE'                   =>  'mysql',
     'DB_HOST'                   =>  '192.168.0.100',//rdsrrbifmrrbifm.mysql.rds.aliyuncs.com
     'DB_NAME'                   =>  'boye_2015_05_26_14_29_19', //boye_ceping
-    'DB_USER'                   =>  'boye105',//boye
+    'DB_USER'                   =>  'root',//boye
     'DB_PWD'                    =>  '1',//bo-ye2015BO-YE
     'DB_PORT'                   =>  '3306',
     'DB_PREFIX'                 =>  'itboye_',
@@ -43,7 +43,7 @@ return array(
     'LOG_TYPE'              =>  'Db',
 	'LOG_LEVEL'  =>'EMERG,ALERT,CRIT,ERR', // 只记录EMERG ALERT CRIT ERR 错误
     'LOG_DB_CONFIG'=>array(
-		'dsn'=>'mysql://boye_2015_05_26_14_29_19:1@192.168.0.100:3306/boye_2015_05_26_14_29_19' //本地日志数据库
+		'dsn'=>'mysql://root:1@192.168.0.100:3306/boye_2015_05_26_14_29_19' //本地日志数据库
 	),
 	
     // Session 配置
