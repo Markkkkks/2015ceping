@@ -9,26 +9,92 @@ class DepartmentController extends AdminController {
 
 	//首页
     public function index(){
-       
-        $where='level=3';
-		$list=M('organization','common_')->where($where)->select();
-//		dump($list);
-		$this->assign('list',$list);
-		$this->display();
+    	$map = array();
+		$uid=session('uid',"");
+		if(!empty($uid)){
+			$map['member_uid'] = $uid;
+		}
+		$fields='organization_id';
+
+		$result=apiCall('Admin/OrgMember/queryNoPaging',array($map,$fields));
+		
+		if($result['status']){
+			$a=$result['info'][0]['organization_id'];
+			unset($map);
+			$map['id']=$a;
+			$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
+			$results = apiCall('Admin/Organization/query',array($map,$page));
+//			dump($results);
+			if($result['status']){
+				$this->assign('show',$results['info']['show']);
+				$this->assign('list',$results['info']['list']);
+				$this->display();
+			}else{
+				LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
+				$this->error(L('UNKNOWN_ERR'));
+			}
+		}
+	
     }
+	public function click(){
+		$map ['father'] = I('parent');
+		if(!empty($name)){
+			$map['orgname'] = array('like',"%$name%");
+			$params['orgname'] = $name;
+		}
+//		dump($map);
+		$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
+		
+		$order = " sort desc ";
+		//
+		$result = apiCall("Admin/Organization/query",array($map,$page,$order,$params));
+		//
+		if($result['status']){
+			$this->assign('parent',I('parent'));
+			$this->assign('show',$result['info']['show']);
+			$this->assign('list',$result['info']['list']);
+			$this->display('index');
+		}else{
+			LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
+			$this->error(L('UNKNOWN_ERR'));
+		}
+	}
 	
 	public function add(){
 		
 		if(IS_GET){
-			$uid=session('uid');
-			$where='member_uid='.$uid;
-			$list=M('org_member','common_')->where($where)->getField('organization_id');
-			$where1='id='.$list;
-			$list1=M('organization','common_')->where($where1)->select();
-			$this->assign('list1',$list1);
-			$this->display();
+			$part=I('parent','');
+			$map = array();
+			$uid=session('uid',"");
+			if(!empty($uid)){
+				$map['member_uid'] = $uid;
+			}
+			$fields='organization_id';
+			$result=apiCall('Admin/OrgMember/queryNoPaging',array($map,$fields));
+			$this->assign('parent',$part);
+			if($result['status']){
+				$a=$result['info'][0]['organization_id'];
+				unset($map);
+				$map['id']=$a;
+				$page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
+				$results = apiCall('Admin/Organization/query',array($map,$page));
+				unset($map);
+				$map['parentid']=202;
+				$list=apiCall('Admin/Datatree/queryNoPaging',array($map));
+				$this->assign('list',$list['info']);
+			
+	//			dump($results);
+				if($result['status']){
+					$this->assign('show',$results['info']['show']);
+					$this->assign('list1',$results['info']['list']);
+					$this->display();
+				}else{
+					LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
+					$this->error(L('UNKNOWN_ERR'));
+				}
+			}
 		}else{
-			$part=I('type','');
+			$part=I('parent','');
 			$result = apiCall("Admin/Organization/getInfo",array(array('id'=>$part)));
 			$level = 0;
 			$parents =$part.',';
@@ -44,7 +110,7 @@ class DepartmentController extends AdminController {
 				'type'=>I('type',''),
 				'level'=>$level,
 				'path'=>$parents,
-				'father'=>I('father',''),
+				'father'=>$part,
 			);
 			
 			$result = apiCall("Admin/Organization/add", array($entity));
@@ -56,7 +122,7 @@ class DepartmentController extends AdminController {
 			$this->success("操作成功！",U('Admin/Department/index',array('parent'=>$part)));
 		}
 	}
-public function delete(){
+	public function delete(){
 		$id = I('id',0);
 		
 		$result = apiCall("Admin/Organization/queryNoPaging", array(array('father'=>$id)));

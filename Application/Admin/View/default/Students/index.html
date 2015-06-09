@@ -13,7 +13,7 @@
 			{:W('Menus/breadcrumb')}
 				<!-- 操作按钮 -->
 				<div class="btn-controls">
-					<a class="btn btn-primary btn-sm" href="{:U('Admin/Students/add')}"><i class="fa fa-plus"></i>{:L('BTN_ADD')}</a>
+					<a class="btn btn-primary btn-sm" href="{:U('Admin/Students/add',array('parent'=>$parent))}"><i class="fa fa-plus"></i>{:L('BTN_ADD')}</a>
 					<!--<a target-form="selectitem" class="btn btn-danger btn-sm ajax-post confirm" href="{:U('Admin/Post/bulkDelete')}"><i class="fa fa-trash"></i>{:L('BTN_DELETE')}</a>
 					-->
 				</div>

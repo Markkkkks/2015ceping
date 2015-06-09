@@ -58,6 +58,16 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">类型</label>
+						<div class="col-md-10 col-lg-10">
+							<select name="type" class="form-control">
+								<volist name='list' id='vo'>
+									<option value="{$vo.id}">{$vo.name}</option>
+								</volist>						
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">备注</label>
 						<div class="col-md-10 col-lg-10">
 							<textarea rows="3" name="notes" class="form-control"></textarea>
@@ -67,7 +77,7 @@
 					<div class="form-group">
 						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
 						<div class="col-lg-10 col-md-10">
-							<a target-form="validateForm"  class="ajax-post btn btn-primary" href="{:U('Admin/Department/add')}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
+							<a target-form="validateForm"  class="ajax-post btn btn-primary" href="{:U('Admin/Department/add',array('parent'=>$parent))}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
 							<a class="btn btn-default" href="{:U('Admin/Department/index',array('parent'=>$parent))}"><i class="fa fa-times-circle"></i> {:L('BTN_CANCEL')}</a>
 						</div>
 					</div>

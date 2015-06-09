@@ -43,11 +43,9 @@ return array(
     'LOG_TYPE'              =>  'Db',
 	'LOG_LEVEL'  =>'EMERG,ALERT,CRIT,ERR', // 只记录EMERG ALERT CRIT ERR 错误
     'LOG_DB_CONFIG'=>array(
-<<<<<<< HEAD
-		'dsn'=>'mysql://boye105:1@192.168.0.100:3306/boye_2015_05_26_14_29_19' //本地日志数据库
-=======
+
 		'dsn'=>'mysql://root:1@192.168.0.100:3306/boye_2015_05_26_14_29_19' //本地日志数据库
->>>>>>> branch 'master' of https://github.com/h136799711/2015ceping.git
+
 	),
 	
     // Session 配置

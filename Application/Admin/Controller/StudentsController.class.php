@@ -9,22 +9,38 @@ class StudentsController extends AdminController {
 
 	//首页
     public function index(){
-      
-       $list=M('students')->select();
-	   $this->assign('list',$list);
+      $page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
+       $list=apiCall("Admin/Students/query",array($page));
+	   $this->assign('list',$list['info']['list']);
+	   $this->assign('show',$list['info']['show']);
+//	   dump($list);
 	   $this->display();
     }
 	
 	public function add(){
 		if(IS_GET){
-			$uid=session('uid');
-			$we='member_uid='.$uid;
-			$id=M('org_member','common_')->where($where)->getField('organization_id');
-			$where="father=".$id." and level=3";
-	//		dump($where);
-			$list=M('organization','common_')->where($where)->select();
-			$this->assign('list',$list);
-			$this->display();
+			$part=I('parent','');
+			$map = array();
+			$uid=session('uid',"");
+			if(!empty($uid)){
+				$map['member_uid'] = $uid;
+			}
+			
+			$result=apiCall('Admin/OrgMember/queryNoPaging',array($map));
+			
+			if($result['status']){
+				$a=$result['info'][0]['organization_id'];
+				unset($map);
+				$map=" path like '%$a%'";
+				$results = apiCall('Admin/Organization/queryNoPaging',array($map));
+				if($result['status']){
+					$this->assign('list',$results['info']);
+					$this->display();
+				}else{
+					LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
+					$this->error(L('UNKNOWN_ERR'));
+				}
+			}
 		}else{
 			$entity = array(
 				'name'=>I('name',''),
@@ -35,13 +51,14 @@ class StudentsController extends AdminController {
 				'grade'=>I('grade',''),
 				'create_time'=>time(),
 			);
-			$result = M('students')->add($entity);
-			
-			if(!$result['status']){
-				$this->error($result['info']);
-			}
-
-			$this->success("操作成功！",U('Admin/Students/index',array('parent'=>$part)));
+			dump($entity);
+//			$result = M('students')->add($entity);
+//			
+//			if(!$result['status']){
+//				$this->error($result['info']);
+//			}
+//
+//			$this->success("操作成功！",U('Admin/Students/index',array('parent'=>$part)));
 		}
 		
 	}
@@ -49,18 +66,28 @@ class StudentsController extends AdminController {
 		$id = I('get.id',0);
 		
 		if(IS_GET){
-			$entity =M('students')->where('id='.$id)->select();
-			$uid=session('uid');
-			$we='member_uid='.$uid;
-			$ids=M('org_member','common_')->where($where)->getField('organization_id');
-			$where="father=".$ids." and level=3";
-	//		dump($where);
-			$list=M('organization','common_')->where($where)->select();
-			$this->assign('entity',$entity);
-			$this->assign('list',$list);
-//			dump($entity);
-//			dump($list);
-			$this->display();
+			$part=I('parent','');
+			$map = array();
+			$uid=session('uid',"");
+			if(!empty($uid)){
+				$map['member_uid'] = $uid;
+			}
+			
+			$result=apiCall('Admin/OrgMember/queryNoPaging',array($map));
+			
+			if($result['status']){
+				$a=$result['info'][0]['organization_id'];
+				unset($map);
+				$map=" path like '%$a%'";
+				$results = apiCall('Admin/Organization/queryNoPaging',array($map));
+				if($result['status']){
+					$this->assign('list',$results['info']);
+					$this->display();
+				}else{
+					LogRecord('INFO:'.$result['info'],'[FILE] '.__FILE__.' [LINE] '.__LINE__);
+					$this->error(L('UNKNOWN_ERR'));
+				}
+			}
 		}else{
 			
 			$entity = array(
