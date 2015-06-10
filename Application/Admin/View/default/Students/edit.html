@@ -8,7 +8,33 @@
 	<!--<link rel="stylesheet" type="text/css" href="__CDN__/comp/wxuploader.css" />
 	<link type="text/css" rel="stylesheet" href="__CDN__/jquery-uploadify/3.2.1/uploadify.css" />
 	<script type="text/javascript" src="__CDN__/jquery-uploadify/3.2.1/jquery.uploadify.min.js"></script>-->
+	<script type="text/javascript" src="__CDN__/jquery/1.8.3/jquery.min.js"></script>
+	<script language="JavaScript" type="text/javascript">
+	$(function(){
+		$.getJSON("{:U('Admin/Students/select')}",{nj_id:$("#nj").val()},function(json){ 
+//					alert(json);
+					var cs_id = $("#class"); 
+					$("option",cs_id).remove(); //清空原有的选项，也可使用 ds_id.empty(); 
+					$.each(json,function(index,array){ 
+						var option = "<option value='"+array['id']+"'>"+array['orgname']+"</option>"; 
+						cs_id.append(option); 
+					}); 
+				}); 
 	
+		$("#nj").change(function(){
+//			alert("aa");
+			$.getJSON("{:U('Admin/Students/select')}",{nj_id:$("#nj").val()},function(json){ 
+//					alert(json);
+					var cs_id = $("#class"); 
+					$("option",cs_id).remove(); //清空原有的选项，也可使用 ds_id.empty(); 
+					$.each(json,function(index,array){ 
+						var option = "<option value='"+array['id']+"'>"+array['orgname']+"</option>"; 
+						cs_id.append(option); 
+					}); 
+				}); 
+		});
+	});
+	</script>
 
 </block>
 
@@ -39,7 +65,7 @@
 							<div class="help-block">(请输入，机构编码)</div>
 						</div>
 					</div>-->
-					<volist name="entity" id="v">
+					<volist name="list" id="v">
 					<div class="form-group">
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">姓名</label>
 						<div class="col-md-10 col-lg-10">
@@ -51,10 +77,10 @@
 						<label for="inputtitle" class="col-md-2 col-lg-2 control-label">性别</label>
 						<div class="col-md-10 col-lg-10">
 							<label class="radio-inline">
-								<input type="radio" name="sex" value="publish" checked="checked" />男
+								<input type="radio" name="sex" value="1" checked="checked" />男
 							</label>
 							<label class="radio-inline">
-								<input type="radio" name="sex" value="draft" />女
+								<input type="radio" name="sex" value="0" />女
 							</label>
 						</div>
 					</div>
@@ -80,24 +106,32 @@
 					</div>
 					<br>
 					<div class="form-group">
-						<label for="inputpost_excerpt" class="col-md-2 col-lg-2 control-label">部门</label>
+						<label for="inputpost_excerpt" class="col-md-2 col-lg-2 control-label">年级</label>
 						<div class="col-md-10 col-lg-10">
-							<select name="grade" class="form-control input-normal " >
-								<volist name="list" id="vo">
+							<select name="nj" id="nj" class="form-control input-normal " >
+								<volist name="entity" id="vo">
 								<option <eq name="v.grade" value="$vo.id">selected="selected"</eq> value="{$vo.id}">{$vo.orgname}</option>
 								</volist>
 							</select>
-							<div class="help-block">(请选择部门)</div>
 						</div>
 					</div>
-					</volist>
+					<div class="form-group">
+						<label for="inputpost_excerpt" class="col-md-2 col-lg-2 control-label">班级</label>
+						<div class="col-md-10 col-lg-10">
+							<select name="class" id="class" class="form-control input-normal " >
+								<option value="">请先选择年级</option>
+							</select>
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
 						<div class="col-lg-10 col-md-10">
-							<a target-form="validateForm"  class="ajax-post btn btn-primary" href="{:U('Admin/Students/edit',array('id'=>$entity['id']))}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
+							<a target-form="validateForm"  class="ajax-post btn btn-primary" href="{:U('Admin/Students/edit',array('id'=>$v['id']))}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
 							<a class="btn btn-default" href="{:U('Admin/Students/index',array('parent'=>$parent))}"><i class="fa fa-times-circle"></i> {:L('BTN_CANCEL')}</a>
 						</div>
 					</div>
+					</volist>
 				</fieldset>
 			</form>
 			<!-- form -->

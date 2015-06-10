@@ -40,6 +40,9 @@
 								创建时间
 							</th>
 							<th>
+								年级
+							</th>
+							<th>
 								班级
 							</th>
 							<th>
@@ -69,10 +72,21 @@
 										{:($vo['sex']=='1'?"男":"女")}
 									</td>
 									<td>
-										{$vo.create_time}
+										{$vo.create_time|date='Y-m-d h:i:s',###}
 									</td>
 									<td>
-										{$vo.class}
+										<volist name="result" id="vo1">
+											<if condition="$vo['grade'] eq $vo1['id']" >
+												{$vo1.orgname}
+											</if>
+										</volist>
+									</td>
+									<td>
+										<volist name="result" id="vo1">
+											<if condition="$vo['class'] eq $vo1['id']" >
+												{$vo1.orgname}
+											</if>
+										</volist>
 									</td>
 									<td>
 										<!--<a href="{:U('Home/Index/view',array('id'=>$vo['id']))}" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>查看</a>-->
