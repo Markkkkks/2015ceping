@@ -9,8 +9,8 @@ class StudentsController extends AdminController {
 
 	//首页
     public function index(){
-    	$map="status=0";
-      $page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
+       $map="status=0";
+       $page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
        $list=apiCall("Admin/Students/query",array($page,$map));
 	   $mapp=" path like '%$a%' ";
 	   $resultt= apiCall('Admin/Organization/queryNoPaging',array($mapp));
@@ -58,7 +58,7 @@ class StudentsController extends AdminController {
 				'name'=>I('name',''),
 				'sex'=>I('sex',''),
 				'age'=>I('age',''),
-				'enrol_year'=>date('Y-m-d',I('enrol_year','')),
+				'enrol_year'=>I('enrol_year',''),
 				'student_id'=>I('student_id',''),
 				'grade'=>I('nj',''),
 				'create_time'=>time(),
@@ -76,7 +76,7 @@ class StudentsController extends AdminController {
 			$user=array(
 				
 				'nickname'=>I('student_id',''),
-				'birthday'=>date('Y-m-d',I('date','')),
+				'birthday'=>I('date',''),
 				'sex'=>I('sex',''),
 				'status'=>1,
 				'realname'=>'',
