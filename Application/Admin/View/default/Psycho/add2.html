@@ -1,0 +1,207 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/localization/messages_zh.min.js"></script>
+	<script type="text/javascript" src="__CDN__/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="__CDN__/ueditor/1.4.3/ueditor.config.js"></script>
+    <script type="text/javascript"  src="__CDN__/ueditor/1.4.3/ueditor.all.min.js"> </script>
+	<link type="text/css" rel="stylesheet" href="__CDN__/comp/wxuploader.css?v=__APP_VERSION__" />
+	<link type="text/css" rel="stylesheet" href="__CDN__/jquery-uploadify/3.2.1/uploadify.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="__CDN__/jquery-datetimepicker/jquery.datetimepicker.css">
+	<script type="text/javascript" src="__CDN__/jquery-uploadify/3.2.1/jquery.uploadify.min.js"></script>
+	
+	<script type="text/javascript" src="__CDN__/jquery/1.8.3/jquery.min.js"></script>
+	<style type="text/css">
+		.tb tr td{padding: 10px; border: 1px solid #FFFFFF; padding: 10px !important; text-align: center;}
+		.tb tr td input{ width: 100%;}
+	</style>
+	
+</block>
+
+<block name="area_body">
+	{:W('Menus/topbar')}
+	<div class="admin-main container-fluid">
+		{:W('Menus/left')}
+		<div class="admin-main-content">
+			{:W('Menus/breadcrumb')}
+			<h4>2、家庭情况</h4>
+			<!-- 带验证 form -->
+			<form class="form-horizontal well validateForm">
+				<table class="tb">
+					<tr>
+						<td colspan="11">详细信息</td>
+						<td colspan="5">喜爱程度</td>
+					</tr>
+					<tr>
+						<td >称谓</td>
+						<td colspan="2">姓名</td>
+						<td >年龄</td>
+						<td >学历</td>
+						<td  colspan="2">职业</td>
+						<td colspan="2">爱好与特长</td>
+						<td colspan="2">个性特性</td>
+						<td >喜欢</td>
+						<td >较喜欢</td>
+						<td >无所谓</td>
+						<td >不喜欢</td>
+						
+						
+					</tr>
+					<tr>
+						<td >父亲</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td >母亲</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td >继父</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td>继母</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td>养父</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td >养母</td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td ><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td ><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="text"></td>
+						<td ><input type="text"></td>
+						<td  colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td colspan="2"><input type="text"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						<td ><input type="radio" name="like"></td>
+						
+						
+					</tr>
+					<tr>
+						<td colspan="3">是否独生子女</td>
+						<td colspan="13"><input type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="3">居住环境</td>
+						<td colspan="4">好<input type="radio" name="like"></td>
+						<td colspan="4">一般<input type="radio" name="like"></td>
+						<td colspan="4">差<input type="radio" name="like"></td>
+					</tr>
+					<tr>
+						<td colspan="3">家庭气氛</td>
+						<td colspan="4">好<input type="radio" name="like"></td>
+						<td colspan="4">一般<input type="radio" name="like"></td>
+						<td colspan="4">差<input type="radio" name="like"></td>
+					</tr>
+					<tr>
+						<td colspan="3">经济状况(年家庭收入金额)</td>
+						<td colspan="13"><input type="text" ></td>
+					</tr>
+				</table>
+					
+			</form>
+			<!-- form -->
+
+			<include file="template/wxpicture" />
+		</div>
+		<!-- END admin-main-content -->
+	</div>
+		<!-- END admin-main-->
+		
+</block>
+
+<block name="area_footer">
+
+</block>
