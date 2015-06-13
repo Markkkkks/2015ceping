@@ -12,7 +12,7 @@ class StudentsController extends AdminController {
        $map="status=0";
        $page = array('curpage' => I('get.p', 0), 'size' => C('LIST_ROWS'));
        $list=apiCall("Admin/Students/query",array($page,$map));
-	   $mapp=" path like '%$a%' ";
+	   $mapp=" level>2 ";
 	   $resultt= apiCall('Admin/Organization/queryNoPaging',array($mapp));
 	  
 	   $this->assign('result',$resultt['info']);
