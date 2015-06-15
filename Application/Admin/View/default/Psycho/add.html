@@ -1,0 +1,106 @@
+<extend name="template/base_index" />
+
+
+<block name="area_header">
+	<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="__CDN__/jquery-validation/1.13.1/localization/messages_zh.min.js"></script>
+	<script type="text/javascript" src="__CDN__/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="__CDN__/ueditor/1.4.3/ueditor.config.js"></script>
+    <script type="text/javascript"  src="__CDN__/ueditor/1.4.3/ueditor.all.min.js"> </script>
+	<link type="text/css" rel="stylesheet" href="__CDN__/comp/wxuploader.css?v=__APP_VERSION__" />
+	<link type="text/css" rel="stylesheet" href="__CDN__/jquery-uploadify/3.2.1/uploadify.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="__CDN__/jquery-datetimepicker/jquery.datetimepicker.css">
+	<script type="text/javascript" src="__CDN__/jquery-uploadify/3.2.1/jquery.uploadify.min.js"></script>
+	
+	<script type="text/javascript" src="__CDN__/jquery/1.8.3/jquery.min.js"></script>
+	<style type="text/css">
+		.tb tr td{ border: 1px solid #FFFFFF; padding: 10px !important; text-align: center;}
+		.tb tr td input{ width: 100%;}
+		.form-group{margin-top: 20px;}
+	</style>
+	
+</block>
+
+<block name="area_body">
+	{:W('Menus/topbar')}
+	<div class="admin-main container-fluid">
+		{:W('Menus/left')}
+		<div class="admin-main-content">
+			{:W('Menus/breadcrumb')}
+			<h4>1、基本情况</h4>
+			<!-- 带验证 form -->
+			<form class="form-horizontal well validateForm" >
+				<table class="tb">
+					<volist name="result" id="vo">
+						<input type="hidden" name="id" value="{$vo.id}" />
+					<tr >
+						<td colspan="2">姓名</td>
+						<td colspan="2">{$vo.name}</td>
+						<td colspan="2">班级</td>
+						<td colspan="2">
+							<volist name="list" id="v">
+								<if condition="$vo['grade'] eq $v['id']">
+									{$v.orgname}
+								</if>
+								<if condition="$vo['class'] eq $v['id']">
+									{$v.orgname}
+								</if>
+							</volist>
+						</td>
+						
+						<td colspan="2">性别</td>
+						<td colspan="2">{:($vo['sex']=='1'?"男":"女")}</td>
+						<td colspan="2">出生年月</td>
+						<td colspan="2"><input type="date" name="date" title="点击右边小三角选择出生日期"></td>
+					</tr>
+					<tr >
+						<td colspan="2">民族</td>
+						<td colspan="2"><input type="text" name="minzu" ></td>
+						<td colspan="2">籍贯</td>
+						<td colspan="2"><input name="jiguan" type="text"></td>
+						<td colspan="2">血型</td>
+						<td colspan="2"><input name="blood" type="text"></td>
+						<td colspan="2">健康状况</td>
+						<td colspan="2"><input name="jkzk" type="text"></td>
+						
+						
+					</tr>
+					<tr>
+						<td colspan="2">家庭住址</td>
+						<td colspan="14"><input name="address" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2">寄住地址</td>
+						<td colspan="7"><input name="jzdz" type="text"></td>
+						<td colspan="2">生理缺陷</td>
+						<td colspan="5"><input name="slqx" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2">兴趣爱好</td>
+						<td colspan="7"><input name="like" type="text"></td>
+						<td colspan="2">个人特长</td>
+						<td colspan="5"><input name="grtc" type="text" ></td>
+					</tr>
+					</volist>
+				</table>
+					<div class="form-group">
+						<label for="btns" class="col-md-2 col-lg-2 control-label">&nbsp;</label>
+						<div class="col-lg-10 col-md-10">
+							<a target-form="validateForm" onclick="return getData();" class="ajax-post btn btn-primary" href="{:U('Admin/Psycho/save')}" autofocus="autofocus"><i class="fa fa-save"></i> {:L('BTN_SAVE')}</a>
+							<a class="btn btn-default" href="{:U('Admin/Psycho/index')}"><i class="fa fa-reply"></i>返回</a>
+						</div>
+					</div>
+			</form>
+			<!-- form -->
+
+			<include file="template/wxpicture" />
+		</div>
+		<!-- END admin-main-content -->
+	</div>
+		<!-- END admin-main-->
+		
+</block>
+
+<block name="area_footer">
+
+</block>

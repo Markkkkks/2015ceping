@@ -49,7 +49,7 @@ class UserApi extends Api{
      * @param  string $mobile   用户手机号码
      * @return array(true,uid)  注册失败-错误信息
      */
-    public function register($username, $password, $email, $mobile = ''){
+    public function register($username, $password, $email, $mobile ){
         $result = $this->model->register($username, $password, $email, $mobile);
 	    	if($result > 0){//成功
 	    		return array('status'=>true,'info'=>$result);
