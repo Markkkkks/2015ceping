@@ -27,10 +27,8 @@ class StudentsController extends AdminController {
 		if(IS_GET){
 			$part=I('parent','');
 			$map = array();
-			$uid=session('uid',"");
-			if(!empty($uid)){
-				$map['member_uid'] = $uid;
-			}
+
+			$map['member_uid'] = UID;
 			
 			$result=apiCall('Admin/OrgMember/queryNoPaging',array($map));
 			
@@ -39,7 +37,9 @@ class StudentsController extends AdminController {
 				unset($map);
 				$map=" path like '%$a%' and level=3";
 				$mapmap="id=".$a;
+				
 				$list=apiCall('Admin/Organization/queryNoPaging',array($mapmap));
+				
 				$this->assign('lists',$list['info']);
 				$results = apiCall('Admin/Organization/queryNoPaging',array($map));
 				if($result['status']){
