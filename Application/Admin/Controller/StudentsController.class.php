@@ -36,9 +36,11 @@ class StudentsController extends AdminController {
 				$a=$result['info'][0]['organization_id'];
 				unset($map);
 				$map=" path like '%$a%' and level=3";
-				$mapmap="id=".$a;
+				$where=array(
+					'id'=>$a,
+				);
 				
-				$list=apiCall('Admin/Organization/queryNoPaging',array($mapmap));
+				$list=apiCall('Admin/Organization/queryNoPaging',array($where));
 				
 				$this->assign('lists',$list['info']);
 				$results = apiCall('Admin/Organization/queryNoPaging',array($map));
@@ -105,7 +107,9 @@ class StudentsController extends AdminController {
 		$id = I('get.id',0);
 		
 		if(IS_GET){
-			$map="id=".$id;
+			$map=array(
+				'id'=>$id,
+			);
 			$list=apiCall("Admin/Students/queryNoPaging",array($map));
 			$map=" path like '%$a%' and level>2";
 			$results = apiCall('Admin/Organization/queryNoPaging',array($map));
@@ -146,7 +150,9 @@ class StudentsController extends AdminController {
 //		dump(''$var'');
 		$nj = I("nj_id"); 
 		if(isset($nj)){ 
-			$map=" father=".$nj;
+			$map=array(
+				'father'=>$nj,
+			);
 			$results = apiCall('Admin/Organization/queryNoPaging',array($map));
 //			dump($results['info']);
 			foreach ($results['info'] as $key) {

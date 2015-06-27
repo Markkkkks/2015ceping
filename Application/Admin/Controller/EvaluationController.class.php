@@ -32,7 +32,8 @@ class EvaluationController extends AdminController{
 		$com=M('datatree','common_');
 		
 		$re=$com->where('parentid=197')->select();
-		
+//		dump($re);
+//		dump($result);
 		//
 		if($result['status']){
 			$this->assign('dts',$re);
