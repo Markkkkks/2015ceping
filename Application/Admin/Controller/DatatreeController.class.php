@@ -29,6 +29,9 @@ class DatatreeController extends AdminController{
 		$this->assign('preparent',$this->preparent);
 	}
 	
+	
+	
+	
 	public function index(){
 		$name = I('name','');
 		$map = array('parentid'=>$this->parent);
@@ -92,6 +95,26 @@ class DatatreeController extends AdminController{
 		
 	}	
 	
+	
+	public function ajax_list(){
+		if(IS_AJAX){
+			$map = array();
+			$cate = I('post.cate',-1);
+			$map['cate'] = $cate;
+			$order = " sort desc ";
+			
+			//
+			$result = apiCall("TSystem/Evaluation/queryNoPaging",array($map,false,"cate,title,type,id,cate"));
+			
+			if(!$result['status']){
+				$this->error($result['info']);
+			}
+			
+			$this->success($result['info']);
+		}else{
+			$this->ajaxReturn(array('method_name'=>"ajax_list","method"=>'ajax','author'=>'hbd','update'=>'20150629'),"xml");
+		}
+	}
 	
 	public function add(){
 		if(IS_GET){

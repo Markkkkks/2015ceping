@@ -232,24 +232,33 @@ class TestSysController extends AdminController{
 	public function evaluation(){
 		if(IS_GET){
 			$id = I('get.id',0);
-			
-			$map = array(
-				'status'=>1,
+			$where = array(
+				'parentid'=>197,
 			);
-			$result = apiCall("TSystem/Evaluation/queryNoPaging", array($map));
+			
+			$result = apiCall("Admin/Datatree/queryNoPaging", array($where));
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
+			$this->assign("eval_cates",$result['info']);
 			
-			$eval_list = $result['info'];
-		
+//			$map = array(
+//				'status'=>1,
+//			);
+//			$result = apiCall("TSystem/Evaluation/queryNoPaging", array($map));
+//			if(!$result['status']){
+//				$this->error($result['info']);
+//			}
+//			
+//			$eval_list = $result['info'];
+//		
 			$result = apiCall("TSystem/TestSys/getInfo", array(array("id"=>$id)));
 			if(!$result['status']){
 				$this->error($result['info']);
 			}
-			
+//			
 			$this->assign("test",$result['info']);
-			
+//			
 			$map = array();
 			$map['id'] = array('in',$result['info']['eval_ids']);
 			$result = apiCall("TSystem/Evaluation/queryNoPaging", array($map));
@@ -258,10 +267,12 @@ class TestSysController extends AdminController{
 			
 			$this->assign("choosed_evals",$choosed_evals);
 			$this->assign("id",$id);
-			$this->assign("eval_list",$eval_list);
+//			$this->assign("eval_list",$eval_list);
 			$this->display();
 		}else{
 			$id = I("get.id",0);
+//			$eval_arr = I('post.eval',array());
+//			$evalids = implode(",", $eval_arr);
 			$evalids = I('post.evalids','');
 			
 			$saveEntity = array('eval_ids'=>$evalids);
@@ -503,7 +514,7 @@ class TestSysController extends AdminController{
 	private  function getChoosedEvals($info){
 		$result = array();
 		foreach($info as $vo){
-			array_push($result,array('id'=>$vo['id'],'text'=>$vo['title']));	
+			array_push($result,array('id'=>$vo['id'],'title'=>$vo['title']));	
 		}
 		return json_encode($result);
 	}
