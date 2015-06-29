@@ -6,12 +6,17 @@
 	<script type="text/javascript" src="__CDN__/select2/4.0.0/js/select2.full.js"></script>
 	<script type="text/javascript" src="__CDN__/select2/4.0.0/js/i18n/zh-CN.js"></script>
 	<style type="text/css">
+		.item{
+			width: 50%;
+			float: left;
+		}
 		.select-member .item{
 			float: left;
 			margin: 10px;
+			width: auto;
 			position: relative;
-  background: #fff;
-  padding: 10px;
+			background: #fff;
+			padding: 10px;
 			
 		}
 		.fa-times-circle{
@@ -43,10 +48,38 @@
 								<a class="btn btn-default  btn-sm" href="{:U('Admin/TestSys/index')}"><i class="fa fa-reply"></i>返回</a>
 							</div>
 						</div>
+						<div class="form-group well">
+							<label for="btns" class="col-md-2 col-lg-2 control-label">已选中量表</label>
+							<div class="col-md-10 col-lg-10">
+								<div class="select-member">
+									
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label  class="col-md-2 col-lg-2 control-label">请选择量表分类</label>
+							<div class="col-md-10 col-lg-10">
+							<select  class=" form-control" id="eval_cate" >
+								<option value="">=请选择量表分类=</option>
+								<volist name="eval_cates" id="vo">
+									<option value="{$vo.id}">{$vo.name}</option>
+								</volist>
+							</select>
+							</div>
+						</div>
 						
 						<div class="form-group">
 							<label  class="col-md-2 col-lg-2 control-label">可选择量表</label>
+							<div class="col-md-10 col-lg-10 J_eval_panel">
+								请选择分类
+							</div>
+						</div>
+						
+						
+						<div class="form-group hide">
+							<label  class="col-md-2 col-lg-2 control-label">可选择量表</label>
 							<div class="col-md-10 col-lg-10">
+							
 							<select  class=" form-control" id="user_select2" >
 									<option value="">=请选择量表=</option>
 								<volist name="eval_list" id="vo">
@@ -54,14 +87,6 @@
 								</volist>
 							</select>
 								
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="btns" class="col-md-2 col-lg-2 control-label">已选中量表</label>
-							<div class="col-md-10 col-lg-10">
-								<div class="select-member">
-									
-								</div>
 							</div>
 						</div>
 						
@@ -110,7 +135,7 @@ function appendItem(repo){
 	}
 	
 	window.appended[repo.id] = 1;
-	var item = $("<div class='item'></div>").data("repoid",repo.id).text(repo.text).append("<i class='fa fa-times-circle'></i>").addClass("item"+repo.id);
+	var item = $("<div class='item'></div>").data("repoid",repo.id).text(repo.title).append("<i class='fa fa-times-circle'></i>").addClass("item"+repo.id);
 	$(".select-member").append(item);
 	console.log(repo);
 	
@@ -131,9 +156,33 @@ function initEvals(){
 	for(var i=0;i<json.length;i++){
 		appendItem(json[i]);
 	}
+//	appendEval(json,true);
+//	$(".J_eval_panel").empty();
+//	for(var i=0;i<data.length;i++){
+//		var label = $("<label ></label>").text(data[i].title)
+//		var item = $("<input type='checkbox' name='eval[]' />").val(data[i].id);
+//		var wrp = $("<div class='item'></div>");
+//		$(".J_eval_panel").append(wrp);
+//		wrp.append(label);
+//		label.prepend(item);
+//	}
+}
+
+function appendEval(data){
+	$(".J_eval_panel").empty();
+	for(var i=0;i<data.length;i++){
+		var label = $("<label ></label>").text(data[i].title);
+		var item = $("<input type='checkbox' name='eval[]' />").val(data[i].id);
+		
+		var wrp = $("<div class='item'></div>");
+		$(".J_eval_panel").append(wrp);
+		wrp.append(label);
+		label.prepend(item);
+	}
 }
 
 $(function() {
+	
 	window.appended = [];
 	$(".select-member").click(function(ev){
 		var clickitem = $(ev.target);
@@ -147,49 +196,54 @@ $(function() {
 	
 	initEvals();
 	
+	
+	
 	$("#user_select2").select2({
 			placeholder: "请选择量表",
-			language: "zh-CN",
-//			ajax: {
-//			    url: "{:U('Admin/Evaluation/select')}",
-//			    dataType: 'json',
-//			    delay: 250,
-//			    data: function (params) {
-//			    	var queryParameters = {
-//				      q: params.term
-//				    }
-//
-//  				return queryParameters;
-//			      
-//			    },
-//			    processResults: function (data, page) {
-//			    	if(!data.info){
-//			    		data.info = new Array();
-//			    		data.info['nodata']="无相关数据";
-//			    	}
-//			      	// parse the results into the format expected by Select2.
-//			      	// since we are using custom formatting functions we do not need to
-//			      	// alter the remote JSON data
-//			      	return {
-//			        	results: data.info
-//			      	};
-//			    },
-//			    cache: true
-//		  	}, 
-			
+			language: "zh-CN",			
 			minimumInputLength: 0,
 			templateSelection: function (repo) {	
 					appendItem(repo);
 	  				return repo.text;
 			},
-//			templateResult: function (repo) {
-//    				if (repo.loading) return repo.text;
-//					if(repo.nodata) return repo.nodata;
-//    				var markup = '<div>[id:'+repo.id+'] '+repo.title+'</div>';
-//    				return markup;
-//  			},
-		});
+	});
+	
+	$("#eval_cate").change(function(){
+		var val = $("#eval_cate").val();
+		console.log("选中的值".$val);
 		
-		}); //end ready
+		$.ajax({
+			url: "{:U('Admin/Datatree/ajax_list')}",
+			type:"post",
+			data:{cate:val}
+		}).done(function(data){
+			console.log(data);
+			if(data.status){
+				appendEval(data.info);
+			}else{
+				alert(data.info);
+			}
+		})
+		
+	});
+	
+	
+	$(".J_eval_panel").click(function(ev){
+		if($(ev.target).is("input")){
+			var repo = {
+				title:$(ev.target).parent().text(),
+				id:$(ev.target).val()
+			};
+			console.log($(ev.target).prop("checked"));
+			if(!$(ev.target).prop("checked")){
+				delItem(repo.id);
+			}else{
+				appendItem(repo);	
+			}
+		}
+	});
+	
+	
+}); //end ready
 	</script>
 </block>
