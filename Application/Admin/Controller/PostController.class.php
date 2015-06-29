@@ -43,12 +43,25 @@ class PostController extends  AdminController{
 	
 	public function add(){
 		if(IS_GET){
-			
 			$this->display();
 		}else{
 			$post_category = I('post.post_category',20);
-
-			$entity = array(
+			if($post_category==213){
+				$entity = array(
+				'main_img'=>I('post.main_img',''),
+				'post_category'=>$post_category,
+				'post_content'=>I('post_content',''),
+				'post_excerpt'=>I('post_excerpt',''),
+				'post_title'=>I('post_title',''),
+				'post_author'=>UID,
+				'post_status'=>I('post_status','draft'),
+				'comment_status'=>I('commen_status','open'),
+				'post_parent'=>0,
+				'post_type'=>'post_type',
+				'comment_count'=>0
+				);
+			}else{
+				$entity = array(
 				'main_img'=>I('post.main_img',''),
 				'post_category'=>$post_category,
 				'post_content'=>I('post_content',''),
@@ -61,6 +74,8 @@ class PostController extends  AdminController{
 				'post_type'=>'post_type',
 				'comment_count'=>0
 			);
+			}
+			
 			
 			$result = apiCall("Admin/Post/add", array($entity));
 			

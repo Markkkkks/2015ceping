@@ -8,6 +8,7 @@
 namespace Home\Controller;
 use Think\Controller;
 use Think\Storage;
+use Home\Api\HomePublicApi;
 /*
  * 官网首页
  */
@@ -98,114 +99,49 @@ class IndexController extends HomeController {
 	}
 	
     public function index(){
-    	$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-		if(!$cates['status']){
-			$this->error($cates['info']);
-		}
-		$com=M('Post');
-		$list = $com->select();
-		$this->assign('list',$list);
-		$user=M('member','common_');
-		$users=$user->select();		
-		
-		$this->assign("users",$users);
-		$this->assign("cates",$cates['info']);
+    	$map = array('parentid'=>21,);
+		$cates = apiCall(HomePublicApi::Datatree_Query,array($map));
+		$this->assign('cates',$cates['info']);
+		$posts = apiCall(HomePublicApi::Post_Query,array($map));
+		$this->assign('posts',$posts['info']);
 		$this->display();
 	} 
 	
+	
 	public function cate(){
 		$cateid = I('get.cateid',0);
-		$map = array('post_category'=>$cateid,'post_status'=>'publish');
-		
-		$result = apiCall("Home/Datatree/getInfo", array(array('id'=>$cateid)));
-		
-		if(!$result['status']){
-			$this->error($result['info']);
-		}
-		
-		if(is_null($result['info'])){
-			$this->error("该分类不存在!");
-		}
-		
-		$this->assign("title",$result['info']['name']);
-		$page = array('curpage'=>I('get.p',0),'size'=>6);
-		
-		$result = apiCall("Home/Post/query", array($map,$page));
-//		dump($result);
-		if(!$result['status']){
-			$this->error($result['info']);
-		}
-		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-		if(!$cates['status']){
-			$this->error($cates['info']);
-		}
-		$user=M('member','common_');
-		$users=$user->select();		
-		$this->assign("cateid",$cateid);
-		$this->assign("users",$users);
-		$this->assign("cates",$cates['info']);
-		
-		$this->assign("list",$result['info']['list']);
-		$this->assign("show",$result['info']['show']);
-		$this->theme($this->theme)->display("list");
-		
+		$mapq=array('post_category'=>$cateid,);
+		$map = array('parentid'=>21,);
+		$cates = apiCall(HomePublicApi::Datatree_Query,array($map));
+		$this->assign('cates',$cates['info']);
+		$posts = apiCall(HomePublicApi::Post_QueryAll,array($mapq));
+		$this->assign('posts',$posts['info']['list']);
+		$this->assign('checkedid',$cateid);
+		$this->display('list');
 	}
 	
-	public function view(){
-		$cateid = I('get.cateid',0);
+	public function info(){
 		$id = I('get.id',0);
-		$map = array('id'=>$id);
-		$result = apiCall("Home/Post/getInfo", array($map));
-		if(!$result['status']){
-			$this->error($result['info']);
-		}
-		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-		if(!$cates['status']){
-			$this->error($cates['info']);
-		}
-		$this->assign("cateid",$cateid);
-		$this->assign("cates",$cates['info']);
-		$com=M('Post');
-		$list = $com->where ('id='.$id)->select();
-		$this->assign('lists',$list);
-		$content = htmlspecialchars_decode($result['info']['post_content']);
-		$user=M('member','common_');
-		$users=$user->select();		
-		
-		$this->assign("users",$users);
-		$title = $result['info']['post_title'];
-		$this->assign("post",$result['info']);
-		$this->assign("title",$title);
-		$this->assign("content",$content);
-		
-		$this->theme($this->theme)->display();
+		$mapq=array('id'=>$id,);
+		$map = array('parentid'=>21,);
+		$cates = apiCall(HomePublicApi::Datatree_Query,array($map));
+		$this->assign('cates',$cates['info']);
+		$posts = apiCall(HomePublicApi::Post_Query,array($mapq));
+		$this->assign('posts',$posts['info'][0]);
+		$this->display();
 	}
 	
 	/*
 	 * 搜索
 	 * */
-	public function search (){
+	public function sousuo (){
+		$map = array('parentid'=>21,);
+		$cates = apiCall(HomePublicApi::Datatree_Query,array($map));
+		$this->assign('cates',$cates['info']);
 		$text=I('post.text');
 		$where ="post_title like '%$text%'";
-//		dump($where);
-		$list=M('post')->where($where)->select();
-		
-		$page = array('curpage'=>I('get.p',0),'size'=>6);
-		
-		$list = apiCall("Home/Post/query", array($where,$page));
-//		dump($list);
-		$map = array('parentid'=>getDatatree("POST_CATEGORY"));
-		$cates = apiCall("Home/Datatree/queryNoPaging",array($map));
-		if(!$cates['status']){
-			$this->error($cates['info']);
-		}
-//		$this->assign("list",$list['info']['list']);
-$date=array();
-		$this->assign("list",$date);
-		$this->assign("cates",$cates['info']);
+		$list=D('post')->where($where)->select();
+		$this->assign('ps',$list);
 		$this->display();
 	}	
 	
