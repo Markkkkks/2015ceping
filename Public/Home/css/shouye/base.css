@@ -1,0 +1,83 @@
+.content{ margin-top: 1.7%;}
+.sele{ width: 500px;  margin-left: 166%;  font-size: 12px;  margin-top: -2.7%;}
+.field {
+margin-top: -15px;
+ display:flex;
+
+  width:40%;
+  flex-direction:row;
+  box-shadow:
+   1px 1px 0 #6FA615,
+   2px 2px 0 #6FA615,
+   3px 3px 0 #6FA615,
+   4px 4px 0 #6FA615,
+   5px 5px 0 #6FA615,
+   6px 6px 0 #6FA615,
+   7px 7px 0 #6FA615
+  ;
+}
+
+
+
+.field>input[type=text] {
+  flex:1;
+  padding:0.6em;
+  border:0.2em solid #6FA615;
+}
+
+.field>button {
+
+  background-color:#6FA615;
+  color:white;
+  border:none;
+  }
+/*多图切换css*/
+.MultiMap {
+    height:224px;
+    *height:224px;
+    overflow:hidden;
+}
+.MultiMap_img img {
+ width:346px; 
+ height:236px;
+}
+.MultiMap_page {
+    height:36px;
+    width:100%;
+    z-index:100;
+    left:0;
+    bottom:0;
+    /*background-image:url(../img/MultiMap_pageBg32.png);*/
+    /*_background-image:url(../img/MultiMap_pageBg8.png);*/
+    background-position:left center;
+    background-repeat:no-repeat;
+    white-space:nowrap;
+}
+.MultiMap_page_title {
+    width:49.5%;
+    color:white;
+    height:36px;
+    line-height:36px;
+    text-align:left;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    text-indent:1em;
+}
+.MultiMap_page_nav {
+    width:49.5%;
+    height:36px;
+}
+.MultiMap_page_nav a {
+    padding:5px;
+    color:#fff;
+    _color:#fff!important;
+    background:#0F5F1C;
+    margin:0 3px;    
+    line-height:36px;
+    *height:36px;
+    vertical-align:baseline;
+}
+.MultiMap_page_nav a.activeSlide {
+    background:red;
+}

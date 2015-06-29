@@ -1,0 +1,23 @@
+﻿.dn{ display:none;} .db{ display:block;} .di{ display:inline;} .dib{ display:inline-block;*zoom:1;*display:inline;}
+.h14{ height:14px;} .h16{ height:16px} .h18{ height:18px;} .h20{ height:20px;} .h22{ height:22px;} .h24{ height:24px;}
+.lh14{ line-height:14px;} .lh16{ line-height:16px;} .lh18{ line-height:18px;} .lh20{ line-height:20px;} .lh22{ line-height:22px;} .lh24{ line-height:24px;}
+.f0{ font-size:0;-webkit-text-size-adjust:none;} .f12{ font-size:12px;} .f14{ font-size:14px;} .f16{ font-size:16px;} .f18{ font-size:18px;} .f20{ font-size:20px;} .f22{ font-size:22px;} .f24{ font-size:24px;}
+.fa{ font-family:Arial;} .ft{ font-family:Tahoma;} .fv{ font-family:Verdana;} .fs{ font-family:宋体;} .fw{ font-family:微软雅黑;}
+.fwb{ font-weight:bold;} .fsi{ font-style:italic;} .fwsn{ font-weight:normal; font-style:normal;}
+.tc{ text-align:center;} .tl{ text-align:left;} .tr{ text-align:right;}
+.tdl{ text-decoration:underline;} .tdn,tdn:hover,a.tdl:hover{ text-decoration:none;}
+.ls0{ letter-spacing:0;} .ls1{ letter-spacing:1px;}
+.warp{ white-space:nowrap;}
+.vm{ vertical-align:middle;} .vtb{ vertical-align:text-bottom;} .vb{ vertical-align:bottom;} .vt{ vertical-align:top;} .v-2{ vertical-align:-2px;/*ie7的bug*/}
+.fll{ float:left;} .flr{ float:right;}
+.cl{ clear:both;}
+.rel{ position:relative;} .abs{ position:absolute;}
+.zx1{ z-index:1;} .zx2{ z-index:2;}
+.poi{ cursor:pointer;} .def{ cursor:default;}
+.ovh{ overflow:hidden;} .ovs{ overflow:scroll;}
+.vih{ visibility:hidden;} .viv{ visibility:visible;}
+.z{ *zoom:1;}
+
+
+.auto{ margin-left:auto; margin-right:auto;}
+.fix{*zoom:1;} .fix:after{ display:block; content:"clear float"; height:0px; clear:both; overflow:hidden; visibility:hidden;}

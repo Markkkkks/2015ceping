@@ -1,0 +1,131 @@
+﻿/********************************************/
+/*********  本css适用于index子页面   ********/
+/*******************************************/
+
+/****板块头部title实现****/
+.content_header {
+    text-indent: 20px;
+    overflow: hidden;
+    color: black;
+    /*background-image:url(../../../img/content/index/indexHeaderBg_left.jpg);*/
+    background-repeat:no-repeat;
+    font-size:14px;
+    font-family:'Microsoft YaHei' "宋体";
+    height:36px;
+    font-weight:bold;
+    line-height:36px;
+}
+.content_header span a{color: black !important; }
+.content_ULBox {
+    margin:6px;
+    *margin:3px;
+    border:1px solid #C8E29B;
+    /*background-image:url(../../../img/content/index/indexHeaderBg_repeatX.jpg);*/
+    background-repeat:repeat-x;
+}
+
+
+/***多图切换***/
+#cycle {
+    background:none;
+}
+.slideshow {
+    width:376px;
+    height:223px;  
+    margin:5px;  
+}
+#Cyclenav {
+    position:absolute;    
+    bottom:1px; 
+    right:10px;
+    z-index:6;
+}
+#Cyclenav a.activeSlide {
+ font-size:20px;
+ color:red;
+}
+
+/***清除li内的浮动***/
+.content_ul li {
+    *zoom: 1;    
+    padding-left:20px;
+    padding-right:20px;
+    background-repeat:no-repeat;
+    background-position:8px center;
+    height:28px;    
+    white-space:nowrap;
+}
+
+/*.content_ul li:after {
+    display: block;
+    content: "clear float";
+    height: 0px;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}*/
+
+.content_ul li a {
+    font-family: 'Microsoft YaHei' "宋体";
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;    
+    width: 212px;
+    *width:206px;
+    _width:206px;
+    _height:28px;
+    text-overflow: ellipsis;    
+    white-space: nowrap;
+    overflow:hidden;
+    background: none;     
+    line-height:1.5;   
+}
+.content_ULBox_left ul li a {
+   width:230px;      
+}
+/***右边小侧栏***/
+.teacherPhoto {
+    width:86px;
+    height:103px;
+}
+.content_ulPhoto li {
+    border-bottom:1px dashed #E8E8E8;
+    padding:10px;
+}
+/*****index页面三栏布局****/
+.content_left {
+    width:100%;    
+}
+.content_right {
+    width:100%;    
+}
+.content_right1 {
+    width:185px;    
+}
+.content_right .content_ULBox {
+    width:100%;
+}
+.content_left2 .content_ULBox_left {
+    width:39%;        
+}
+.content_ULBox_left {
+    overflow:hidden;
+}
+
+/***兼容ie6***/
+.content_ULBox_top {
+    width:344px;
+    *width:344px;
+}
+.content_ul li span {
+    white-space:nowrap;
+}
+.content_ULBox_left {
+    width:32%;
+    *width:32.1%;
+    _width:32%;
+    height: 258px;
+
+}

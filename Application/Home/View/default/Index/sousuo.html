@@ -1,0 +1,74 @@
+<extend name="include/base_index" />
+
+<block name="area_header">
+	<style type="text/css">
+  #marquee4 { width: 100%; height: 445px;overflow: hidden;} #marquee4 ul li {   margin: 0 auto;  line-height: 20px; }
+ #marquee4 ul li a {   float: none;   } .iamgs {  padding: 4px 28px;  text-align: center; }.iamgs img {height: 147px;width: 137px; } .home_jshfc {  height: 365px;} .t_list_outerbox {  height: 450px; }
+    </style>
+</block>
+								
+<block name="area_body">
+	<div>
+		<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="">
+	</div>
+	<div>
+		<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="">
+	</div>
+	<div class="main auto">
+		<include file="include/left" />
+		 <div class="content">
+
+					<p style="  font-size:15px;">当前位置：<a href="#">平台首页&gt;&gt;</a><span id="ctl00_ContentPlaceHolder1_Labe_PatrtName">列表      </span>
+					</p>
+					<hr>
+					<div class="content_left dib vt">
+						<div id="div_all" style="width: 190px; border: 1px solid #CCCCCC; height: 430px; overflow: hidden;" onmouseover="stop()" onmouseout="start()">
+					<div id="div_main1" style="width: 100%;">
+						<include file="include/teacher" />
+					</div>
+
+					<div id="div_main2" style=" width: 100%;">
+						<include file="include/teacher" />
+					</div>
+
+				</div>
+					</div>
+					<div class="content_right dib vt fix">
+
+						<table class="forum_com_eassyindex list">
+							<tbody>
+								<empty name="ps">
+									<span style="font-family: '微软雅黑'; font-size: 13px;">暂无搜索数据</span>
+								<else/>
+								<volist name="ps" id="v">
+								<tr>
+									<td class="td1">
+										<a href="{:U('Home/Index/info',array('id'=>$v['id']))}">
+                                 {$v.post_title}
+
+                            </a>
+									</td>
+									<td class="pub_date td2">
+										{$v.post_date|date='Y-m-d ',###}
+									</td>
+								</tr>
+							</volist>
+							</empty>
+							</tbody>
+						</table>
+						
+					</div>
+
+				</div>
+				<div class="footer">
+					<div class="footer_inner">
+						
+					</div>
+				</div>
+			</div>
+</block>
+
+<block name="area_footer">
+	<include file="include/index" />
+</block>
+

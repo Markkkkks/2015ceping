@@ -1,0 +1,22 @@
+﻿<script type="text/javascript">
+		function lunbo(){
+			div_all.scrollTop++;
+			//alert();
+			if(div_all.scrollTop==5800){
+				div_all.scrollTop=0;
+			}
+		}
+		
+		var time=window.setInterval("lunbo()",50);
+		
+		
+		
+		function stop(){
+			window.clearInterval(time);
+		}
+		
+		function start(){
+			time=window.setInterval("lunbo()",50);
+		}
+		
+	</script>

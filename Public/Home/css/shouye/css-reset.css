@@ -1,0 +1,40 @@
+body{
+	line-height:2;
+	background:white;
+}
+body,input,textarea,select{
+	font-size:12px;
+	color:#333;
+	font-family:'Microsoft YaHei' "ËÎÌו" 'arial';    
+}
+body,h1,h3,h4,p,ul,ol,select,input{
+	margin:0;
+}
+ul,ol{
+	padding-left:0;
+	list-style-type:none;
+}
+
+/*image with no-border*/
+a img{border:0;}
+a { text-decoration:none;}
+a:hover { text-decoration:underline;}
+.footer
+{
+    width: 100%;  
+    margin-top:15px;  
+}
+
+.footer_inner
+{
+    width: 1080px;
+    height: 90px;
+    margin: 0 auto;
+    padding: 15px 0;
+    border-top: 10px solid  rgb(137, 199, 30);
+}
+
+.footer_inner p{
+	line-height:28px;
+	text-align:center;
+}

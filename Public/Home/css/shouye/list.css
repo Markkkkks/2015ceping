@@ -1,0 +1,106 @@
+﻿/***************************************/
+/******* 本css适用于list子页面   *******/
+/**************************************/
+
+/****整体布局***/
+.content_left {
+    width:245px;
+}
+.content_right {
+    width:808px;
+    border:1px solid #ccc;
+    padding:10px;
+}
+.listBox {
+    width:228px;
+}
+/****板块头部title实现****/
+.content_header {
+    text-indent: 65px;
+    overflow: hidden;
+    background-repeat:no-repeat;
+    color:black;
+    font-size:18px;
+    font-family:'Microsoft YaHei' "宋体";
+    height:36px;
+    line-height:36px;
+}
+.content_ULBox {
+    margin-bottom:6px;
+    *margin:6px;
+    border:1px solid #C8E29B;
+    /*background-image:url(../img/indexHeaderBg_repeatX.jpg);*/
+    background-repeat:repeat-x;
+}
+
+/***清除li内的浮动***/
+.content_ul li {
+    *zoom: 1;    
+    padding-left:20px;
+    padding-right:10px;
+    background-repeat:no-repeat;
+    background-position:8px center;
+}
+
+.content_ul li:after {
+    display: block;
+    content: "clear float";
+    height: 0px;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.content_ul li a {
+    font-family: 'Microsoft YaHei' "宋体";
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    width: 50px;
+    width: 650px;
+    text-overflow: ellipsis;    
+    white-space: nowrap;
+    overflow:hidden;
+    background: none;    
+}
+
+/****左边板块****/
+.content_left_Ul li {
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    width:220px;
+}
+.content_left_Ul li a {    
+    display:block;
+    height:34px;
+    line-height:34px;
+    color:#6CA610;
+    text-indent:40px;
+}
+.BookSun {
+    margin-bottom:20px;
+}
+
+/***右边翻页***/
+
+.pager li a.onPage {
+    color:#70AB13;
+}
+.pager li {
+    margin-left:10px;    
+    display:inline-block;
+    *zoom:1;
+    *display:inline;
+}
+.pager li a {
+    color:#4E4E4E;
+}
+.pager li a:hover {
+    color:#70AB13;
+}
+.pager li span {
+    color:#4E4E4E;
+}

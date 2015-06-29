@@ -1,0 +1,148 @@
+﻿/**************************************/
+/********  index模板页主体内容   ******/
+/*************************************/
+.main {
+    width: 1080px;
+}
+
+/*index模板页导航*/
+.header {
+    width: 1080px;
+    height: 220px;
+}
+.loginInfo {
+    width: 1080px;
+    margin: 1px auto 2px auto;
+    color: #0A0A2A;
+    font-size: 15px;
+    text-align: right;
+padding-top: 130px;
+}
+
+.search {
+    width: 1080px;
+    margin: 1px auto 2px auto;
+    color: #0A0A2A;
+    font-size: 15px;
+    text-align: right;
+}
+.banner {
+    height: 158px;
+    width: 1080px;
+    background-image: url(../../imgs/shouye/indexBanner.jpg);
+    background-repeat: no-repeat;
+}
+
+.loginButton {
+    background-image: url(../../imgs/shouyes/loginButton.jpg);
+    width: 72px;
+    height: 23px;
+    right: 19px;
+    top: 26px;
+    background-repeat: no-repeat;
+    text-indent: -1000px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.nav {
+    background-image: url(../../imgs/shouye/indexNavBg_repeatX.jpg);
+    background-repeat: repeat-x;
+    height: 60px;
+}
+
+.nav ul {
+    margin-left: 20px;
+    *margin-left: 10px;
+}
+
+.nav ul li {
+        z-index:100;
+    float: left;
+    height: 36px;
+    text-align: center;
+    overflow: visible;
+    position: relative;
+    padding-left: 15px;
+    background-repeat: no-repeat;
+    background-image: url(../../imgs/shouye/indexNavBg_Line.jpg);
+    background-position: 5px 0;
+}
+
+.nav ul li.nav_LiFirst {
+    background: none;
+}
+
+/****index导航子页选择****/
+.nav_parent {
+    font-family: 'Microsoft YaHei' "黑体";
+        color: black;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    font-size: 16px;
+    line-height: 36px;
+    height: 40px;
+    line-height: 36px;
+    cursor: pointer;
+    background-color: transparent;
+    width: 68px;
+    position: relative;
+}
+
+a.nav_parentLong {
+    width: 108px;
+}
+
+a.nav_parent:hover {
+    text-decoration: none;
+}
+
+a.nav_parent_hover {
+    color: #466D02;
+    background-image: url(../../imgs/shouye/indexNavHoverBg.jpg);
+    background-repeat: no-repeat;
+    background-position: 0px 5px;
+}
+a.nav_parentLong_hover {
+    color: #466D02;
+    background-repeat: no-repeat;
+    background-position: 0px 5px;
+    background-image: url(../../imgs/shouye/indexNavHoverBg_widther.jpg);
+}
+
+.nav_SubLeft {
+    position: absolute;
+    display: none;
+    background: url(../../imgs/shouye/indexNavMoreHover.jpg) left no-repeat;
+    padding-left: 20px;
+    top: 36px;
+    left: 10px;
+}
+
+.nav_SubRight {
+    padding-right: 20px;
+    background: url(../../imgs/shouye/indexNavMoreHover.jpg) right no-repeat;
+}
+
+.nav ul li .nav_SubMiddle {
+    white-space: nowrap;
+    background: url(../../imgs/shouye/indexNavMoreHover_MiddleRepeat.jpg) repeat-x;
+    height: 23px;
+}
+
+.nav ul li .nav_SubMiddle a {
+    color:#466D02;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei' "宋体";
+    line-height: 23px;
+    margin-left: 5px;
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+}
+
+/***index模板页content部分***/
+.content {
+    width: 100%;
+}

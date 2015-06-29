@@ -1,0 +1,34 @@
+<div class="header">
+
+					<div class="banner rel">
+						
+						<div id="ctl00_loginInfo" class="loginInfo">
+						</div>
+					</div>
+					
+					<div class="nav">
+						<ul class="fix">
+
+							<li class="nav_LiFirst"><a href="{:U('Home/Index/index')}" class="nav_parent">平台首页</a>
+							</li>
+							<volist name="cates" id="vo">
+								<li><a href="{:U('Home/Index/cate',array('cateid'=>$vo['id']))}" class="nav_parent">{$vo.name}</a></li>
+							</volist>
+						</ul>
+						<form action="{:U('Home/Index/sousuo')}" method="post">
+						<div class="search"><span></span>
+							<div class="am-u-lg-6">
+							    <div class="sele">
+									
+										<div class="field" id="searchform">
+											  <input type="text" name="text" id="searchterm" placeholder="请输入.." />
+											  <button type="submit" id="search">Find!</button>
+										</div>
+									
+								</div>
+							  </div>
+						</div>
+						</form>
+					</div>
+
+				</div>
